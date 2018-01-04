@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-4.
  */
-@WebServlet(name = "problemServlet", urlPatterns = {"/add-problem", "/problem-list"})
+@WebServlet(name = "problemServlet", urlPatterns = {"/add-problem", "/problem-list", "/problem"})
 public class problemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post: " + request.getRequestURL());
@@ -25,6 +25,7 @@ public class problemServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
+        if (request.getRequestURI().equals("/problem")) showProblem(request, response);
         if (request.getRequestURI().equals("/problem-list")) getProblems(request, response);
     }
 
@@ -80,13 +81,27 @@ public class problemServlet extends HttpServlet {
         SqlSession sqlSession = Database.getSqlSesion();
         Problem problem = sqlSession.getMapper(Problem.class);
         List<ProblemBean> problemBeanList = problem.getProblemsOrderByCrateTime(start, count);
-        for (ProblemBean t : problemBeanList) {
-            System.out.println(t);
-        }
         sqlSession.close();
 
         request.setAttribute("problemList", problemBeanList);
         request.getRequestDispatcher("/problem-list.jsp").forward(request, response);
+    }
+
+
+    private void showProblem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strProblemID = request.getParameter("problemID");
+        int problemID = 0;
+        if (strProblemID != null) {
+            problemID = Integer.parseInt(strProblemID);
+        }
+        SqlSession sqlSession = Database.getSqlSesion();
+        Problem problem = sqlSession.getMapper(Problem.class);
+        ProblemBean problemBean = problem.getProblemByID(problemID);
+
+        sqlSession.close();
+
+        request.setAttribute("problem", problemBean);
+        request.getRequestDispatcher("/problem.jsp").forward(request, response);
     }
 
 }

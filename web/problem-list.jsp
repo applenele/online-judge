@@ -1,5 +1,4 @@
-<%@ page import="org.oj.model.javaBean.ProblemBean" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: xanarry
   Date: 17-12-27
@@ -47,36 +46,20 @@
             </tr>
             </thead>
             <tbody>
-            <%
-                out.print("<h1>asdfasdf</h1>");
-                ArrayList<ProblemBean> ls = (ArrayList<ProblemBean>) request.getAttribute("problemList");
-                out.println(ls);
-            %>
             <c:forEach items="${problemList}" var="problem">
                 <tr>
                     <td><span class="badge badge-success">已通过</span></td>
-                    <td>${'p' + 1000 + problem.problemID}</td>
-                    <td>${problem.title}</td>
+                    <td>p${1000 + problem.problemID}</td>
+                    <td><a href="problem?problemID=${problem.problemID}">${problem.title}</td>
                     <td>${problem.accepted/problem.submitted}</td>
                     <td class="text-center">
-                        <span class="badge badge-light"><a href="record?problemID=${problem.problemID}">记录</a></span>
-                        <span class="badge badge-secondary"><a
-                                href="test-data?problemID=${problem.problemID}">数据</a></span>
-                        <span class="badge badge-primary"><a href="/edit-problem?problemID=${problem.problemID}">编辑</a></span>
+                        <a href="record?problemID=${problem.problemID}"><span class="badge badge-light">记录</span></a>
+                        <a href="test-data?problemID=${problem.problemID}"><span class="badge badge-secondary">数据</span></a>
+                        <a href="/edit-problem?problemID=${problem.problemID}"><span
+                                class="badge badge-primary">编辑</span></a>
                     </td>
                 </tr>
             </c:forEach>
-                <tr>
-                    <td><span class="badge badge-secondary">已尝试</span></td>
-                    <td>1000</td>
-                    <td>asdfasdfasdf</td>
-                    <td>67%</td>
-                    <td class="text-center">
-                        <span class="badge badge-light">记录</span>
-                        <span class="badge badge-secondary">数据</span>
-                        <span class="badge badge-primary">编辑</span>
-                    </td>
-                </tr>
                 <tr>
                     <td></td>
                     <td>1000</td>

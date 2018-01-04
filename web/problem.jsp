@@ -13,7 +13,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>${problem.title}</title>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 
     <script src="js/jquery-3.2.1.min.js"></script>
@@ -58,70 +58,37 @@
 
 <h3>题目描述</h3>
 <blockquote class="card modal-body">
-    <p>27-Dec-2017 20:42:43.294 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1206 ms
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.9
-    27-Dec-2017 20:42:43.371 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [http-nio-8080]
-    27-Dec-2017 20:42:43.381 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [ajp-nio-8009]
-    27-Dec-2017 20:42:43.382 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 88 ms</p>
+    ${problem.desc}
 </blockquote><br/>
 
 <h3>输入</h3>
 <blockquote class="card modal-body">
-    <p>27-Dec-2017 20:42:43.294 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1206 ms
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.9
-    27-Dec-2017 20:42:43.371 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [http-nio-8080]
-    27-Dec-2017 20:42:43.381 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [ajp-nio-8009]
-    27-Dec-2017 20:42:43.382 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 88 ms</p>
+    ${problem.inputDesc}
 </blockquote><br/>
 
 <h3>输出</h3>
-<blockquote class="card modal-body"><p>27-Dec-2017 20:42:43.294 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1206 ms
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.9
-    27-Dec-2017 20:42:43.371 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [http-nio-8080]
-    27-Dec-2017 20:42:43.381 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [ajp-nio-8009]
-    27-Dec-2017 20:42:43.382 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 88 ms</p>
+    <blockquote class="card modal-body">
+        ${problem.outputDesc}
 </blockquote><br/>
 
 <h3>输入样例</h3>
 <blockquote class="card modal-body">
-<pre>27-Dec-2017 20:42:43.294 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1206 ms
-27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
-27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.9
-27-Dec-2017 20:42:43.371 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [http-nio-8080]
-27-Dec-2017 20:42:43.381 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [ajp-nio-80
-09]27-Dec-2017 20:42:43.382 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 88 ms</pre>
+    <pre>${problem.inputSample}</pre>
 </blockquote><br/>
 
 <h3>输出样例</h3>
-<blockquote class="card modal-body"><pre>27-Dec-2017 20:42:43.294 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1206 ms
-27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
-27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.9
-27-Dec-2017 20:42:43.371 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [http-nio-8080]
-27-Dec-2017 20:42:43.381 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [ajp-nio-8009]
-27-Dec-2017 20:42:43.382 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 88 ms</pre>
+    <blockquote class="card modal-body">
+        <pre>${problem.outputSample}</pre>
 </blockquote><br/>
 
 <h3>提示</h3>
 <blockquote class="card modal-body">
-<p>27-Dec-2017 20:42:43.294 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1206 ms
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
-    27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.9
-    27-Dec-2017 20:42:43.371 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [http-nio-8080]
-    27-Dec-2017 20:42:43.381 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [ajp-nio-8009]
-    27-Dec-2017 20:42:43.382 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 88 ms</p>
+    ${problem.hint}
 </blockquote><br/>
 
 <h3>来源</h3>
 <blockquote class="card modal-body">
-<p>27-Dec-2017 20:42:43.294 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1206 ms
-            27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
-            27-Dec-2017 20:42:43.355 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.9
-            27-Dec-2017 20:42:43.371 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [http-nio-8080]
-            27-Dec-2017 20:42:43.381 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [ajp-nio-8009]
-            27-Dec-2017 20:42:43.382 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 88 ms</p>
+    ${problem.source}
 </blockquote><br/>
 
     <div class="text-center">
