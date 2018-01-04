@@ -123,8 +123,8 @@ CREATE TABLE t_contest_problem (
   `contest_id` INT NOT NULL,  /*比赛id*/
   `problem_id` INT NOT NULL,  /*题目全局id*/
   `inner_id`   VARCHAR(2),    /*题目在本次比赛中的id*/
-  `accepted`   INT   NOT NULL DEFAULT 0, /*通过次数*/
-  `submited`   INT   NOT NULL DEFAULT 0, /*提交次数*/
+  `accepted`   INT NOT NULL DEFAULT 0, /*通过次数*/
+  `submitted`  INT NOT NULL DEFAULT 0, /*提交次数*/
   PRIMARY KEY(`contest_id`, `problem_id`)
 ) DEFAULT charset = "utf8"  ENGINE = InnoDB;
 

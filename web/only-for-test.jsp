@@ -32,51 +32,9 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 <div class="container" style="margin-top:70px">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">登录</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <form datatype="">
 
-
-        <div class="modal-body">
-            <div class="input-group">
-                <span class="input-group-addon">邮&nbsp;&nbsp;&nbsp;&nbsp;箱</span>
-                <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="邮箱地址">
-            </div>
-            <br>
-            <div class="input-group">
-                <span class="input-group-addon">密&nbsp;&nbsp;&nbsp;&nbsp;码</span>
-                <input type="text" class="form-control" id="inputPassword" name="inputPassword" placeholder="登录密码">
-            </div>
-            <br>
-
-            <div class="input-group">
-                <span class="input-group-addon">验证码</span>
-                <input type="text" class="form-control" placeholder="输入左验证码">
-            </div>
-            <br/>
-            <div class="input-group">
-                <img id="validateCode" src="/ajaxGetValidateCode" height="38px">
-                <span>&nbsp;</span>
-                <button class="btn btn-light" onclick="getValidateCode()">点此换一张图片</button>
-            </div>
-
-            <br>
-            <div class="form-check">
-                <label class="form-check-label"><input type="checkbox" id="rememberMe" name="rememberMe"
-                                                       class="form-check-input">记住我一周</label>
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">点此登录</button>
-                <br><br>
-                <a href="/retrieve-password">忘记密码?</a>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
 </body>
 </html>

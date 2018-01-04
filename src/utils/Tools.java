@@ -2,7 +2,7 @@ package utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 import java.util.Random;
 
 /**
@@ -67,19 +67,39 @@ public class Tools {
         // get file list where the path has
         File file = new File(path);
         // get the folder list
-        File[] array = file.listFiles();
+        if (file.isDirectory()) {
+            File[] array = file.listFiles();
 
-        for(int i=0;i<array.length;i++){
-            if(array[i].isFile()){
-                // only take file name
-                System.out.println("^^^^^" + array[i].getName());
-                // take file path and name
-                System.out.println("#####" + array[i]);
-                // take file path and name
-                System.out.println("*****" + array[i].getPath());
-            }else if(array[i].isDirectory()){
-                showFiles(array[i].getPath());
+            for (int i = 0; i < array.length; i++) {
+                if (array[i].isFile()) {
+                    // only take file name
+                    System.out.println("^^^^^" + array[i].getName());
+                    // take file path and name
+                    System.out.println("#####" + array[i]);
+                    // take file path and name
+                    System.out.println("*****" + array[i].getPath());
+                } else if (array[i].isDirectory()) {
+                    showFiles(array[i].getPath());
+                }
             }
+        } else {
+            System.out.println("giving path is a file");
         }
+    }
+
+    public static boolean saveFile(InputStream inputStream, String path) {
+        try {
+            OutputStream outputStream = new FileOutputStream(new File(path));
+            byte[] buf = new byte[4096];
+            int len = 0;
+            while ((len = inputStream.read(buf)) > 0) {
+                outputStream.write(buf, 0, len);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.getStackTrace();
+            return false;
+        }
+        return true;
     }
 }

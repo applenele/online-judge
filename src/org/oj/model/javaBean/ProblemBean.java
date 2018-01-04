@@ -19,11 +19,11 @@ public class ProblemBean {
     private int dynamicLangTimeLimit;
     private int dynamicLangMemLimit;
     private int accepted;
-    private int submited;
+    private int submitted;
 
     public ProblemBean() {}
 
-    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, int createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submited) {
+    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, int createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submitted) {
         this.problemID = problemID;
         this.title = title;
         this.desc = desc;
@@ -39,7 +39,7 @@ public class ProblemBean {
         this.dynamicLangTimeLimit = dynamicLangTimeLimit;
         this.dynamicLangMemLimit = dynamicLangMemLimit;
         this.accepted = accepted;
-        this.submited = submited;
+        this.submitted = submitted;
     }
 
     public int getProblemID() {
@@ -162,12 +162,12 @@ public class ProblemBean {
         this.accepted = accepted;
     }
 
-    public int getSubmited() {
-        return submited;
+    public int getSubmitted() {
+        return submitted;
     }
 
-    public void setSubmited(int submited) {
-        this.submited = submited;
+    public void setSubmitted(int submitted) {
+        this.submitted = submitted;
     }
 
     @Override
@@ -188,7 +188,7 @@ public class ProblemBean {
                 ", dynamicLangTimeLimit=" + dynamicLangTimeLimit +
                 ", dynamicLangMemLimit=" + dynamicLangMemLimit +
                 ", accepted=" + accepted +
-                ", submited=" + submited +
+                ", submitted=" + submitted +
                 '}';
     }
 }

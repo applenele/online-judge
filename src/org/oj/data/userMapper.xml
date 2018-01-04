@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.data.User">
-    <insert id="addNewUser" keyProperty="user_id" useGeneratedKeys="true" keyColumn="user_id" parameterType="org.oj.data.User">
+    <insert id="addNewUser" keyProperty="user_id" useGeneratedKeys="true" keyColumn="user_id"
+            parameterType="org.oj.model.javaBean.UserBean">
         INSERT INTO t_user (email, user_name, password, register_time, last_login_time, user_type, prefer_language, accepted, submitted, bio, send_code)
         VALUES (#{email}, #{userName}, #{password}, #{registerTime}, #{lastLoginTime}, #{userType}, #{preferLanguage}, #{accepted}, #{submitted}, #{bio}, #{sendCode})
     </insert>

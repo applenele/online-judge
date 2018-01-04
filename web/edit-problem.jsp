@@ -19,7 +19,46 @@
     <script src="plugin/ckeditor/ckeditor.js"></script>
 
     <script>
+        function problemCheck() {
+            $('textarea.ckeditor').each(function () {
+                var $textarea = $(this);
+                $textarea.val(CKEDITOR.instances[$textarea.attr('id')].getData());
+            });
 
+            var title = $("#inputTitle").val();
+            var desc = $("#inputDesc").val();
+            var inputDesc = $("#inputInputDesc").val();
+            var outputDesc = $("#inputOutputDesc").val();
+            var inputSample = $("#inputInputSample").val();
+            var outputSample = $("#inputOutputSample").val();
+            var hint = $("#inputHint").val();
+            var source = $("#inputSource").val();
+            var staticLangTimeLimit = $("#inputStaticLangTimeLimit").val();
+            var staticLangMemLimit = $("#inputStaticLangMemLimit").val();
+            var dynamicLangTimeLimit = $("#inputDynamicLangTimeLimit").val();
+            var dynamicLangMemLimit = $("#inputDynamicLangMemLimit").val();
+
+            if (title.length == 0) {
+                alert("标题不能为空");
+                return false;
+            }
+
+            var flag = 0;
+            $("textarea").each(function () {
+                console.log($(this).attr("id") + ": " + $(this).val());
+                if ($(this).val().length == 0) {
+                    if ($(this).attr("id") != "inputHint" && $(this).attr("id") != "inputSource") {
+                        flag++;
+                    }
+                }
+            });
+            if (flag == 0) {
+                return true;
+            } else {
+                alert("除了提示和来源, 其余内容不允许为空");
+                return false;
+            }
+        }
     </script>
 </head>
 
@@ -32,7 +71,7 @@
     <div class="card">
         <div class="card-header"><h4>添加题目</h4></div>
         <div class="card-body">
-            <form method="post" action="/add-problem">
+            <form method="post" action="/add-problem" onsubmit="return problemCheck()">
                 <div class="input-group">
                     <span class="input-group-addon">题目名称</span>
                     <input name="inputTitle" id="inputTitle" type="text" value="" placeholder="标题不超过200个字符" class="form-control">
@@ -51,14 +90,16 @@
                     <div class="col-auto">
                         <div class="input-group">
                             <span class="input-group-addon">时间限制</span>
-                            <input name="inputStaticTimeLimit" id="inputStaticTimeLimit" type="text" value="1000" placeholder="默认1000, 单位: ms" class="form-control">
+                            <input name="inputStaticLangTimeLimit" id="inputStaticLangTimeLimit" type="text"
+                                   value="1000" placeholder="默认1000, 单位: ms" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-auto">
                         <div class="input-group">
                             <span class="input-group-addon">内存限制</span>
-                            <input name="inputStaticMemLimit" id="inputStaticMemLimit" type="text" value="65535" placeholder="默认65535, 单位: KB" class="form-control">
+                            <input name="inputStaticLangMemLimit" id="inputStaticLangMemLimit" type="text" value="65535"
+                                   placeholder="默认65535, 单位: KB" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -76,14 +117,16 @@
                     <div class="col-auto">
                         <div class="input-group">
                             <span class="input-group-addon">时间限制</span>
-                            <input name="inputDynamicTimeLimit" id="inputDynamicTimeLimit" type="text" value="2000" placeholder="默认2000, 单位: ms" class="form-control">
+                            <input name="inputDynamicLangTimeLimit" id="inputDynamicLangTimeLimit" type="text"
+                                   value="2000" placeholder="默认2000, 单位: ms" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-auto">
                         <div class="input-group">
                             <span class="input-group-addon">内存限制</span>
-                            <input name="inputDynamicMemLimit" id="inputDynamicMemLimit" type="text" value="131070" placeholder="131070, 单位: KB" class="form-control">
+                            <input name="inputDynamicLangMemLimit" id="inputDynamicLangMemLimit" type="text"
+                                   value="131070" placeholder="131070, 单位: KB" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -103,15 +146,15 @@
                 <br>
 
                 <h3>题目描述</h3>
-                <textarea name="inputDesc" id="inputDesc" class="ckeditor" style="visibility: hidden; display: none;"></textarea>
+                <textarea name="inputDesc" id="inputDesc" class="ckeditor"></textarea>
 
                 <br>
                 <h3>输入格式</h3>
-                <textarea name="inputInputDesc" id="inputInputDesc" class="ckeditor" style="visibility: hidden; display: none;"></textarea>
+                <textarea name="inputInputDesc" id="inputInputDesc" class="ckeditor"></textarea>
 
                 <br>
                 <h3>输出格式</h3>
-                <textarea name="inputOutputDesc" id="inputOutputDesc" class="ckeditor" style="visibility: hidden; display: none;"></textarea>
+                <textarea name="inputOutputDesc" id="inputOutputDesc" class="ckeditor"></textarea>
 
                 <br>
                 <div class="form-row">
@@ -127,11 +170,11 @@
 
                 <br>
                 <h3>提示</h3>
-                <textarea name="inputHint" id="inputHint" class="ckeditor" style="visibility: hidden; display: none;"></textarea>
+                <textarea name="inputHint" id="inputHint" class="ckeditor"></textarea>
 
                 <br>
                 <h3>来源</h3>
-                <textarea name="inputSource" id="inputSource" class="form-control" style="height:70px"></textarea>
+                <textarea name="inputSource" id="inputSource" class="ckeditor"></textarea>
                 <br>
 
                 <div class="text-center">
@@ -140,28 +183,6 @@
             </form>
         </div>
     </div>
-
-
-    <%--
-    <textarea id="editor1"></textarea>
-    <button onclick="setContent()">Set Content</button>
-    <button onclick="getContent()">Get Content</button>
-    <script>
-        CKEDITOR.replace('editor1'); // 这里的 'editor1' 等于 textarea 的 id 'editor1'
-
-
-
-        // 设置 CKEditor 中的内容
-        function setContent() {
-            // editor1 是上面的 id
-            CKEDITOR.instances.editor1.setData('<b>This is for test</b>');
-        }
-        // 获取 CKEditor 中的内容
-        function getContent() {
-            var content = CKEDITOR.instances.editor1.getData();
-            alert(content);
-        }
-    </script>--%>
 
 </div>
 <jsp:include page="footer.jsp"/>

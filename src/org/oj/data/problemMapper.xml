@@ -8,9 +8,9 @@
     <insert id="addProblem" keyProperty="problem_id" useGeneratedKeys="true" parameterType="org.oj.model.javaBean.ProblemBean">
         INSERT INTO
         t_problem
-        (title,desc,input_desc,output_desc,input_sample,output_sample,hint,source,crate_time,static_lang_time_limit,static_lang_mem_limit,dynamic_lang_time_limit,dynamic_lang_mem_limit,accepted,submitted)
+        (title,`desc`,input_desc,output_desc,input_sample,output_sample,hint,source,create_time,static_lang_time_limit,static_lang_mem_limit,dynamic_lang_time_limit,dynamic_lang_mem_limit,accepted,submitted)
         VALUES
-        (#{title},#{desc},#{inputLesc},#{outputDesc},#{inputSample},#{outputSample},#{hint},#{source},#{crateTime},#{staticLangTimeLimit},#{staticLangMemLimit},#{dynamicLangTimeLimit},#{dynamicLangMemLimit},#{accepted},#{submitted})
+        (#{problem.title},#{problem.desc},#{problem.inputDesc},#{problem.outputDesc},#{problem.inputSample},#{problem.outputSample},#{problem.hint},#{problem.source},#{problem.createTime},#{problem.staticLangTimeLimit},#{problem.staticLangMemLimit},#{problem.dynamicLangTimeLimit},#{problem.dynamicLangMemLimit},#{problem.accepted},#{problem.submitted})
 </insert>
 
 
@@ -86,7 +86,7 @@
         <result property="outputSample"     column="output_sample"/>
         <result property="hint" column="hint"/>
         <result property="source"     column="source"/>
-        <result property="crateTime"    column="crate_time"/>
+        <result property="createTime" column="create_time"/>
         <result property="staticLangTimeLimit"      column="static_lang_time_limit"/>
         <result property="staticLangMemLimit" column="static_lang_mem_limit"/>
         <result property="dynamicLangTimeLimit" column="dynamic_lang_time_limit"/>
@@ -95,3 +95,4 @@
         <result property="submitted" column="submitted"/>
     </resultMap>
 </mapper>
+

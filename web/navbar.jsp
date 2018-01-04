@@ -83,7 +83,7 @@
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/problem-list.jsp">题库</a>
+                    <a class="nav-link" href="/problem-list">题库</a>
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">

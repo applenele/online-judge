@@ -1,11 +1,12 @@
 package test;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import java.io.FileNotFoundException;
+
 /**
  * Created by xanarry on 18-1-2.
  */
 public class Test {
-    public static void main(String[] argv) {
-        System.out.println(DigestUtils.sha1Hex("asdf").length());
+    public static void main(String[] argv) throws FileNotFoundException {
+
     }
 }
