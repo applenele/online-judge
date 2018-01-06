@@ -31,16 +31,16 @@
             <%--<h4 class="card-title">Special title treatment</h4>--%>
             <form class="form-group" action="/add-test-point" method="post">
                 <label>输入数据</label>
-                <textarea class="form-control pre-scrollable" name="inputInputData" rows="10"
+                <textarea class="form-control pre-scrollable" name="inputInputData" readonly rows="10"
                           style="font-family: Consolas">${inputText}</textarea>
 
                 <br>
                 <label>输入数据</label>
-                <textarea class="form-control pre-scrollable" name="inputOutputData" rows="10"
+                <textarea class="form-control pre-scrollable" name="inputOutputData" readonly rows="10"
                           style="font-family: Consolas">${outputText}</textarea>
                 <br>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">添加数据</button>
+                    <a class="btn btn-primary" href="/test-point-list?problemID=${problem.problemID}">返回数据列表</a>
                 </div>
             </form>
         </div>

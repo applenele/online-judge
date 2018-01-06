@@ -123,7 +123,7 @@ public class Tools {
         }
 
         File[] files = file.listFiles();
-        ArrayList<Integer> testPointIDs = new ArrayList<>(10);
+        ArrayList<Integer> testPointIDs = new ArrayList<>(15);
         for (File f : files) {
             String name = f.getName();
             if (name.endsWith(".in")) {
@@ -141,9 +141,13 @@ public class Tools {
 
         int newID = testPointIDs.size() > 0 ? testPointIDs.get(testPointIDs.size() - 1) + 1 : 1;
 
-        for (int i = 0; i < testPointIDs.size() - 1; i++) {
-            if (testPointIDs.get(i) + 1 != testPointIDs.get(i + 1)) {
-                newID = testPointIDs.get(i) + 1;
+        if (testPointIDs.size() > 0 && testPointIDs.get(0) > 1) {
+            newID = 1;
+        } else {
+            for (int i = 0; i < testPointIDs.size() - 1; i++) {
+                if (testPointIDs.get(i) + 1 != testPointIDs.get(i + 1)) {
+                    newID = testPointIDs.get(i) + 1;
+                }
             }
         }
 
@@ -178,10 +182,18 @@ public class Tools {
 
         System.out.println("delete inputText: " + inputTextPath);
         System.out.println("delete outputText: " + outputTextPath);
+
         File inputText = new File(inputTextPath);
         File outputText = new File(outputTextPath);
-
-        return inputText.delete() && outputText.delete();
+        if (inputText.delete() && outputText.delete()) {
+            //检查文件夹是否为空, 为空的话删除文件夹
+            File f = new File(testPointDir);
+            if (f.listFiles().length == 0) {
+                f.delete();
+            }
+            return true;
+        }
+        return false;
     }
 
 

@@ -20,6 +20,13 @@
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap/popper.min.js"></script>
     <script src="js/bootstrap/bootstrap.min.js"></script>
+
+    <script>
+        function warnningDelete(problemID, testPointID) {
+            var url = "/delete-test-point?problemID=" + problemID + "&testPointID=" + testPointID;
+            $('#deleteURL').attr('href', url);
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -48,8 +55,9 @@
                             <td class="text-center"><a
                                     href="/show-test-point?problemID=${problem.problemID}&testPointID=${testPoint.testPointID}">想看看我</a>
                             </td>
-                            <td class="text-center"><a
-                                    href="/delete-test-point?problemID=${problem.problemID}&testPointID=${testPoint.testPointID}">删除</a>
+                            <td class="text-center"><a href="#"
+                                                       onclick="warnningDelete(${problem.problemID}, ${testPoint.testPointID})"
+                                                       data-toggle="modal" data-target="#deleteModal">删除</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -62,12 +70,8 @@
                 </div>
             </c:otherwise>
         </c:choose>
-
     </div>
-
     <br>
-
-
     <div class="card">
         <h5 class="card-header">添加数据</h5>
         <div class="card-body">
@@ -81,7 +85,7 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <label>输入数据</label>
+                        <label>输出数据</label>
                         <textarea class="form-control pre-scrollable" style="font-family: Consolas"
                                   name="inputOutputData" rows="7"></textarea>
                     </div>
@@ -96,6 +100,26 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">重要提示</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>测试点数据将永久删除, 是否继续?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                <a id="deleteURL" href="#" class="btn btn-danger">是的,删除</a>
+            </div>
+        </div>
+    </div>
+</div>
 <jsp:include page="footer.jsp"/>
 </body>
 </html>

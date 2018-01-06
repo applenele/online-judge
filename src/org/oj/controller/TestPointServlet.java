@@ -38,15 +38,16 @@ public class TestPointServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
         if (request.getRequestURI().equals("/test-point-list")) getTestPointList(request, response);
-        if (request.getRequestURI().equals("/delete-test-point")) deleteTestPoint(request, response);
         if (request.getRequestURI().equals("/show-test-point")) getTestPoint(request, response);
+        if (request.getRequestURI().equals("/delete-test-point")) deleteTestPoint(request, response);
+
     }
 
 
     private void addTestPoint(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strProblemID = request.getParameter("inputProblemID");
         String inputData = request.getParameter("inputInputData");
-        String outputData = request.getParameter("inputInputData");
+        String outputData = request.getParameter("inputOutputData");
 
         Integer problemID = Integer.parseInt(strProblemID);
 
@@ -98,9 +99,7 @@ public class TestPointServlet extends HttpServlet {
 
         //删除文件
         if (Tools.deleteTestPoint(testPointSavePath, testPointID)) {
-            response.sendRedirect("/test-point-list");
             SqlSession sqlSession = Database.getSqlSesion();
-
             //从数据库删除记录
             TestPoint testPoint = sqlSession.getMapper(TestPoint.class);
             testPoint.deleteTestPoint(problemID, testPointID);
