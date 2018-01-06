@@ -1,8 +1,8 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
-import org.oj.data.Database;
-import org.oj.data.Problem;
+import org.oj.database.Database;
+import org.oj.database.Problem;
 import org.oj.model.javaBean.ProblemBean;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,16 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-4.
  */
-@WebServlet(name = "problemServlet", urlPatterns = {"/add-problem", "/problem-list", "/problem"})
+@WebServlet(
+        name = "problemServlet",
+        urlPatterns = {
+                "/add-problem",
+                "/edit-problem",
+                "/problem-list",
+                "/problem"
+        }
+)
+
 public class problemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post: " + request.getRequestURL());
@@ -25,12 +34,33 @@ public class problemServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
+        if (request.getRequestURI().equals("/add-problem")) {
+            request.getRequestDispatcher("/edit-problem.jsp").forward(request, response);
+        }
+
+        if (request.getRequestURI().equals("/edit-problem")) {
+            String strProblemID = request.getParameter("problemID");
+            if (strProblemID != null) {
+                int problemID = Integer.parseInt(strProblemID);
+                SqlSession sqlSession = Database.getSqlSesion();
+                Problem problem = sqlSession.getMapper(Problem.class);
+                ProblemBean problemBean = problem.getProblemByID(problemID);
+                request.setAttribute("problem", problemBean);
+                sqlSession.close();
+                request.getRequestDispatcher("/edit-problem.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("/problem-list");
+            }
+
+        }
+
         if (request.getRequestURI().equals("/problem")) showProblem(request, response);
         if (request.getRequestURI().equals("/problem-list")) getProblems(request, response);
     }
 
 
     private void addProblem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strProblemID = request.getParameter("inputProblemID");//如果ID不为null. 则是编辑该题目
         String title = request.getParameter("inputTitle");
         String desc = request.getParameter("inputDesc");
         String inputDesc = request.getParameter("inputInputDesc");
@@ -46,6 +76,7 @@ public class problemServlet extends HttpServlet {
 
 
         ProblemBean problemBean = new ProblemBean();
+        problemBean.setProblemID(Integer.parseInt(strProblemID));
         problemBean.setTitle(title);
         problemBean.setDesc(desc);
         problemBean.setInputDesc(inputDesc);
@@ -62,11 +93,18 @@ public class problemServlet extends HttpServlet {
         System.out.println("new problem: " + problemBean);
         SqlSession sqlSession = Database.getSqlSesion();
         Problem problem = sqlSession.getMapper(Problem.class);
-        problem.addProblem(problemBean);
-        sqlSession.commit();
-        sqlSession.close();
+        if (strProblemID == null) {
+            problem.addProblem(problemBean);
+            sqlSession.commit();
+            sqlSession.close();
+            response.sendRedirect("/problem-list");
+        } else {
+            problem.updateProblemByID(problemBean);
+            sqlSession.commit();
+            sqlSession.close();
+            response.sendRedirect("/problem?problemID=" + strProblemID);
+        }
 
-        response.sendRedirect("/problem-list");
     }
 
 

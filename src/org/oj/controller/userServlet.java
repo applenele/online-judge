@@ -1,9 +1,9 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
-import org.oj.data.Database;
-import org.oj.data.Language;
-import org.oj.data.User;
+import org.oj.database.Database;
+import org.oj.database.Language;
+import org.oj.database.User;
 import org.oj.model.javaBean.LanguageBean;
 import org.oj.model.javaBean.UserBean;
 

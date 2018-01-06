@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oj.database.SourceCode">
+    <insert id="insert">
+      INSERT INTO t_source_code
+      (`submit_id`,`source_code`,`source_code_length`)
+      VALUES
+      (${sourceCode.submitID}, ${sourceCode.sourceCode}, ${sourceCode.sourceCodeLength})
+    </insert>
+
+    <delete id="deleteSourceCode">
+      DELETE * FROM t_source_code WHERE submit_id=#{submitID}
+    </delete>
+
+    <select id="getSourceCode" resultMap="sourceCodeMap" resultType="org.oj.model.javaBean.SourceCodeBean">
+      select * from t_source_code WHERE submit_id=#{submitID};
+    </select>
+
+    <resultMap id="sourceCodeMap" type="org.oj.model.javaBean.SourceCodeBean">
+        <result property="submit_id" column="submitID"/>
+        <result property="source_code" column="sourceCode"/>
+        <result property="source_code_length" column="sourceCodeLength"/>
+    </resultMap>
+</mapper>

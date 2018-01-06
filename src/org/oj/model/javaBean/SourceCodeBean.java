@@ -6,12 +6,15 @@ package org.oj.model.javaBean;
 public class SourceCodeBean {
     private int submitID;
     private String sourceCode;
+    private int sourceCodeLength;
 
-    public SourceCodeBean() {}
+    public SourceCodeBean() {
+    }
 
-    public SourceCodeBean(int submitID, String sourceCode) {
+    public SourceCodeBean(int submitID, String sourceCode, int sourceCodeLength) {
         this.submitID = submitID;
         this.sourceCode = sourceCode;
+        this.sourceCodeLength = sourceCodeLength;
     }
 
     public int getSubmitID() {
@@ -30,11 +33,20 @@ public class SourceCodeBean {
         this.sourceCode = sourceCode;
     }
 
+    public int getSourceCodeLength() {
+        return sourceCodeLength;
+    }
+
+    public void setSourceCodeLength(int sourceCodeLength) {
+        this.sourceCodeLength = sourceCodeLength;
+    }
+
     @Override
     public String toString() {
         return "SourceCodeBean{" +
                 "submitID=" + submitID +
                 ", sourceCode='" + sourceCode + '\'' +
+                ", sourceCodeLength=" + sourceCodeLength +
                 '}';
     }
 }

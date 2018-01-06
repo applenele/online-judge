@@ -2,8 +2,8 @@ package org.oj.controller;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.ibatis.session.SqlSession;
-import org.oj.data.Database;
-import org.oj.data.User;
+import org.oj.database.Database;
+import org.oj.database.User;
 import org.oj.model.javaBean.UserBean;
 import utils.Tools;
 
@@ -11,13 +11,14 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by xanarry on 18-1-2.

@@ -3,6 +3,11 @@ package utils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -10,7 +15,7 @@ import java.util.Random;
  */
 public class Tools {
     public static BufferedImage getValidateCode(final int width, final int height, String randStr) {
-        int codeX = (width-10) / (randStr.length()+1);
+        int codeX = (width - 10) / (randStr.length() + 1);
         //height - 10 集中显示验证码
         int fontHeight = height - 10;
         int codeY = height - 10;
@@ -48,7 +53,7 @@ public class Tools {
             green = random.nextInt(255);
             blue = random.nextInt(255);
             // 用随机产生的颜色将验证码绘制到图像中。
-            gd.setColor(new Color(red,green,blue));
+            gd.setColor(new Color(red, green, blue));
             gd.drawString(randStr.charAt(i) + "", (i + 1) * codeX, codeY);
             // 将产生的四个随机数组合在一起。
             randomCode.append(randStr.charAt(i));
@@ -57,13 +62,13 @@ public class Tools {
     }
 
 
-    public String TimeStamp2Date(String timestampString, String formats){
-        Long timestamp = Long.parseLong(timestampString)*1000;
+    public String TimeStamp2Date(String timestampString, String formats) {
+        Long timestamp = Long.parseLong(timestampString) * 1000;
         String date = new java.text.SimpleDateFormat(formats).format(new java.util.Date(timestamp));
         return date;
     }
 
-    public static void showFiles(String path){
+    public static void showFiles(String path) {
         // get file list where the path has
         File file = new File(path);
         // get the folder list
@@ -101,5 +106,100 @@ public class Tools {
             return false;
         }
         return true;
+    }
+
+    public static synchronized int saveTestPoint(String testPointDir, String inputData, String outputData) {
+        System.out.println("testPointDir: " + testPointDir);
+
+        File file = new File(testPointDir);
+        if (!file.exists()) { //不存在则创建目录
+            if (file.mkdir()) {
+                file = new File(testPointDir); //重新打开目录
+            } else {
+                return -1;
+            }
+        } else if (file.isFile()) {//若存在且为文件, 则无法创建, 返回-1
+            return -1;
+        }
+
+        File[] files = file.listFiles();
+        ArrayList<Integer> testPointIDs = new ArrayList<>(10);
+        for (File f : files) {
+            String name = f.getName();
+            if (name.endsWith(".in")) {
+                int val = Integer.parseInt(name.substring(0, name.lastIndexOf(".")));
+                testPointIDs.add(val);
+            }
+        }
+
+        testPointIDs.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+
+        int newID = testPointIDs.size() > 0 ? testPointIDs.get(testPointIDs.size() - 1) + 1 : 1;
+
+        for (int i = 0; i < testPointIDs.size() - 1; i++) {
+            if (testPointIDs.get(i) + 1 != testPointIDs.get(i + 1)) {
+                newID = testPointIDs.get(i) + 1;
+            }
+        }
+
+        //写入输入输出文件
+        String inputTextPath = testPointDir + "/" + newID + ".in";
+        String outputTextPath = testPointDir + "/" + newID + ".out";
+
+        try {
+            System.out.println("inputTextFile: " + inputTextPath);
+            System.out.println("inputTextData: " + inputData);
+            PrintWriter inPrintWriter = new PrintWriter(inputTextPath);
+            inPrintWriter.write(inputData);
+            inPrintWriter.flush();
+            inPrintWriter.close();
+
+            System.out.println("outputTextFile: " + outputTextPath);
+            System.out.println("outputTextData: " + outputData);
+            PrintWriter outPrintWriter = new PrintWriter(outputTextPath);
+            outPrintWriter.write(outputData);
+            outPrintWriter.flush();
+            outPrintWriter.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+        return newID;
+    }
+
+    public static synchronized boolean deleteTestPoint(String testPointDir, int testPointID) {
+        String inputTextPath = testPointDir + "/" + testPointID + ".in";
+        String outputTextPath = testPointDir + "/" + testPointID + ".out";
+
+        System.out.println("delete inputText: " + inputTextPath);
+        System.out.println("delete outputText: " + outputTextPath);
+        File inputText = new File(inputTextPath);
+        File outputText = new File(outputTextPath);
+
+        return inputText.delete() && outputText.delete();
+    }
+
+
+    public static String readFileToString(String path) {
+        System.out.println("read file path: " + path);
+        String content = "";
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(path));
+            content = new String(encoded, Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+    public static void main(String[] argv) {
+        String path = "/home/xanarry/Desktop/filetest/1.txt";
+        System.out.println(path);
+        System.out.println(readFileToString(path));
     }
 }

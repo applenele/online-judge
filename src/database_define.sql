@@ -25,6 +25,20 @@ CREATE TABLE t_problem (
 ) DEFAULT charset = "utf8" auto_increment = 1 ENGINE=InnoDB;
 
 
+DROP TABLE IF EXISTS t_test_point;
+CREATE TABLE t_test_point (
+  /*测试点数据*/
+  `problem_id`         INT          NOT NULL, /*题目id,主键*/
+  `test_point_id`      INT          NOT NULL, /*测试点编号*/
+  `input_text_path`    VARCHAR(256) NOT NULL, /*输入文件路径*/
+  `input_text_length`  INT          NOT NULL, /*输入类容长度*/
+  `output_text_path`   VARCHAR(256) NOT NULL, /*输出文件路径*/
+  `output_text_length` INT          NOT NULL, /*输出文件长度*/
+  PRIMARY KEY (`problem_id`, `test_point_id`)
+)
+  DEFAULT CHARSET = "utf8"
+  ENGINE = InnoDB;
+
 
 DROP TABLE IF EXISTS t_user;
 CREATE TABLE t_user (
@@ -92,8 +106,9 @@ CREATE TABLE t_judge_detail (
 DROP TABLE IF EXISTS t_source_code;
 CREATE TABLE t_source_code (
   /*提交的源代码*/
-  `submit_id` INT NOT NULL,
-  `source_code` text,
+  `submit_id`          INT NOT NULL,
+  `source_code`        text,
+  `source_code_length` INT,
   PRIMARY KEY(`submit_id`)
 ) DEFAULT charset = "utf8"  ENGINE = InnoDB;
 

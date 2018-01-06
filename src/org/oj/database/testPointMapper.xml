@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oj.database.TestPoint">
+    <!--insert-->
+    <insert id="addTestPoint" parameterType="org.oj.model.javaBean.TestPointBean">
+    INSERT INTO
+    t_test_point
+    (
+    `problem_id`,
+    `test_point_id`,
+    `input_text_path`,
+    `input_text_length`,
+    `output_text_path`,
+    `output_text_length`
+    )
+    VALUES
+    (
+    #{testPoint.problemID},
+    #{testPoint.testPointID},
+    #{testPoint.inputTextPath},
+    #{testPoint.inputTextLength},
+    #{testPoint.outputTextPath},
+    #{testPoint.outputTextLength}
+    )
+</insert>
+
+
+    <!--delete-->
+    <delete id="deleteTestPoint">
+    DELETE FROM t_test_point WHERE problem_id = #{problemID} AND test_point_id = #{testPointID}
+</delete>
+
+    <!--update-->
+    <update id="updateTestPoint">
+    UPDATE t_test_point SET
+    problem_id  = #{testPoint.problemID}
+    test_point_id    = #{testPoint.testPointID}
+    input_text_path     = #{testPoint.inputTextPath}
+    input_text_length   = #{testPoint.inputTextLength}
+    output_text_path    = #{testPoint.outputTextPath}
+    output_text_length  = #{testPoint.outputTextLength}
+    WHERE WHERE problem_id = #{testPoint.problemID} AND test_point_id = #{testPoint.testPointID}
+</update>
+
+
+    <!--select-->
+    <select id="getTestPointList" resultMap="testPointMap" resultType="org.oj.model.javaBean.TestPointBean">
+    SELECT * FROM t_test_point WHERE problem_id = #{problemID} ORDER BY test_point_id ASC
+</select>
+
+
+    <select id="getTestPoint" resultMap="testPointMap" resultType="org.oj.model.javaBean.TestPointBean">
+    SELECT * FROM t_test_point WHERE problem_id = #{problemID} AND test_point_id = #{testPointID}
+</select>
+
+    <resultMap id="testPointMap" type="org.oj.model.javaBean.TestPointBean">
+        <id property="problemID" column="problem_id"/>
+        <id property="testPointID" column="test_point_id"/>
+        <result property="inputTextPath" column="input_text_path"/>
+        <result property="inputTextLength" column="input_text_length"/>
+        <result property="outputTextPath" column="output_text_path"/>
+        <result property="outputTextLength" column="output_text_length"/>
+    </resultMap>
+</mapper>

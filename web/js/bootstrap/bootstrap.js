@@ -109,7 +109,7 @@ var Util = function () {
       return prefix;
     },
     getSelectorFromElement: function getSelectorFromElement(element) {
-      var selector = element.getAttribute('data-target');
+        var selector = element.getAttribute('database-target');
 
       if (!selector || selector === '#') {
         selector = element.getAttribute('href') || '';
@@ -195,11 +195,11 @@ var Alert = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.alert';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var TRANSITION_DURATION = 150;
   var Selector = {
-    DISMISS: '[data-dismiss="alert"]'
+      DISMISS: '[database-dismiss="alert"]'
   };
   var Event = {
     CLOSE: "close" + EVENT_KEY,
@@ -367,7 +367,7 @@ var Button = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.button';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var ClassName = {
     ACTIVE: 'active',
@@ -375,8 +375,8 @@ var Button = function () {
     FOCUS: 'focus'
   };
   var Selector = {
-    DATA_TOGGLE_CARROT: '[data-toggle^="button"]',
-    DATA_TOGGLE: '[data-toggle="buttons"]',
+      DATA_TOGGLE_CARROT: '[database-toggle^="button"]',
+      DATA_TOGGLE: '[database-toggle="buttons"]',
     INPUT: 'input',
     ACTIVE: '.active',
     BUTTON: '.btn'
@@ -530,7 +530,7 @@ var Carousel = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.carousel';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var TRANSITION_DURATION = 600;
   var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
@@ -585,8 +585,8 @@ var Carousel = function () {
     ITEM: '.carousel-item',
     NEXT_PREV: '.carousel-item-next, .carousel-item-prev',
     INDICATORS: '.carousel-indicators',
-    DATA_SLIDE: '[data-slide], [data-slide-to]',
-    DATA_RIDE: '[data-ride="carousel"]'
+      DATA_SLIDE: '[database-slide], [database-slide-to]',
+      DATA_RIDE: '[database-ride="carousel"]'
     /**
      * ------------------------------------------------------------------------
      * Class Definition
@@ -953,7 +953,7 @@ var Carousel = function () {
       }
 
       var config = $.extend({}, $(target).data(), $(this).data());
-      var slideIndex = this.getAttribute('data-slide-to');
+        var slideIndex = this.getAttribute('database-slide-to');
 
       if (slideIndex) {
         config.interval = false;
@@ -1030,7 +1030,7 @@ var Collapse = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.collapse';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var TRANSITION_DURATION = 600;
   var Default = {
@@ -1060,7 +1060,7 @@ var Collapse = function () {
   };
   var Selector = {
     ACTIVES: '.show, .collapsing',
-    DATA_TOGGLE: '[data-toggle="collapse"]'
+      DATA_TOGGLE: '[database-toggle="collapse"]'
     /**
      * ------------------------------------------------------------------------
      * Class Definition
@@ -1076,7 +1076,7 @@ var Collapse = function () {
       this._isTransitioning = false;
       this._element = element;
       this._config = this._getConfig(config);
-      this._triggerArray = $.makeArray($("[data-toggle=\"collapse\"][href=\"#" + element.id + "\"]," + ("[data-toggle=\"collapse\"][data-target=\"#" + element.id + "\"]")));
+        this._triggerArray = $.makeArray($("[database-toggle=\"collapse\"][href=\"#" + element.id + "\"]," + ("[database-toggle=\"collapse\"][database-target=\"#" + element.id + "\"]")));
       var tabToggles = $(Selector.DATA_TOGGLE);
 
       for (var i = 0; i < tabToggles.length; i++) {
@@ -1278,7 +1278,7 @@ var Collapse = function () {
         parent = $(this._config.parent)[0];
       }
 
-      var selector = "[data-toggle=\"collapse\"][data-parent=\"" + this._config.parent + "\"]";
+        var selector = "[database-toggle=\"collapse\"][database-parent=\"" + this._config.parent + "\"]";
       $(parent).find(selector).each(function (i, element) {
         _this3._addAriaAndCollapsedClass(Collapse._getTargetFromElement(element), [element]);
       });
@@ -1406,7 +1406,7 @@ var Dropdown = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.dropdown';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
 
@@ -1439,7 +1439,7 @@ var Dropdown = function () {
     MENULEFT: 'dropdown-menu-left'
   };
   var Selector = {
-    DATA_TOGGLE: '[data-toggle="dropdown"]',
+      DATA_TOGGLE: '[database-toggle="dropdown"]',
     FORM_CHILD: '.dropdown form',
     MENU: '.dropdown-menu',
     NAVBAR_NAV: '.navbar-nav',
@@ -1836,7 +1836,7 @@ var Modal = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.modal';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var TRANSITION_DURATION = 300;
   var BACKDROP_TRANSITION_DURATION = 150;
@@ -1876,8 +1876,8 @@ var Modal = function () {
   };
   var Selector = {
     DIALOG: '.modal-dialog',
-    DATA_TOGGLE: '[data-toggle="modal"]',
-    DATA_DISMISS: '[data-dismiss="modal"]',
+      DATA_TOGGLE: '[database-toggle="modal"]',
+      DATA_DISMISS: '[database-dismiss="modal"]',
     FIXED_CONTENT: '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top',
     STICKY_CONTENT: '.sticky-top',
     NAVBAR_TOGGLER: '.navbar-toggler'
@@ -2776,7 +2776,7 @@ var Tooltip = function () {
     };
 
     _proto.getTitle = function getTitle() {
-      var title = this.element.getAttribute('data-original-title');
+        var title = this.element.getAttribute('database-original-title');
 
       if (!title) {
         title = typeof this.config.title === 'function' ? this.config.title.call(this.element) : this.config.title;
@@ -2825,10 +2825,10 @@ var Tooltip = function () {
     };
 
     _proto._fixTitle = function _fixTitle() {
-      var titleType = typeof this.element.getAttribute('data-original-title');
+        var titleType = typeof this.element.getAttribute('database-original-title');
 
       if (this.element.getAttribute('title') || titleType !== 'string') {
-        this.element.setAttribute('data-original-title', this.element.getAttribute('title') || '');
+          this.element.setAttribute('database-original-title', this.element.getAttribute('title') || '');
         this.element.setAttribute('title', '');
       }
     };
@@ -3147,7 +3147,7 @@ var Popover = function () {
 
 
     _proto._getContent = function _getContent() {
-      return this.element.getAttribute('data-content') || (typeof this.config.content === 'function' ? this.config.content.call(this.element) : this.config.content);
+        return this.element.getAttribute('database-content') || (typeof this.config.content === 'function' ? this.config.content.call(this.element) : this.config.content);
     };
 
     _proto._cleanTipClass = function _cleanTipClass() {
@@ -3259,7 +3259,7 @@ var ScrollSpy = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.scrollspy';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var Default = {
     offset: 10,
@@ -3282,7 +3282,7 @@ var ScrollSpy = function () {
     ACTIVE: 'active'
   };
   var Selector = {
-    DATA_SPY: '[data-spy="scroll"]',
+      DATA_SPY: '[database-spy="scroll"]',
     ACTIVE: '.active',
     NAV_LIST_GROUP: '.nav, .list-group',
     NAV_LINKS: '.nav-link',
@@ -3459,7 +3459,7 @@ var ScrollSpy = function () {
 
 
       queries = queries.map(function (selector) {
-        return selector + "[data-target=\"" + target + "\"]," + (selector + "[href=\"" + target + "\"]");
+          return selector + "[database-target=\"" + target + "\"]," + (selector + "[href=\"" + target + "\"]");
       });
       var $link = $(queries.join(','));
 
@@ -3570,7 +3570,7 @@ var Tab = function () {
   var VERSION = '4.0.0-beta.2';
   var DATA_KEY = 'bs.tab';
   var EVENT_KEY = "." + DATA_KEY;
-  var DATA_API_KEY = '.data-api';
+    var DATA_API_KEY = '.database-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var TRANSITION_DURATION = 150;
   var Event = {
@@ -3592,7 +3592,7 @@ var Tab = function () {
     NAV_LIST_GROUP: '.nav, .list-group',
     ACTIVE: '.active',
     ACTIVE_UL: '> li > .active',
-    DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"], [data-toggle="list"]',
+      DATA_TOGGLE: '[database-toggle="tab"], [database-toggle="pill"], [database-toggle="list"]',
     DROPDOWN_TOGGLE: '.dropdown-toggle',
     DROPDOWN_ACTIVE_CHILD: '> .dropdown-menu .active'
     /**
