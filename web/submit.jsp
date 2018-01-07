@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fnt" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -20,40 +22,61 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 
+<%--
+        request.setAttribute("problem", problemBean);
+        request.setAttribute("languages", languages);
+        request.setAttribute("user", userBean);
+        request.setAttribute("submitRecords", submitRecordBeans);
+
+--%>
+
 <div class="container" style="margin-top: 70px">
-        <h3 class="text-center">A+B problem</h3>
+    <h3 class="text-center">${problem.title}</h3>
     <div class="card">
         <h5 class="card-header">最近提交记录</h5>
-            <table class="table table-sm table-striped">
-                <thead>
-                <tr>
-                    <th>提交ID</th>
-                    <th>题号</th>
-                    <th>耗时(ms)</th>
-                    <th>内存(KB)</th>
-                    <th>语言</th>
-                    <th>代码长度(字节)</th>
-                    <th>提交时间</th>
-                    <th class="text-center">结果</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach begin="0" end="2" step="1">
+        <c:choose>
+            <c:when test="${recordList != null && fnt:length(recordList) > 0}">
+                <table class="table table-sm table-striped">
+                    <thead>
                     <tr>
-                        <td>1</td>
-                        <td>1000</td>
-                        <td>876</td>
-                        <td>3425</td>
-                        <td>C++</td>
-                        <td>3235</td>
-                        <td>2017-12-23 12:12:12</td>
-                        <td class="text-center">
-                            <span class="badge badge-success">accept</span>
-                        </td>
+                        <th class="text-center">提交ID</th>
+                        <th class="text-center">题号</th>
+                        <th class="text-center">耗时(ms)</th>
+                        <th class="text-center">内存(KB)</th>
+                        <th class="text-center">语言</th>
+                        <th class="text-center">代码长度(字节)</th>
+                        <th class="text-center">提交时间</th>
+                        <th class="text-center">结果</th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <jsp:useBean id="submitTime" class="java.util.Date"/>
+                    <c:forEach items="${recordList}" var="record">
+                        <tr>
+                            <td class="text-center">${record.submitID}</td>
+                            <td class="text-center">p${1000 + record.problemID}</td>
+                            <td class="text-center">${record.timeConsume}</td>
+                            <td class="text-center">${record.memConsume}</td>
+                            <td class="text-center">${record.language}</td>
+                            <td class="text-center">${record.codeLength}</td>
+                            <c:set target="${submitTime}" property="time" value="${record.submitTime}"/>
+                            <td class="text-left"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
+                                                                  value="${submitTime}"/></td>
+                            <td class="text-center">
+                                <span class="badge badge-success">${record.result}</span>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:when>
+            <c:otherwise>
+                <div class="modal-body">
+                    <h4 class="text-center">此题目没有提交记录</h4>
+                </div>
+            </c:otherwise>
+        </c:choose>
+
     </div>
 
     <br>
@@ -62,22 +85,22 @@
         <h5 class="card-header">提交代码</h5>
         <div class="card-body">
             <%--<h4 class="card-title">Special title treatment</h4>--%>
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="/submit" method="post">
+                <input hidden name="inputProblemID" value="${problem.problemID}">
                 <div class="form-group">
                     <label>源代码</label>
-                    <textarea class="form-control" rows="15"></textarea>
+                    <textarea class="form-control" name="inputCode" rows="15"></textarea>
                 </div>
 
                 <div class="form-row align-items-center">
                     <div class="col-sm-3">
                         <div class="input-group mb-2 mb-sm-0">
                             <div class="input-group-addon">语言: </div>
-                            <select class="form-control" name="preferenceLanguage" id="preferenceLanguage">
-                                    <option>C</option>
-                                    <option>C++</option>
-                                    <option>Java</option>
-                                    <option>Python2</option>
-                                    <option>Python3</option>
+                            <select class="form-control" name="inputLanguage">
+                                <c:forEach items="${languages}" var="lang">
+                                    <option <c:if test="${lang.language == user.preferLanguage}"> selected </c:if>
+                                            value="${lang.language}">${lang.language}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>

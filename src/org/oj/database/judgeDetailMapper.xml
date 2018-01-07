@@ -4,5 +4,61 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.database.JudgeDetail">
+    <insert id="insertJudgeDetail">
+        INSERT INTO t_judge_detail
+        (
+        `submit_id`,
+        `test_point_id`,
+        `time_consume`,
+        `mem_consume`,
+        `return_val`,
+        `result`
+        )
+        VALUES
+        (
+        #{judgeDetail.submitID}
+        #{judgeDetail.testPointID}
+        #{judgeDetail.timeConsume}
+        #{judgeDetail.memConsume}
+        #{judgeDetail.returnVal}
+        #{judgeDetail.result}
+        )
 
+
+    </insert>
+
+    <delete id="deleteJudgeDetail">
+      DELETE * FROM t_judge_detail WHERE submit_id = #{submitID}
+    </delete>
+
+    <update id="updateJudegeDetail">
+      UPDATE t_judge_detail
+      SET
+      `submit_id`     = #{newJudgeDetail.submitID}
+      `test_point_id` = #{newJudgeDetail.testPointID}
+      `time_consume`  = #{newJudgeDetail.timeConsume}
+      `mem_consume`   = #{newJudgeDetail.memConsume}
+      `return_val`    = #{newJudgeDetail.returnVal}
+      `result`        = #{newJudgeDetail.result}
+      WHERE submit_id = #{newJudgeDetailsubmitID}
+    </update>
+
+    <select id="getJudegeDetailBySubmitID" resultType="org.oj.model.javaBean.JudgeDetailBean">
+      SELECT * FROM t_judge_detail WHERE submit_id = #{submitID}
+    </select>
+
+
+    <select id="getJudgeDetailByTestPointID" resultType="org.oj.model.javaBean.JudgeDetailBean">
+      SELECT * FROM t_judge_detail WHERE submit_id = #{submitID} and test_point_id = #{testPointID}
+    </select>
+
+
+    <resultMap id="judgeDetailMap" type="org.oj.model.javaBean.JudgeDetailBean">
+        <id property="submitID" column="submit_id"/>
+        <id property="testPointID" column="test_point_id"/>
+        <result property="timeConsume" column="time_consume"/>
+        <result property="memConsume" column="mem_consume"/>
+        <result property="returnVal" column="return_val"/>
+        <result property="result" column="result"/>
+    </resultMap>
 </mapper>

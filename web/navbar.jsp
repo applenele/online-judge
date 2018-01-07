@@ -95,7 +95,7 @@
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/record">提交记录</a>
+                    <a class="nav-link" href="/record-list">提交记录</a>
                 </li>
 
                 <li class="nav-item"><span class="nav-link"></span></li>

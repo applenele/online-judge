@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <html>
@@ -77,10 +78,10 @@
     </form>
 
     <div class="card">
+
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>提交ID</th>
                 <th>用户</th>
                 <th>题号</th>
                 <th>耗时(ms)</th>
@@ -92,19 +93,19 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach begin="0" end="50" step="1">
+            <jsp:useBean id="submitTime" class="java.util.Date"/>
+            <c:forEach items="${recordList}" var="record">
                 <tr>
-                    <td>1</td>
-                    <td>xanary</td>
-                    <td>1000</td>
-                    <td>876</td>
-                    <td>3425</td>
-                    <td>C++</td>
-                    <td>3235</td>
-                    <td>2017-12-23 12:12:12</td>
-                    <td class="text-center">
-                        <span class="badge badge-success">accept</span>
-                    </td>
+                    <td><a href="/user?userID=${record.userID}"> ${record.userID}待联合查询 </a></td>
+                    <td><a href="/problem?problemID=${record.problemID}"> p${1000 + record.problemID} </a></td>
+                    <td>${record.timeConsume}</td>
+                    <td>${record.memConsume}</td>
+                    <td>${record.language}</td>
+                    <td>${record.codeLength}</td>
+                    <c:set target="${submitTime}" property="time" value="${record.submitTime}"/>
+                    <td class="text-left"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${submitTime}"/></td>
+                    <td class="text-center"><a href="/record-detail?submitID=${record.submitID}"><span
+                            class="badge badge-success">${record.result}</span></a></td>
                 </tr>
             </c:forEach>
             </tbody>

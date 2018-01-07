@@ -22,7 +22,7 @@
     <table id="16" parent="2" name="t_language"/>
     <table id="17" parent="2" name="t_problem"/>
     <table id="18" parent="2" name="t_source_code"/>
-    <table id="19" parent="2" name="t_submit"/>
+    <table id="19" parent="2" name="t_submit_record"/>
     <table id="20" parent="2" name="t_test_point"/>
     <table id="21" parent="2" name="t_user"/>
     <column id="22" parent="9" name="submit_id">
@@ -196,14 +196,14 @@ user_id</ColNames>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="57" parent="15" name="test_point">
+    <column id="57" parent="15" name="test_point_id">
       <Position>2</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="58" parent="15" name="time_consume">
       <Position>3</Position>
-      <DataType>smallint(6)|0</DataType>
+      <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
@@ -226,7 +226,7 @@ user_id</ColNames>
     </column>
     <key id="62" parent="15" name="PRIMARY">
       <ColNames>submit_id
-test_point</ColNames>
+test_point_id</ColNames>
       <Primary>1</Primary>
     </key>
     <column id="63" parent="16" name="language_id">
@@ -379,13 +379,13 @@ language</ColNames>
     </column>
     <column id="91" parent="19" name="result">
       <Position>5</Position>
-      <DataType>tinyint(4)|0</DataType>
+      <DataType>enum(&apos;Queuing&apos;, &apos;Compiling&apos;, &apos;Running&apos;, &apos;Acepted&apos;, &apos;Presentation Error&apos;, &apos;Wrong Answer&apos;, &apos;Runtime Error&apos;, &apos;Time Limit Exceeded&apos;, &apos;Memory Limit Exceeded&apos;, &apos;Output Limit Exceeded&apos;, &apos;Compilation Error&apos;, &apos;System Error&apos;)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;-1&apos;</DefaultExpression>
     </column>
     <column id="92" parent="19" name="language">
       <Position>6</Position>
-      <DataType>tinyint(4)|0</DataType>
+      <DataType>varchar(16)|0</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="93" parent="19" name="source_code">

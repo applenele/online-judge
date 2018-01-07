@@ -4,7 +4,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.oj.model.javaBean.TestPointBean;
+import org.oj.model.javaBean.SubmitRecordBean;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,12 +23,10 @@ public class DatabaseTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
 
-            TestPoint testPoint = sqlSession.getMapper(TestPoint.class);
-            List<TestPointBean> v = testPoint.getTestPointList(5);
-            System.out.println(v);
-
-            TestPointBean t = testPoint.getTestPoint(5, 3);
-            System.out.println(t);
+            SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
+            List<SubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListOrderedByDate(0, 100);
+            sqlSession.close();
+            System.out.println(submitRecordBeans);
         } finally {
             sqlSession.close();
         }

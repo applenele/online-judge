@@ -26,7 +26,7 @@
     <br>
 
     <div class="card">
-        <h5 class="card-header">测试点${testPoint.testPointID}</h5>
+        <h5 class="card-header">测试点${testPointID.testPointID}</h5>
         <div class="card-body">
             <%--<h4 class="card-title">Special title treatment</h4>--%>
             <form class="form-group" action="/add-test-point" method="post">

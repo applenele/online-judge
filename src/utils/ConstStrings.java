@@ -13,4 +13,5 @@ public class ConstStrings {
     //test image folder
 
 //    public static final String
+public static final String[] result = {"Queuing", "Compiling", "Running", "Acepted", "Presentation Error", "Wrong Answer", "Runtime Error", "Time Limit Exceeded", "Memory Limit Exceede"};
 }

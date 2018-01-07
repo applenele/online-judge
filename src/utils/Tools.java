@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by xanarry on 18-1-1.
@@ -209,9 +210,24 @@ public class Tools {
         return content;
     }
 
-    public static void main(String[] argv) {
-        String path = "/home/xanarry/Desktop/filetest/1.txt";
-        System.out.println(path);
-        System.out.println(readFileToString(path));
+
+    /**
+     * Returns a pseudo-random number between min and max, inclusive.
+     * The difference between min and max can be at most
+     * <code>Integer.MAX_VALUE - 1</code>.
+     *
+     * @param min Minimum value
+     * @param max Maximum value.  Must be greater than min.
+     * @return Integer between min and max, inclusive.
+     */
+    public static int randInt(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
+
+
+    public static void main(String[] argv) {
+        System.out.println(randInt(1, 7));
+    }
+
 }
+

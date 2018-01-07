@@ -25,7 +25,7 @@
         <mapper resource="org/oj/database/judgeDetailMapper.xml"/>
         <mapper resource="org/oj/database/problemMapper.xml"/>
         <mapper resource="org/oj/database/sourceCodeMapper.xml"/>
-        <mapper resource="org/oj/database/submitMapper.xml"/>
+        <mapper resource="org/oj/database/submitRecordMapper.xml"/>
         <mapper resource="org/oj/database/userMapper.xml"/>
         <mapper resource="org/oj/database/languageMapper.xml"/>
         <mapper resource="org/oj/database/testPointMapper.xml"/>

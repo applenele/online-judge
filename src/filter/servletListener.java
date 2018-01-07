@@ -5,7 +5,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import static utils.ConstStrings.CONFIGURATION_BEAN;
 
 /**
  * Created by xanarry on 17-3-29.

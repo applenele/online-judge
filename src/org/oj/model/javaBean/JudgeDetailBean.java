@@ -5,7 +5,7 @@ package org.oj.model.javaBean;
  */
 public class JudgeDetailBean {
     private int submitID;
-    private short testPoint;
+    private short testPointID;
     private int timeConsume;
     private int memConsume;
     private short returnVal;
@@ -13,9 +13,9 @@ public class JudgeDetailBean {
 
     public JudgeDetailBean() {}
 
-    public JudgeDetailBean(int submitID, short testPoint, int timeConsume, int memConsume, short returnVal, String result) {
+    public JudgeDetailBean(int submitID, short testPointID, int timeConsume, int memConsume, short returnVal, String result) {
         this.submitID = submitID;
-        this.testPoint = testPoint;
+        this.testPointID = testPointID;
         this.timeConsume = timeConsume;
         this.memConsume = memConsume;
         this.returnVal = returnVal;
@@ -30,12 +30,12 @@ public class JudgeDetailBean {
         this.submitID = submitID;
     }
 
-    public short getTestPoint() {
-        return testPoint;
+    public short getTestPointID() {
+        return testPointID;
     }
 
-    public void setTestPoint(short testPoint) {
-        this.testPoint = testPoint;
+    public void setTestPointID(short testPointID) {
+        this.testPointID = testPointID;
     }
 
     public int getTimeConsume() {
@@ -74,7 +74,7 @@ public class JudgeDetailBean {
     public String toString() {
         return "JudgeDetailBean{" +
                 "submitID=" + submitID +
-                ", testPoint=" + testPoint +
+                ", testPointID=" + testPointID +
                 ", timeConsume=" + timeConsume +
                 ", memConsume=" + memConsume +
                 ", returnVal=" + returnVal +

@@ -48,15 +48,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${testPointList}" var="testPoint">
+                    <c:forEach items="${testPointList}" var="testPointID">
                         <tr>
-                            <td class="text-center">${testPoint.testPointID}</td>
-                            <td class="text-center">${testPoint.inputTextLength}</td>
+                            <td class="text-center">${testPointID.testPointID}</td>
+                            <td class="text-center">${testPointID.inputTextLength}</td>
                             <td class="text-center"><a
-                                    href="/show-test-point?problemID=${problem.problemID}&testPointID=${testPoint.testPointID}">想看看我</a>
+                                    href="/show-test-point?problemID=${problem.problemID}&testPointID=${testPointID.testPointID}">想看看我</a>
                             </td>
                             <td class="text-center"><a href="#"
-                                                       onclick="warnningDelete(${problem.problemID}, ${testPoint.testPointID})"
+                                                       onclick="warnningDelete(${problem.problemID}, ${testPointID.testPointID})"
                                                        data-toggle="modal" data-target="#deleteModal">删除</a>
                             </td>
                         </tr>

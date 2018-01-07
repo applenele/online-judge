@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oj.database.SubmitRecord">
+    <insert id="addSubmitRecord" keyProperty="t_submit" useGeneratedKeys="true">
+      INSERT INTO t_submit_record
+      (
+      `submit_id`,
+      `user_id`,
+      `problem_id`,
+      `contest_id`,
+      `result`,
+      `language`,
+      `source_code`,
+      `code_length`,
+      `time_consume`,
+      `mem_consume`,
+      `submit_time`,
+      `judge_time`
+      )
+      VALUES
+      (
+      #{submitRecord.submitID},
+      #{submitRecord.userID},
+      #{submitRecord.problemID},
+      #{submitRecord.contestID},
+      #{submitRecord.result},
+      #{submitRecord.language},
+      #{submitRecord.sourceCode},
+      #{submitRecord.codeLength},
+      #{submitRecord.timeConsume},
+      #{submitRecord.memConsume},
+      #{submitRecord.submitTime},
+      #{submitRecord.judgeTime}
+      )
+    </insert>
+
+
+    <delete id="deleteSubmitRecord">
+      DELETE * from t_submit_record WHERE submit_id = #{submitID}
+    </delete>
+
+
+    <select id="getSubmitRecordByID" resultMap="submitRecordMap" resultType="org.oj.model.javaBean.SubmitRecordBean">
+      SELECT * FROM t_submit_record WHERE submit_id = #{submitID}
+    </select>
+
+    <select id="getSubmitRecordListByProblemID" resultMap="submitRecordMap"
+            resultType="org.oj.model.javaBean.SubmitRecordBean">
+      SELECT * FROM t_submit_record WHERE problem_id = #{problemID}
+    </select>
+
+    <select id="getSubmitRecordListByUserID" resultMap="submitRecordMap"
+            resultType="org.oj.model.javaBean.SubmitRecordBean">
+      SELECT * FROM t_submit_record WHERE user_id = #{userID} ORDER BY submit_time limit #{start}, #{count}
+    </select>
+
+    <select id="getSubmitRecordListByProblemUser" resultMap="submitRecordMap"
+            resultType="org.oj.model.javaBean.SubmitRecordBean">
+      SELECT * FROM t_submit_record WHERE user_id = #{userID} AND problem_id = #{problemID} ORDER BY submit_time limit #{start}, #{count}
+    </select>
+
+    <select id="getSubmitRecordListOrderedByDate" resultMap="submitRecordMap"
+            resultType="org.oj.model.javaBean.SubmitRecordBean">
+      SELECT * FROM t_submit_record ORDER BY submit_time DESC limit #{start}, #{count}
+    </select>
+
+    <resultMap id="submitRecordMap" type="org.oj.model.javaBean.SubmitRecordBean">
+        <id property="submitID" column="submit_id"/>
+        <result property="userID" column="user_id"/>
+        <result property="problemID" column="problem_id"/>
+        <result property="contestID" column="contest_id"/>
+        <result property="result" column="result"/>
+        <result property="language" column="language"/>
+        <result property="sourceCode" column="source_code"/>
+        <result property="codeLength" column="code_length"/>
+        <result property="timeConsume" column="time_consume"/>
+        <result property="memConsume" column="mem_consume"/>
+        <result property="submitTime" column="submit_time"/>
+        <result property="judgeTime" column="judge_time"/>
+    </resultMap>
+</mapper>
