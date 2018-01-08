@@ -1,33 +1,27 @@
-package org.oj.model.javaBean;
+package judge;
 
 /**
- * Created by xanarry on 17-12-30.
+ * Created by xanarry on 18-1-8.
  */
-public class JudgeDetailBean {
-    private int submitID;
+public class TestPointResultBean {
+
+    // {"testPointID":1,"timeConsume":234,"memConsume":3421,"returnVal":0,"result":"accepted"},
+
     private int testPointID;
     private int timeConsume;
     private int memConsume;
     private int returnVal;
     private String result;
 
-    public JudgeDetailBean() {}
+    public TestPointResultBean() {
+    }
 
-    public JudgeDetailBean(int submitID, int testPointID, int timeConsume, int memConsume, int returnVal, String result) {
-        this.submitID = submitID;
+    public TestPointResultBean(int testPointID, int timeConsume, int memConsume, int returnVal, String result) {
         this.testPointID = testPointID;
         this.timeConsume = timeConsume;
         this.memConsume = memConsume;
         this.returnVal = returnVal;
         this.result = result;
-    }
-
-    public int getSubmitID() {
-        return submitID;
-    }
-
-    public void setSubmitID(int submitID) {
-        this.submitID = submitID;
     }
 
     public int getTestPointID() {
@@ -72,9 +66,8 @@ public class JudgeDetailBean {
 
     @Override
     public String toString() {
-        return "JudgeDetailBean{" +
-                "submitID=" + submitID +
-                ", testPointID=" + testPointID +
+        return "TestPointResultBean{" +
+                "testPointID=" + testPointID +
                 ", timeConsume=" + timeConsume +
                 ", memConsume=" + memConsume +
                 ", returnVal=" + returnVal +

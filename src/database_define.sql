@@ -62,18 +62,18 @@ CREATE TABLE t_user (
 DROP TABLE IF EXISTS t_submit_record;
 CREATE TABLE t_submit_record (
   /*用户提交记录*/
-  `submit_id`    INT auto_increment auto_increment                                                                                                                                                                                        not null,    /*提交id*/
-  `user_id`      INT                                                                                                                                                                                                                      NOT NULL,                   /*用户*/
-  `problem_id`   INT                                                                                                                                                                                                                      NOT NULL,                  /*题目*/
-  `contest_id`   INT                                                                                                                                                                                                                      NOT NULL DEFAULT 0,        /*比赛ID,正常做题为0, 在比赛中的话该值设为比赛ID*/
-  `result`       ENUM ("Queuing", "Compiling", "Running", "Acepted", "Presentation Error", "Wrong Answer", "Runtime Error", "Time Limit Exceeded", "Memory Limit Exceeded", "Output Limit Exceeded", "Compilation Error", "System Error") NOT NULL, /*评测结果*/
-  `language`     VARCHAR(16)                                                                                                                                                                                                              NOT NULL, /*代码语言*/
+  `submit_id`    INT AUTO_INCREMENT AUTO_INCREMENT                                                                                                                                                                                         NOT NULL, /*提交id*/
+  `user_id`      INT                                                                                                                                                                                                                       NOT NULL, /*用户*/
+  `problem_id`   INT                                                                                                                                                                                                                       NOT NULL, /*题目*/
+  `contest_id`   INT                                                                                                                                                                                                                       NOT NULL DEFAULT 0, /*比赛ID,正常做题为0, 在比赛中的话该值设为比赛ID*/
+  `result`       ENUM ("Queuing", "Compiling", "Running", "Accepted", "Presentation Error", "Wrong Answer", "Runtime Error", "Time Limit Exceeded", "Memory Limit Exceeded", "Output Limit Exceeded", "Compilation Error", "System Error") NOT NULL, /*评测结果*/
+  `language`     VARCHAR(16)                                                                                                                                                                                                               NOT NULL, /*代码语言*/
   `source_code`  text,                         /*源代码*/
   `code_length`  MEDIUMINT DEFAULT 0,          /*代码长度*/
-  `time_consume` SMALLINT                                                                                                                                                                                                                 NOT NULL DEFAULT 0,/*耗时*/
-  `mem_consume`  MEDIUMINT                                                                                                                                                                                                                NOT NULL DEFAULT 0,/*耗内存*/
-  `submit_time`  bigint                                                                                                                                                                                                                   NOT NULL DEFAULT 0,       /*提交时间*/
-  `judge_time`   bigint                                                                                                                                                                                                                   NOT NULL DEFAULT 0,       /*评测时间*/
+  `time_consume` SMALLINT                                                                                                                                                                                                                  NOT NULL DEFAULT 0, /*耗时*/
+  `mem_consume`  MEDIUMINT                                                                                                                                                                                                                 NOT NULL DEFAULT 0, /*耗内存*/
+  `submit_time`  BIGINT                                                                                                                                                                                                                    NOT NULL DEFAULT 0, /*提交时间*/
+  `judge_time`   BIGINT                                                                                                                                                                                                                    NOT NULL DEFAULT 0, /*评测时间*/
   primary key(`submit_id`)
 ) DEFAULT charset = "utf8" auto_increment = 1 ENGINE = InnoDB;
 
@@ -92,12 +92,12 @@ CREATE TABLE t_compile_info (
 DROP TABLE IF EXISTS t_judge_detail;
 CREATE TABLE t_judge_detail (
   /*保存每个测试点的详细信息*/
-  `submit_id`     INT                                                                                                                                                                                                                     NOT NULL,             /*提交id*/
-  `test_point_id` TINYINT                                                                                                                                                                                                                 NOT NULL, /*测试点id*/
-  `time_consume`  MEDIUMINT                                                                                                                                                                                                               NOT NULL DEFAULT 0, /*耗时*/
-  `mem_consume`   MEDIUMINT                                                                                                                                                                                                               NOT NULL DEFAULT 0, /*耗内存*/
-  `return_val`    INT                                                                                                                                                                                                                     NOT NULL DEFAULT 0,       /*程序返回值*/
-  `result`        ENUM("Queuing", "Compiling", "Running", "Acepted", "Presentation Error", "Wrong Answer", "Runtime Error", "Time Limit Exceeded", "Memory Limit Exceeded", "Output Limit Exceeded", "Compilation Error", "System Error") NOT NULL,             /*测试结果*/
+  `submit_id`     INT                                                                                                                                                                                                                       NOT NULL,             /*提交id*/
+  `test_point_id` TINYINT                                                                                                                                                                                                                   NOT NULL, /*测试点id*/
+  `time_consume`  MEDIUMINT                                                                                                                                                                                                                 NOT NULL DEFAULT 0, /*耗时*/
+  `mem_consume`   MEDIUMINT                                                                                                                                                                                                                 NOT NULL DEFAULT 0, /*耗内存*/
+  `return_val`    INT                                                                                                                                                                                                                       NOT NULL DEFAULT 0, /*进程返回值*/
+  `result`        ENUM ("Queuing", "Compiling", "Running", "Accepted", "Presentation Error", "Wrong Answer", "Runtime Error", "Time Limit Exceeded", "Memory Limit Exceeded", "Output Limit Exceeded", "Compilation Error", "System Error") NOT NULL, /*测试结果*/
   PRIMARY KEY (`submit_id`, `test_point_id`)
 ) DEFAULT charset = "utf8" auto_increment = 1 ENGINE = InnoDB;
 

@@ -18,12 +18,12 @@
     )
     VALUES
     (
-        #{testPointID.problemID},
-        #{testPointID.testPointID},
-        #{testPointID.inputTextPath},
-        #{testPointID.inputTextLength},
-        #{testPointID.outputTextPath},
-        #{testPointID.outputTextLength}
+        #{testPoint.problemID},
+        #{testPoint.testPointID},
+        #{testPoint.inputTextPath},
+        #{testPoint.inputTextLength},
+        #{testPoint.outputTextPath},
+        #{testPoint.outputTextLength}
     )
 </insert>
 

@@ -76,7 +76,6 @@ public class problemServlet extends HttpServlet {
 
 
         ProblemBean problemBean = new ProblemBean();
-        problemBean.setProblemID(Integer.parseInt(strProblemID));
         problemBean.setTitle(title);
         problemBean.setDesc(desc);
         problemBean.setInputDesc(inputDesc);
@@ -99,6 +98,7 @@ public class problemServlet extends HttpServlet {
             sqlSession.close();
             response.sendRedirect("/problem-list");
         } else {
+            problemBean.setProblemID(Integer.parseInt(strProblemID));
             problem.updateProblemByID(problemBean);
             sqlSession.commit();
             sqlSession.close();

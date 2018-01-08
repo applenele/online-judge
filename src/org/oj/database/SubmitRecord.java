@@ -15,6 +15,10 @@ public interface SubmitRecord {
     //delete
     public void deleteSubmitRecord(@Param("submitID") int submitID);
 
+    //update
+    //insert
+    public int updateSubmitRecord(@Param("submitRecord") SubmitRecordBean submitRecord);
+
     //select
     public SubmitRecordBean getSubmitRecordByID(@Param("submitID") int submitID);
 

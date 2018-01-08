@@ -4,7 +4,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.oj.model.javaBean.SubmitRecordBean;
+import org.oj.model.javaBean.JudgeDetailBean;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,11 +22,11 @@ public class DatabaseTest {
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
+            JudgeDetail judgeDetail = sqlSession.getMapper(JudgeDetail.class);
+            List<JudgeDetailBean> judgeDetailList = judgeDetail.getJudegeDetailBySubmitID(1);
 
-            SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-            List<SubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListOrderedByDate(0, 100);
+            System.out.println(judgeDetailList);
             sqlSession.close();
-            System.out.println(submitRecordBeans);
         } finally {
             sqlSession.close();
         }

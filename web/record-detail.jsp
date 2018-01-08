@@ -28,7 +28,6 @@
             <thead>
             <tr>
                 <th class="text-center">测试点</th>
-                <th class="text-center">数据长度</th>
                 <th class="text-center">耗时(ms)</th>
                 <th class="text-center">内存(KB)</th>
                 <th class="text-center">返回值</th>
@@ -38,8 +37,9 @@
             <tbody>
             <c:forEach items="${detailList}" var="detail">
                 <tr>
-                    <td class="text-center">${detail.testPointID}</td>
-                    <td class="text-center">${detail.inputTextLength}</td>
+                    <td class="text-center"><a
+                            href="/show-test-point?problemID=${record.problemID}&testPointID=${detail.testPointID}">${detail.testPointID}</a>
+                    </td>
                     <td class="text-center">${detail.timeConsume}</td>
                     <td class="text-center">${detail.memConsume}</td>
                     <td class="text-center">${detail.returnVal}</td>
@@ -49,7 +49,6 @@
             </tbody>
         </table>
     </div>
-
 
     <br>
     <h4>源代码</h4>

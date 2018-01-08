@@ -4,24 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.database.SubmitRecord">
-    <insert id="addSubmitRecord" keyProperty="t_submit" useGeneratedKeys="true">
+    <insert id="addSubmitRecord" keyProperty="submitRecord.submitID" keyColumn="submit_id" useGeneratedKeys="true">
       INSERT INTO t_submit_record
       (
       `submit_id`,
       `user_id`,
-      `problem_id`,
+        `problem_id`,
       `contest_id`,
       `result`,
-      `language`,
+        `language`,
       `source_code`,
       `code_length`,
-      `time_consume`,
+        `time_consume`,
       `mem_consume`,
-      `submit_time`,
+        `submit_time`,
       `judge_time`
       )
       VALUES
-      (
+        (
       #{submitRecord.submitID},
       #{submitRecord.userID},
       #{submitRecord.problemID},
@@ -43,6 +43,21 @@
     </delete>
 
 
+    <update id="updateSubmitRecord">
+        UPDATE t_submit_record SET
+            `user_id` = #{submitRecord.userID},
+            `problem_id` = #{submitRecord.problemID},
+            `contest_id` = #{submitRecord.contestID},
+            `result` = #{submitRecord.result},
+            `language` = #{submitRecord.language},
+            `source_code` = #{submitRecord.sourceCode},
+            `code_length` = #{submitRecord.codeLength},
+            `time_consume` = #{submitRecord.timeConsume},
+            `mem_consume` = #{submitRecord.memConsume},
+            `submit_time` = #{submitRecord.submitTime},
+            `judge_time` = #{submitRecord.judgeTime}
+        WHERE `submit_id` = #{submitRecord.submitID}
+    </update>
     <select id="getSubmitRecordByID" resultMap="submitRecordMap" resultType="org.oj.model.javaBean.SubmitRecordBean">
       SELECT * FROM t_submit_record WHERE submit_id = #{submitID}
     </select>

@@ -1,5 +1,6 @@
 package org.oj.controller;
 
+import judge.JudgeClient;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.database.*;
 import org.oj.model.javaBean.*;
@@ -92,7 +93,6 @@ public class SubmitServlet extends HttpServlet {
         request.setAttribute("problem", problemBean);
         request.setAttribute("languages", languages);
         request.setAttribute("user", userBean);
-        System.out.println("get: " + submitRecordBeans);
         request.setAttribute("recordList", submitRecordBeans);
 
 
@@ -139,17 +139,35 @@ public class SubmitServlet extends HttpServlet {
         submitRecordBean.setCodeLength(code.length());
         submitRecordBean.setSubmitTime(new Date().getTime());
 
-        //提交代码
-        /*
-        * where is the code
-        **/
-
 
         SqlSession sqlSession = Database.getSqlSesion();
+
+        Problem problem = sqlSession.getMapper(Problem.class);
+        ProblemBean problemBean = problem.getProblemByID(problemID);
+
+
+        //提交代码
+        JudgeClient client = new JudgeClient();
+
+
+        String testPointSavePath = getServletContext().getRealPath("/test-points") + "/p" + (1000 + problemID);
+        String lowerLang = submitRecordBean.getLanguage().toLowerCase();
+        int tl = 1000, ml = 65535;
+
+        if (!lowerLang.equals("c") && !lowerLang.equals("c++")) {
+            tl *= 2;
+            ml *= 2;
+        }
+
         SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
         submitRecord.addSubmitRecord(submitRecordBean);
         sqlSession.commit();
         sqlSession.close();
+
+        //任何与提交代码到评测机的相关的代码都必须在记录写入数据库之后
+        String runningFolder = client.writeCodeToFile(submitRecordBean);
+        String submitJson = client.submitToJson(submitRecordBean, tl, ml, runningFolder, testPointSavePath);
+        client.sendToServer(submitJson); //send code to judge server
 
 
         response.sendRedirect("/record-list");

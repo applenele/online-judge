@@ -16,11 +16,11 @@
         )
         VALUES
         (
-        #{judgeDetail.submitID}
-        #{judgeDetail.testPointID}
-        #{judgeDetail.timeConsume}
-        #{judgeDetail.memConsume}
-        #{judgeDetail.returnVal}
+        #{judgeDetail.submitID},
+        #{judgeDetail.testPointID},
+        #{judgeDetail.timeConsume},
+        #{judgeDetail.memConsume},
+        #{judgeDetail.returnVal},
         #{judgeDetail.result}
         )
 
@@ -43,12 +43,14 @@
       WHERE submit_id = #{newJudgeDetailsubmitID}
     </update>
 
-    <select id="getJudegeDetailBySubmitID" resultType="org.oj.model.javaBean.JudgeDetailBean">
+    <select id="getJudegeDetailBySubmitID" resultMap="judgeDetailMap"
+            resultType="org.oj.model.javaBean.JudgeDetailBean">
       SELECT * FROM t_judge_detail WHERE submit_id = #{submitID}
     </select>
 
 
-    <select id="getJudgeDetailByTestPointID" resultType="org.oj.model.javaBean.JudgeDetailBean">
+    <select id="getJudgeDetailByTestPointID" resultMap="judgeDetailMap"
+            resultType="org.oj.model.javaBean.JudgeDetailBean">
       SELECT * FROM t_judge_detail WHERE submit_id = #{submitID} and test_point_id = #{testPointID}
     </select>
 

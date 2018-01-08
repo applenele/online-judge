@@ -213,16 +213,16 @@ user_id</ColNames>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="60" parent="15" name="return_val">
+    <column id="60" parent="15" name="result">
+      <Position>6</Position>
+      <DataType>enum(&apos;Queuing&apos;, &apos;Compiling&apos;, &apos;Running&apos;, &apos;Accepted&apos;, &apos;Presentation Error&apos;, &apos;Wrong Answer&apos;, &apos;Runtime Error&apos;, &apos;Time Limit Exceeded&apos;, &apos;Memory Limit Exceeded&apos;, &apos;Output Limit Exceeded&apos;, &apos;Compilation Error&apos;, &apos;System Error&apos;)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="61" parent="15" name="return_val">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
-    </column>
-    <column id="61" parent="15" name="result">
-      <Position>6</Position>
-      <DataType>enum(&apos;Queuing&apos;, &apos;Compiling&apos;, &apos;Running&apos;, &apos;Acepted&apos;, &apos;Presentation Error&apos;, &apos;Wrong Answer&apos;, &apos;Runtime Error&apos;, &apos;Time Limit Exceeded&apos;, &apos;Memory Limit Exceeded&apos;, &apos;Output Limit Exceeded&apos;, &apos;Compilation Error&apos;, &apos;System Error&apos;)|0</DataType>
-      <NotNull>1</NotNull>
     </column>
     <key id="62" parent="15" name="PRIMARY">
       <ColNames>submit_id
@@ -379,9 +379,9 @@ language</ColNames>
     </column>
     <column id="91" parent="19" name="result">
       <Position>5</Position>
-      <DataType>enum(&apos;Queuing&apos;, &apos;Compiling&apos;, &apos;Running&apos;, &apos;Acepted&apos;, &apos;Presentation Error&apos;, &apos;Wrong Answer&apos;, &apos;Runtime Error&apos;, &apos;Time Limit Exceeded&apos;, &apos;Memory Limit Exceeded&apos;, &apos;Output Limit Exceeded&apos;, &apos;Compilation Error&apos;, &apos;System Error&apos;)|0</DataType>
+      <DataType>enum(&apos;Queuing&apos;, &apos;Compiling&apos;, &apos;Running&apos;, &apos;Accepted&apos;, &apos;Presentation Error&apos;, &apos;Wrong Answer&apos;, &apos;Runtime Error&apos;, &apos;Time Limit Exceeded&apos;, &apos;Memory Limit Exceeded&apos;, &apos;Output Limit Exceeded&apos;, &apos;Compilation Error&apos;, &apos;System Error&apos;)|0</DataType>
       <NotNull>1</NotNull>
-      <DefaultExpression>&apos;-1&apos;</DefaultExpression>
+      <DefaultExpression>&apos;Accepted&apos;</DefaultExpression>
     </column>
     <column id="92" parent="19" name="language">
       <Position>6</Position>

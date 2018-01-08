@@ -88,7 +88,7 @@
             <form method="post" action="/add-problem" onsubmit="return problemCheck()">
 
                 <c:if test="${problem != null}">
-                    <input id="inputProblemID" name="inputProblemID" value="${problem.problemID}">
+                    <input id="inputProblemID" hidden name="inputProblemID" value="${problem.problemID}">
                 </c:if>
 
                 <div class="input-group">
@@ -198,16 +198,14 @@
                     <div class="col-sm-6">
                         <h3>样例输入</h3>
                         <textarea name="inputInputSample" id="inputInputSample" class="form-control"
-                                  style="height:200px">
-                            <c:out value="${problem.inputSample}" escapeXml="true"></c:out>
-                            </textarea>
+                                  style="height:200px; font-family: Consolas"><c:out value="${problem.inputSample}"
+                                                                                     escapeXml="true"></c:out></textarea>
                     </div>
                     <div class="col-sm-6">
                         <h3>样例输出</h3>
                         <textarea name="inputOutputSample" id="inputOutputSample" class="form-control"
-                                  style="height:200px">
-                            <c:out value="${problem.outputSample}" escapeXml="true"></c:out>
-                        </textarea>
+                                  style="height:200px; font-family: Consolas"><c:out value="${problem.outputSample}"
+                                                                                     escapeXml="true"></c:out></textarea>
                     </div>
                 </div>
 
