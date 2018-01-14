@@ -2,11 +2,18 @@ package judge;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.util.Pair;
+import judge.beans.JudgeStateBean;
+import judge.beans.ResultBean;
+import judge.beans.SubmitBean;
+import judge.beans.TestPointResultBean;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.database.Database;
 import org.oj.database.JudgeDetail;
+import org.oj.database.Problem;
 import org.oj.database.SubmitRecord;
 import org.oj.model.javaBean.JudgeDetailBean;
+import org.oj.model.javaBean.ProblemBean;
 import org.oj.model.javaBean.SubmitRecordBean;
 
 import java.io.*;
@@ -14,34 +21,135 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Scanner;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by xanarry on 18-1-7.
  */
-public class JudgeClient {
-    private Queue<SubmitRecordBean> submitQueue;
-    private String runningFolder;
+class QueElement {
+    private SubmitRecordBean submitRecordBean;
+    private SubmitBean submitBean;
+
+    public QueElement() {}
+
+    public QueElement(SubmitRecordBean submitRecordBean, SubmitBean submitBean) {
+        this.submitRecordBean = submitRecordBean;
+        this.submitBean = submitBean;
+    }
+
+    public SubmitRecordBean getSubmitRecordBean() {
+        return submitRecordBean;
+    }
+
+    public void setSubmitRecordBean(SubmitRecordBean submitRecordBean) {
+        this.submitRecordBean = submitRecordBean;
+    }
+
+    public SubmitBean getSubmitBean() {
+        return submitBean;
+    }
+
+    public void setSubmitBean(SubmitBean submitBean) {
+        this.submitBean = submitBean;
+    }
+}
+
+public class JudgeClient extends Thread {
+    private static String QUEUING = "Queuing";
+    private static String COMPILING = "Compiling";
+    private static String RUNNING = "Running";
+    private static String ACCEPTED = "Accepted";
+    private static String PRESENTATION_ERROR = "Presentation Error";
+    private static String WRONG_ANSWER = "Wrong Answer";
+    private static String TIME_LIMIT_EXCEEDED = "Time Limit Exceeded";
+    private static String MEMORY_LIMIT_EXCEEDED = "Memory Limit Exceeded";
+    private static String OUTPUT_LIMIT_EXCEEDED = "Output Limit Exceeded";
+    private static String RUNTIME_ERROR = "Runtime Error";
+    private static String SYSTEM_ERROR = "System Error";
+    private static String COMPILATION_ERROR = "Compilation Error";
+
+    private LinkedBlockingQueue<QueElement> submitQueue = new LinkedBlockingQueue<QueElement>();
+    private String runningBaseFolder;
     private String serverAddress;
     private int serverPort;
 
     public JudgeClient() {
-        submitQueue = new LinkedList<SubmitRecordBean>();
+        runningBaseFolder = "/home/xanarry/Desktop";
+        serverAddress = "127.0.0.1";
+        serverPort = 2345;
+        //submitToJudger();
+    }
+
+    public JudgeClient(String configurationFilePath) {
+        loadConfiguration(configurationFilePath);
+        //submitToJudger();
     }
 
     private void loadConfiguration(String configurationFilePath) {
-        runningFolder = "/home/xanarry/Desktop";
+        runningBaseFolder = "/home/xanarry/Desktop";
         serverAddress = "127.0.0.1";
         serverPort = 2345;
     }
 
-    public boolean submitCode(SubmitRecordBean submit) {
-        return submitQueue.offer(submit);
+    @Override
+    public void run() {
+        super.run();
+        submitToJudger();
+    }
+
+    public boolean submit(SubmitRecordBean submitRecordBean, ProblemBean problemBean, String testPointDataPath) {
+        runningBaseFolder = "/home/xanarry/Desktop/running-dir";
+        System.out.println("write code to file");
+        String runningFolder = writeCodeToFile(submitRecordBean, runningBaseFolder);
+        if (runningFolder == null) {
+            return false;
+        }
+
+        System.out.println("generate submit Bean");
+        SubmitBean submitBean = new SubmitBean();
+        submitBean.setSubmitID(submitRecordBean.getSubmitID());
+        submitBean.setLanguage(submitRecordBean.getLanguage());
+        String language = submitRecordBean.getLanguage().toLowerCase();
+        if (language.equals("c") || language.equals("c++") || language.equals("cpp")) {
+            submitBean.setTimeLimit(problemBean.getStaticLangTimeLimit());
+            submitBean.setMemLimit(problemBean.getStaticLangMemLimit());
+        } else {
+            submitBean.setTimeLimit(problemBean.getDynamicLangTimeLimit());
+            submitBean.setMemLimit(problemBean.getDynamicLangMemLimit());
+        }
+        submitBean.setRunningFolder(runningBaseFolder);
+        submitBean.setRunningFolder(testPointDataPath);
+
+
+        System.out.println("push into queue");
+        try {
+            //提交队列中
+            submitQueue.put(new QueElement(submitRecordBean, submitBean));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private void submitToJudger() {
+        while (true) {
+            QueElement queElement = null;
+            try {
+                queElement = submitQueue.take();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+                //update result as system error
+            }
+            sendToServer(queElement);
+        }
     }
 
     //文件处理
-    public String writeCodeToFile(SubmitRecordBean submit) {
-        runningFolder = "/home/xanarry/Desktop/running-dir";
-        System.out.println("running dir: " + runningFolder);
+    private String writeCodeToFile(SubmitRecordBean submit, String runningFolder) {
         File file = new File(runningFolder);
         if (!file.exists()) { //不存在则创建目录
             System.out.println("指定运行目录不存在");
@@ -91,86 +199,71 @@ public class JudgeClient {
     }
 
 
-    //对象转json
-    public String submitToJson(SubmitRecordBean submit, int timeLimit, int memLimit, String runningFolder, String testPointDataFolder) {
-        String jsonPattern = "{\"submitID\":%d," +
-                "\"language\":\"%s\"," +
-                "\"timeLimit\":%d," +
-                "\"memLimit\":%d," +
-                "\"runningFolder\":\"%s\"," +
-                "\"testPointDataFolder\":\"%s\"}";
-
-        String json = String.format(jsonPattern,
-                submit.getSubmitID(),
-                submit.getLanguage(),
-                timeLimit,
-                memLimit,
-                runningFolder,
-                testPointDataFolder
-        );
-
-        return json;
-    }
-
     //与judge server通信
-    public void sendToServer(String json) {
-        //创建socket并得到其输入输出流用于传输数据
+    private void sendToServer(QueElement queElement) {
+        /*
+        * this routine has three step
+        * 1: submit code to judge server
+        * 2: communicate judge state between submit code and get result
+        * 3: get judge result from judge server
+        * */
+        SubmitRecordBean submitRecordBean = queElement.getSubmitRecordBean();
+        SubmitBean submitBean = queElement.getSubmitBean();
+
+        byte[] writeBuffer = new byte[8 * 1024];
+        byte[] readBuffer  = new byte[8 * 1024];
+
         try {
-            Socket clientSocket = new Socket("127.0.0.1", 2345);
+            //创建socket并得到其输入输出流用于传输数据
+            Socket clientSocket = new Socket(serverAddress, serverPort);
+
+            //get inputstream and outputstream from socket
             BufferedOutputStream outputBufferedStream = new BufferedOutputStream(clientSocket.getOutputStream());
             BufferedInputStream inputBufferedStream = new BufferedInputStream(clientSocket.getInputStream());
 
-            outputBufferedStream.write(json.getBytes("utf-8"));//>>>>>>>>>>>>>>>>
-            outputBufferedStream.flush();
+            final String SUBMIT_STATE = "submit";
+            final String WAIT_STATE   = "wait";
+            final String FINISH_STATE = "finish";
 
-            byte[] buf = new byte[8 * 1024];
-            inputBufferedStream.read(buf);
-            String resultJson = new String(buf, "utf-8");
-            System.out.println("judge result json: " + resultJson);
+            String state = SUBMIT_STATE;
+
+            String responseString = "";
+            while (true) {
+                //send submit json to judge server
+                String message = "";
+                if (state.equals(SUBMIT_STATE)) {
+                    message = SUBMIT_STATE + submitBean.toJson();
+                    state = WAIT_STATE;
+                } else {
+                    message = WAIT_STATE;
+                }
+
+                //send message to judge server
+                outputBufferedStream.write(message.getBytes("utf-8"));//>>>>>>>>>>>>>>>>
+                outputBufferedStream.flush();
+
+                //read message response from judge server
+                inputBufferedStream.read(readBuffer);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                responseString = new String(readBuffer, "utf-8");
+                System.out.println("judge server response: " + responseString);
+
+                if (responseString.startsWith(FINISH_STATE)) {
+                    break;
+                } else if (responseString.startsWith("state")) {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    JudgeStateBean judgeStateBean = gson.fromJson(responseString.substring(5).trim(), JudgeStateBean.class);
+                    if (judgeStateBean.getState().equals(JudgeClient.COMPILING))
+                        submitRecordBean.setResult(JudgeClient.COMPILING);
+                    if (judgeStateBean.getState().equals(JudgeClient.RUNNING))
+                        submitRecordBean.setResult(JudgeClient.RUNNING);
+                    updateState(submitRecordBean);
+                }
+            }
 
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            ResultBean resultBean = gson.fromJson(resultJson.trim(), ResultBean.class);
-
-
-            SqlSession sqlSession = Database.getSqlSesion();
-            SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-            JudgeDetail judgeDetail = sqlSession.getMapper(JudgeDetail.class);
-
-
-            SubmitRecordBean submitRecordBean = submitRecord.getSubmitRecordByID(resultBean.getSubmitID());
-            List<TestPointResultBean> testPointResults = resultBean.getTestPointResult();
-
-            int maxTimeConsume = -1;
-            int maxMemConsume = -1;
-
-            String finalResult = "Runtime Error";
-
-            for (TestPointResultBean t : testPointResults) {
-                JudgeDetailBean judgeDetailBean = new JudgeDetailBean();
-
-                judgeDetailBean.setSubmitID(resultBean.getSubmitID());
-                judgeDetailBean.setTestPointID(t.getTestPointID());
-                judgeDetailBean.setTimeConsume(231);
-                judgeDetailBean.setMemConsume(43333);
-                judgeDetailBean.setResult("Runtime Error");
-                judgeDetailBean.setReturnVal((short) 1);
-
-                //maxTimeConsume = max();
-                //maxMemConsume = max();
-
-                judgeDetail.insertJudgeDetail(judgeDetailBean);
-            }
-
-            submitRecordBean.setResult(finalResult);
-            submitRecordBean.setTimeConsume(maxTimeConsume);
-            submitRecordBean.setMemConsume(maxMemConsume);
-
-            submitRecord.updateSubmitRecord(submitRecordBean);
-
-
-            sqlSession.commit();
-            sqlSession.close();
+            ResultBean resultBean = gson.fromJson(responseString.substring(6).trim(), ResultBean.class);
+            updateResult(resultBean);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,16 +271,102 @@ public class JudgeClient {
     }
 
 
-
-    //处理返回结果
-    public static void main(String[] argv) {
-        File file = new File("null/submit1");
-        if (!file.exists()) {
-            System.out.println(file.mkdir());
-        }
+    private void updateState(SubmitRecordBean submitRecordBean) {
+        SqlSession sqlSession = Database.getSqlSesion();
+        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
+        submitRecord.updateSubmitRecord(submitRecordBean);
+        sqlSession.commit();
+        sqlSession.close();
     }
 
 
+    private void updateResult(ResultBean resultBean) {
+        SqlSession sqlSession = Database.getSqlSesion();
+        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
+        JudgeDetail judgeDetail = sqlSession.getMapper(JudgeDetail.class);
+
+
+        SubmitRecordBean submitRecordBean = submitRecord.getSubmitRecordByID(resultBean.getSubmitID());
+        List<TestPointResultBean> testPointResults = resultBean.getTestPointResult();
+
+        int maxTimeConsume = -1;
+        int maxMemConsume = -1;
+
+        String finalResult = ACCEPTED;
+
+
+        for (TestPointResultBean t : testPointResults) {
+            JudgeDetailBean judgeDetailBean = new JudgeDetailBean();
+
+            judgeDetailBean.setSubmitID(resultBean.getSubmitID());
+            judgeDetailBean.setTestPointID(t.getTestPointID());
+            judgeDetailBean.setTimeConsume(t.getTimeConsume());
+            judgeDetailBean.setMemConsume(t.getMemConsume());
+            judgeDetailBean.setReturnVal((short) 0);
+
+            maxTimeConsume = t.getTimeConsume() > maxTimeConsume ? t.getTimeConsume() : maxTimeConsume;
+            maxMemConsume  = t.getMemConsume()  > maxMemConsume  ? t.getMemConsume()  : maxMemConsume;
+            judgeDetail.insertJudgeDetail(judgeDetailBean);
+
+            judgeDetailBean.setResult(t.getResult());
+            if (!t.getResult().equals(ACCEPTED)) {
+                finalResult = t.getResult();
+            }
+        }
+
+        submitRecordBean.setResult(finalResult);
+        submitRecordBean.setTimeConsume(maxTimeConsume);
+        submitRecordBean.setMemConsume(maxMemConsume);
+
+        submitRecord.updateSubmitRecord(submitRecordBean);
+
+
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+
+
+
+
+    public static void main(String[] argc) {
+       /* LinkedBlockingQueue<String> que = new LinkedBlockingQueue<>();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (;;) {
+                    try {
+                        System.out.println("input to que:");
+                        Scanner scanner = new Scanner(System.in);
+                        String val = scanner.nextLine();
+                        if (val.equals("quit")) {
+                            return;
+                        }
+                        que.put("threada " + val);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    String s = null;
+                    try {
+                        s = que.take();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(s);
+                }
+            }
+        }).start();*/
+
+        JudgeClient judgeClient = new JudgeClient();
+    }
 }
 
 /*
@@ -197,7 +376,7 @@ public class JudgeClient {
     "language":"c++",
     "timeLimit":"%d",
     "memLimit":"%d",
-    "runningFolder":"/a/s/",
+    "runningBaseFolder":"/a/s/",
     "testPointDataFolder":"/g/s"
 }
 

@@ -82,6 +82,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>提交ID</th>
                 <th>用户</th>
                 <th>题号</th>
                 <th>耗时(ms)</th>
@@ -96,6 +97,7 @@
             <jsp:useBean id="submitTime" class="java.util.Date"/>
             <c:forEach items="${recordList}" var="record">
                 <tr>
+                    <td>${record.submitID}</td>
                     <td><a href="/user?userID=${record.userID}"> ${record.userID}待联合查询 </a></td>
                     <td><a href="/problem?problemID=${record.problemID}"> p${1000 + record.problemID} </a></td>
                     <td>${record.timeConsume}</td>

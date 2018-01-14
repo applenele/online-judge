@@ -13,7 +13,7 @@ public class JudgeTest {
         /*SubmitRecordBean submit = getSubmit();
 
         JudgeClient judgeClient = new JudgeClient();
-        judgeClient.submitCode(submit);*/
+        judgeClient.submit(submit);*/
 
 
         String json = "{\"submitID\":1,\"compileStatus\":1,\"compileResult\":\"compile error\",\"result\":[{\"testPointID\":1,\"result\":\"accepted\"},{\"testPointID\":2,\"result\":\"accepted\"},{\"testPointID\":3,\"result\":\"accepted\"},{\"testPointID\":4,\"result\":\"accepted\"}]}";

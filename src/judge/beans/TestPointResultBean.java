@@ -1,4 +1,4 @@
-package judge;
+package judge.beans;
 
 /**
  * Created by xanarry on 18-1-8.
@@ -10,17 +10,15 @@ public class TestPointResultBean {
     private int testPointID;
     private int timeConsume;
     private int memConsume;
-    private int returnVal;
     private String result;
 
     public TestPointResultBean() {
     }
 
-    public TestPointResultBean(int testPointID, int timeConsume, int memConsume, int returnVal, String result) {
+    public TestPointResultBean(int testPointID, int timeConsume, int memConsume, String result) {
         this.testPointID = testPointID;
         this.timeConsume = timeConsume;
         this.memConsume = memConsume;
-        this.returnVal = returnVal;
         this.result = result;
     }
 
@@ -48,14 +46,6 @@ public class TestPointResultBean {
         this.memConsume = memConsume;
     }
 
-    public int getReturnVal() {
-        return returnVal;
-    }
-
-    public void setReturnVal(int returnVal) {
-        this.returnVal = returnVal;
-    }
-
     public String getResult() {
         return result;
     }
@@ -70,7 +60,6 @@ public class TestPointResultBean {
                 "testPointID=" + testPointID +
                 ", timeConsume=" + timeConsume +
                 ", memConsume=" + memConsume +
-                ", returnVal=" + returnVal +
                 ", result='" + result + '\'' +
                 '}';
     }

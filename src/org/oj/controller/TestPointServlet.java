@@ -153,7 +153,6 @@ public class TestPointServlet extends HttpServlet {
         sqlSession.close();
 
         System.out.println("input_text_path: " + testPointBean.getInputTextPath());
-        System.out.println("input_text_path: " + testPointBean.getInputTextPath());
 
 
         String inputText = Tools.readFileToString(getServletContext().getRealPath(testPointBean.getInputTextPath()));

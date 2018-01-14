@@ -129,7 +129,7 @@ public class SubmitServlet extends HttpServlet {
         int userID = Integer.parseInt(strUserID);
 
 
-        SubmitRecordBean submitRecordBean = new SubmitRecordBean();
+        SubmitRecordBean submitRecordBean = new SubmitRecordBean();//生成提交记录
         submitRecordBean.setProblemID(problemID);
         submitRecordBean.setUserID(userID);
         submitRecordBean.setContestID(0);//非比赛提交的代码统一设置为0
@@ -141,35 +141,26 @@ public class SubmitServlet extends HttpServlet {
 
 
         SqlSession sqlSession = Database.getSqlSesion();
-
         Problem problem = sqlSession.getMapper(Problem.class);
-        ProblemBean problemBean = problem.getProblemByID(problemID);
+        ProblemBean problemBean = problem.getProblemByID(problemID); //获取提交代码所属的题目
 
+        //获取测试点路径
+        String testPointDataPath = getServletContext().getRealPath("/test-points") + "/p" + (1000 + problemID);
 
-        //提交代码
-        JudgeClient client = new JudgeClient();
-
-
-        String testPointSavePath = getServletContext().getRealPath("/test-points") + "/p" + (1000 + problemID);
-        String lowerLang = submitRecordBean.getLanguage().toLowerCase();
-        int tl = 1000, ml = 65535;
-
-        if (!lowerLang.equals("c") && !lowerLang.equals("c++")) {
-            tl *= 2;
-            ml *= 2;
-        }
-
+        //提交数据库
         SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
         submitRecord.addSubmitRecord(submitRecordBean);
         sqlSession.commit();
         sqlSession.close();
 
-        //任何与提交代码到评测机的相关的代码都必须在记录写入数据库之后
-        String runningFolder = client.writeCodeToFile(submitRecordBean);
-        String submitJson = client.submitToJson(submitRecordBean, tl, ml, runningFolder, testPointSavePath);
-        client.sendToServer(submitJson); //send code to judge server
 
-
+        //提交代码, 任何与提交代码到评测机的相关的代码都必须在记录写入数据库之后, 后续状态与结果的更新由,judge client完成
+        //网页需要手动刷新才能看到更新
+        System.out.println("submit to judge client");
+        JudgeClient client = new JudgeClient();
+        client.start();
+        client.submit(submitRecordBean, problemBean, testPointDataPath);
+        System.out.println("redirect to record list");
         response.sendRedirect("/record-list");
     }
 

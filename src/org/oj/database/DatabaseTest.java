@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.oj.model.javaBean.JudgeDetailBean;
+import org.oj.model.javaBean.LanguageBean;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,10 +23,10 @@ public class DatabaseTest {
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
-            JudgeDetail judgeDetail = sqlSession.getMapper(JudgeDetail.class);
-            List<JudgeDetailBean> judgeDetailList = judgeDetail.getJudegeDetailBySubmitID(1);
+            Language language = sqlSession.getMapper(Language.class);
+            List<LanguageBean> languageBeans = language.getLanguageList();
 
-            System.out.println(judgeDetailList);
+            System.out.println(languageBeans);
             sqlSession.close();
         } finally {
             sqlSession.close();

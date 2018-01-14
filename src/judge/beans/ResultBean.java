@@ -1,4 +1,4 @@
-package judge;
+package judge.beans;
 
 import java.util.List;
 
