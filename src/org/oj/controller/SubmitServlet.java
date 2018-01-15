@@ -157,8 +157,8 @@ public class SubmitServlet extends HttpServlet {
         //提交代码, 任何与提交代码到评测机的相关的代码都必须在记录写入数据库之后, 后续状态与结果的更新由,judge client完成
         //网页需要手动刷新才能看到更新
         System.out.println("submit to judge client");
-        JudgeClient client = new JudgeClient();
-        client.start();
+        JudgeClient client = (JudgeClient) getServletContext().getAttribute("judgeClient");
+        //client.getState()
         client.submit(submitRecordBean, problemBean, testPointDataPath);
         System.out.println("redirect to record list");
         response.sendRedirect("/record-list");

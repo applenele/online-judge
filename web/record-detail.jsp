@@ -30,7 +30,6 @@
                 <th class="text-center">测试点</th>
                 <th class="text-center">耗时(ms)</th>
                 <th class="text-center">内存(KB)</th>
-                <th class="text-center">返回值</th>
                 <th class="text-center">结果</th>
             </tr>
             </thead>
@@ -52,7 +51,11 @@
 
     <br>
     <h4>源代码</h4>
-    <pre class="form-control pre-scrollable" style="font-family: Consolas">${record.sourceCode}</pre>
+    <pre class="form-control pre-scrollable" style="font-family: Consolas"><c:out value="${record.sourceCode}" escapeXml="true"></c:out> </pre>
+
+    <br>
+    <h4>编译信息</h4>
+    <pre class="form-control pre-scrollable" style="font-family: Consolas">${record.result}</pre>
 
 
     <div class="text-center">

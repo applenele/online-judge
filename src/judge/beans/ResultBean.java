@@ -9,6 +9,7 @@ import java.util.List;
 /*
 {
     "submitID":1,
+    "systemError":1,
     "compileStatus":1,
     "compileResult":"compile error",
     "result":
@@ -24,18 +25,20 @@ import java.util.List;
 
 public class ResultBean {
     private int submitID;
+    private int systemError;
     private int compileStatus;
     private String compileResult;
-    private List<TestPointResultBean> testPointResult;
+    private List<TestPointResultBean> detail;
 
     public ResultBean() {
     }
 
-    public ResultBean(int submitID, int compileStatus, String compileResult, List<TestPointResultBean> testPointResult) {
+    public ResultBean(int submitID, int systemError, int compileStatus, String compileResult, List<TestPointResultBean> detail) {
         this.submitID = submitID;
+        this.systemError = systemError;
         this.compileStatus = compileStatus;
         this.compileResult = compileResult;
-        this.testPointResult = testPointResult;
+        this.detail = detail;
     }
 
     public int getSubmitID() {
@@ -44,6 +47,14 @@ public class ResultBean {
 
     public void setSubmitID(int submitID) {
         this.submitID = submitID;
+    }
+
+    public int getSystemError() {
+        return systemError;
+    }
+
+    public void setSystemError(int systemError) {
+        this.systemError = systemError;
     }
 
     public int getCompileStatus() {
@@ -62,21 +73,22 @@ public class ResultBean {
         this.compileResult = compileResult;
     }
 
-    public List<TestPointResultBean> getTestPointResult() {
-        return testPointResult;
+    public List<TestPointResultBean> getDetail() {
+        return detail;
     }
 
-    public void setTestPointResult(List<TestPointResultBean> testPointResult) {
-        this.testPointResult = testPointResult;
+    public void setDetail(List<TestPointResultBean> detail) {
+        this.detail = detail;
     }
 
     @Override
     public String toString() {
         return "ResultBean{" +
                 "submitID=" + submitID +
+                ", systemError=" + systemError +
                 ", compileStatus=" + compileStatus +
                 ", compileResult='" + compileResult + '\'' +
-                ", testPointResult=" + testPointResult +
+                ", detail=" + detail +
                 '}';
     }
 }

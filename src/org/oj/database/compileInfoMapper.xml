@@ -8,7 +8,7 @@
         INSERT INTO t_compile_info
         (`submit_id`,`compile_result`)
         VALUES
-        (#{compileResult.submit_id}, #{compileResult.compileResult})
+        (#{compileResult.submitID}, #{compileResult.compileResult})
     </insert>
 
     <delete id="deleteCompileResult">
