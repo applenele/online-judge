@@ -15,10 +15,10 @@
 
     function login() {
 
-        var inputEmail = $("#inputEmail").val();
-        var inputPassword = $("#inputPassword").val();
+        var inputEmail = $("#inputLoginEmail").val();
+        var inputPassword = $("#inputLoginPassword").val();
         var inputRememberMe = $('#rememberMe:checked').val();
-        var inputValidateCode = $("#inputValidateCode").val();
+        var inputValidateCode = $("#inputLoginValidateCode").val();
         console.log("click login: " + inputRememberMe);
         $.ajax({
             type: 'POST',
@@ -156,7 +156,7 @@
             <form class="modal-body" method="post" action="/login">
                 <div class="input-group">
                     <span class="input-group-addon">邮&nbsp;&nbsp;&nbsp;&nbsp;箱</span>
-                    <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="邮箱地址">
+                    <input type="text" class="form-control" id="inputLoginEmail" name="inputLoginEmail" placeholder="邮箱地址">
                 </div>
                 <label class="offset-8" id="emailTip" style="display: none; color: red">邮箱不存在</label>
                 <br>
@@ -164,7 +164,7 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">密&nbsp;&nbsp;&nbsp;&nbsp;码</span>
-                    <input type="password" class="form-control" id="inputPassword" name="inputPassword"
+                    <input type="password" class="form-control" id="inputLoginPassword" name="inputLoginPassword"
                            placeholder="登录密码">
                     <br>
                 </div>
@@ -173,7 +173,7 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">验证码</span>
-                    <input type="text" class="form-control" id="inputValidateCode" name="inputValidateCode"
+                    <input type="text" class="form-control" id="inputLoginValidateCode" name="inputLoginValidateCode"
                            placeholder="输入验证码中的结果">
                 </div>
                 <label class="offset-8" id="validateCodeTip" style="display: none; color: red">验证码错误</label>
