@@ -16,18 +16,18 @@
     </environments>
 
     <mappers>
-        <mapper resource="org/oj/database/compileInfoMapper.xml"/>
-        <mapper resource="org/oj/database/contestMapper.xml"/>
-        <mapper resource="org/oj/database/contestProblemMapper.xml"/>
-        <mapper resource="org/oj/database/contestUserMapper.xml"/>
-        <mapper resource="org/oj/database/discussMapper.xml"/>
-        <mapper resource="org/oj/database/imagePathMapper.xml"/>
-        <mapper resource="org/oj/database/judgeDetailMapper.xml"/>
-        <mapper resource="org/oj/database/problemMapper.xml"/>
-        <mapper resource="org/oj/database/sourceCodeMapper.xml"/>
-        <mapper resource="org/oj/database/submitRecordMapper.xml"/>
-        <mapper resource="org/oj/database/userMapper.xml"/>
-        <mapper resource="org/oj/database/languageMapper.xml"/>
-        <mapper resource="org/oj/database/testPointMapper.xml"/>
+        <mapper resource="org/oj/database/tableCompileInfoMapper.xml"/>
+        <mapper resource="org/oj/database/tableContestMapper.xml"/>
+        <mapper resource="org/oj/database/tableContestProblemMapper.xml"/>
+        <mapper resource="org/oj/database/tableContestUserMapper.xml"/>
+        <mapper resource="org/oj/database/tableDiscussMapper.xml"/>
+        <mapper resource="org/oj/database/tableImagePathMapper.xml"/>
+        <mapper resource="org/oj/database/tableJudgeDetailMapper.xml"/>
+        <mapper resource="org/oj/database/tableProblemMapper.xml"/>
+        <mapper resource="org/oj/database/tableSubmitRecordMapper.xml"/>
+        <mapper resource="org/oj/database/tableUserMapper.xml"/>
+        <mapper resource="org/oj/database/tableLanguageMapper.xml"/>
+        <mapper resource="org/oj/database/tableTestPointMapper.xml"/>
+        <mapper resource="org/oj/database/viewSubmitRecordMapper.xml"/>
     </mappers>
 </configuration>

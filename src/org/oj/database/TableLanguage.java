@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface Language {
+public interface TableLanguage {
     public void insertLanguage(LanguageBean languageBean);
     public LanguageBean getLanguageByID(int languageID);
     public short getLanguageID(String language);

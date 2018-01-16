@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -23,21 +24,23 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>排名</th>
+                <th class="text-center">排名</th>
                 <th>用户名</th>
                 <th>个性签名</th>
-                <th class="text-right">通过题数</th>
-                <th>提交次数</th>
+                <th class="text-center">注册日期</th>
+                <th class="text-center">通过/提交</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach begin="0" end="50" step="1" var="cnt">
+            <c:forEach items="${userList}" var="user" varStatus="pos">
                 <tr>
-                    <td>${cnt}</td>
-                    <td><a href="#">xanarry${cnt}</a></td>
-                    <td>love love love</td>
-                    <td class="text-right">78</td>
-                    <td>342</td>
+                    <td class="text-center">${pos.count}</td>
+                    <td><a href="/user?userID=${user.userID}">${user.userName}</a></td>
+                    <td>${user.bio}</td>
+                        <jsp:useBean id="registerTime" class="java.util.Date"/>
+                        <c:set target="${registerTime}" property="time" value="${user.registerTime}"/>
+                    <td class="text-center"><fmt:formatDate pattern="yyyy/MM/dd" value="${registerTime}"/></td>
+                    <td class="text-center">${user.accepted}/${user.submitted}</td>
             </c:forEach>
             </tbody>
         </table>

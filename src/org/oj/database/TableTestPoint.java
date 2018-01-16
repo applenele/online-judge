@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-5.
  */
-public interface TestPoint {
+public interface TableTestPoint {
     public int addTestPoint(@Param("testPoint") TestPointBean testPoint);
 
     public void deleteTestPoint(@Param("problemID") int problemID, @Param("testPointID") int testPointID);
 
-    public void updateTestPoint(@Param("testPoint") TestPoint testPoint);
+    public void updateTestPoint(@Param("testPoint") TableTestPoint testPoint);
 
     public List<TestPointBean> getTestPointList(@Param("problemID") int problemID);
 

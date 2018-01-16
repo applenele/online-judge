@@ -2,9 +2,9 @@ package org.oj.controller;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.ibatis.session.SqlSession;
-import org.oj.database.Database;
-import org.oj.database.Language;
-import org.oj.database.User;
+import org.oj.database.DataSource;
+import org.oj.database.TableLanguage;
+import org.oj.database.TableUser;
 import org.oj.model.javaBean.LanguageBean;
 import org.oj.model.javaBean.UserBean;
 
@@ -50,8 +50,8 @@ public class registerServlet extends HttpServlet {
         userBean.setSendCode(true);
 
         System.out.println(userBean.toString());
-        SqlSession sqlSession = Database.getSqlSesion();
-        User user = sqlSession.getMapper(User.class);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableUser user = sqlSession.getMapper(TableUser.class);
         int retVal = user.addNewUser(userBean);
         sqlSession.commit();
         sqlSession.close();
@@ -69,8 +69,8 @@ public class registerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
-        Language language = Database.getSqlSesion().getMapper(Language.class);
-        List<LanguageBean> languageList = language.getLanguageList();
+        TableLanguage tableLanguage = DataSource.getSqlSesion().getMapper(TableLanguage.class);
+        List<LanguageBean> languageList = tableLanguage.getLanguageList();
         request.setAttribute("languageList", languageList);
         request.getRequestDispatcher("register.jsp").forward(request, response);
     }
@@ -82,8 +82,8 @@ public class registerServlet extends HttpServlet {
 
         System.out.println("checking: " + userName + " " + email);
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        User user = sqlSession.getMapper(User.class);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableUser user = sqlSession.getMapper(TableUser.class);
         Boolean userNameCheckVal = user.checkUserNameExist(userName);
         Boolean emailCheckVal    = user.checkEmailExist(email);
         sqlSession.close();

@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.oj.database.CompileInfo">
-    <insert id="insertCompileResult" keyProperty="submit_id">
+<mapper namespace="org.oj.database.TableCompileInfo">
+    <insert id="insertCompileResult" keyProperty="compileResult.submitID">
         INSERT INTO t_compile_info
         (`submit_id`,`compile_result`)
         VALUES

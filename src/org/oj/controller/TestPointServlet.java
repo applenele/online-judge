@@ -1,9 +1,9 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
-import org.oj.database.Database;
-import org.oj.database.Problem;
-import org.oj.database.TestPoint;
+import org.oj.database.DataSource;
+import org.oj.database.TableProblem;
+import org.oj.database.TableTestPoint;
 import org.oj.model.javaBean.ProblemBean;
 import org.oj.model.javaBean.TestPointBean;
 import utils.Tools;
@@ -80,8 +80,8 @@ public class TestPointServlet extends HttpServlet {
 
         System.out.println("add new test point: " + testPointBean);
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        TestPoint testPoint = sqlSession.getMapper(TestPoint.class);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableTestPoint testPoint = sqlSession.getMapper(TableTestPoint.class);
         testPoint.addTestPoint(testPointBean);
         sqlSession.commit();
         sqlSession.close();
@@ -99,9 +99,9 @@ public class TestPointServlet extends HttpServlet {
 
         //删除文件
         if (Tools.deleteTestPoint(testPointSavePath, testPointID)) {
-            SqlSession sqlSession = Database.getSqlSesion();
+            SqlSession sqlSession = DataSource.getSqlSesion();
             //从数据库删除记录
-            TestPoint testPoint = sqlSession.getMapper(TestPoint.class);
+            TableTestPoint testPoint = sqlSession.getMapper(TableTestPoint.class);
             testPoint.deleteTestPoint(problemID, testPointID);
             sqlSession.commit();
             sqlSession.close();
@@ -118,12 +118,12 @@ public class TestPointServlet extends HttpServlet {
         Integer problemID = Integer.parseInt(strProblemID);
 
         System.out.println("get problemID: " + strProblemID + " testpointList");
-        SqlSession sqlSession = Database.getSqlSesion();
-        TestPoint testPoint = sqlSession.getMapper(TestPoint.class);
-        Problem problem = sqlSession.getMapper(Problem.class);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableTestPoint testPoint = sqlSession.getMapper(TableTestPoint.class);
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
 
         List<TestPointBean> testPoints = testPoint.getTestPointList(problemID);
-        ProblemBean problemBean = problem.getProblemByID(problemID);
+        ProblemBean problemBean = tableProblem.getProblemByID(problemID);
 
         sqlSession.close();
 
@@ -142,12 +142,12 @@ public class TestPointServlet extends HttpServlet {
         Integer testPointID = Integer.parseInt(strTestPointID);
 
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        Problem problem = sqlSession.getMapper(Problem.class);
-        ProblemBean problemBean = problem.getProblemByID(problemID);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+        ProblemBean problemBean = tableProblem.getProblemByID(problemID);
 
 
-        TestPoint testPoint = sqlSession.getMapper(TestPoint.class);
+        TableTestPoint testPoint = sqlSession.getMapper(TableTestPoint.class);
         TestPointBean testPointBean = testPoint.getTestPoint(problemID, testPointID);
 
         sqlSession.close();

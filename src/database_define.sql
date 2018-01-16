@@ -102,15 +102,6 @@ CREATE TABLE t_judge_detail (
 ) DEFAULT charset = "utf8" auto_increment = 1 ENGINE = InnoDB;
 
 
-DROP TABLE IF EXISTS t_source_code;
-CREATE TABLE t_source_code (
-  /*提交的源代码*/
-  `submit_id`          INT NOT NULL,
-  `source_code`        text,
-  `source_code_length` INT,
-  PRIMARY KEY(`submit_id`)
-) DEFAULT charset = "utf8"  ENGINE = InnoDB;
-
 
 
 DROP TABLE IF EXISTS t_contest;
@@ -191,3 +182,42 @@ INSERT INTO t_language(`language`) VALUES ("C++");
 INSERT INTO t_language(`language`) VALUES ("Java");
 INSERT INTO t_language(`language`) VALUES ("Python2");
 INSERT INTO t_language(`language`) VALUES ("Python3");
+
+
+
+
+/*视图*/
+CREATE VIEW v_submit_record AS
+  SELECT
+    submit_id,
+    problem_id,
+    title,
+    user_id,
+    user_name,
+    contest_id,
+    result,
+    language,
+    source_code,
+    code_length,
+    time_consume,
+    mem_consume,
+    submit_time,
+    judge_time,
+    compile_result
+  FROM ((t_submit_record submit LEFT JOIN t_compile_info compile USING(`submit_id`)) JOIN t_user USING (`user_id`)) JOIN t_problem USING (`problem_id`)
+
+
+
+
+
+
+
+/*没使用的表*/
+DROP TABLE IF EXISTS t_source_code;
+CREATE TABLE t_source_code (
+  /*提交的源代码*/
+  `submit_id`          INT NOT NULL,
+  `source_code`        text,
+  `source_code_length` INT,
+  PRIMARY KEY(`submit_id`)
+) DEFAULT charset = "utf8"  ENGINE = InnoDB;

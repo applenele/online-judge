@@ -25,7 +25,7 @@ import java.util.List;
         urlPatterns = {
                 "/submit",
                 "/record-list",
-                "/record-detail"
+                "/judge-detail"
         }
 )
 public class SubmitServlet extends HttpServlet {
@@ -40,7 +40,7 @@ public class SubmitServlet extends HttpServlet {
 
         if (request.getRequestURI().equals("/submit")) getSubmit(request, response);
         if (request.getRequestURI().equals("/record-list")) getRecordList(request, response);
-        if (request.getRequestURI().equals("/record-detail")) getRecordDetail(request, response);
+        if (request.getRequestURI().equals("/judge-detail")) getRecordDetail(request, response);
     }
 
 
@@ -70,23 +70,23 @@ public class SubmitServlet extends HttpServlet {
 
         int userID = Integer.parseInt(strUserID);
 
-        SqlSession sqlSession = Database.getSqlSesion();
+        SqlSession sqlSession = DataSource.getSqlSesion();
         //获取提交题目信息
-        Problem problem = sqlSession.getMapper(Problem.class);
-        ProblemBean problemBean = problem.getProblemByID(problemID);
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+        ProblemBean problemBean = tableProblem.getProblemByID(problemID);
 
         //获取系统语言列表以供选择
-        Language language = sqlSession.getMapper(Language.class);
-        List<LanguageBean> languages = language.getLanguageList();
+        TableLanguage tableLanguage = sqlSession.getMapper(TableLanguage.class);
+        List<LanguageBean> languages = tableLanguage.getLanguageList();
 
         //获取提交代码的用户信息
-        User user = sqlSession.getMapper(User.class);
+        TableUser user = sqlSession.getMapper(TableUser.class);
         UserBean userBean = user.getUserByID(userID);
 
 
         //获取用户在之前对本题目的提交记录
-        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-        List<SubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserID(userID, 0, 3);
+        TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
+        List<SubmitRecordBean> submitRecordBeans = tableSubmitRecord.getSubmitRecordList(userID, problemID, null, null, 0, 3);
 
         sqlSession.close();
 
@@ -140,16 +140,16 @@ public class SubmitServlet extends HttpServlet {
         submitRecordBean.setSubmitTime(new Date().getTime());
 
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        Problem problem = sqlSession.getMapper(Problem.class);
-        ProblemBean problemBean = problem.getProblemByID(problemID); //获取提交代码所属的题目
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+        ProblemBean problemBean = tableProblem.getProblemByID(problemID); //获取提交代码所属的题目
 
         //获取测试点路径
         String testPointDataPath = getServletContext().getRealPath("/test-points") + "/p" + (1000 + problemID);
 
         //提交数据库
-        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-        submitRecord.addSubmitRecord(submitRecordBean);
+        TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
+        tableSubmitRecord.addSubmitRecord(submitRecordBean);
         sqlSession.commit();
         sqlSession.close();
 
@@ -166,9 +166,19 @@ public class SubmitServlet extends HttpServlet {
 
 
     private void getRecordList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SqlSession sqlSession = Database.getSqlSesion();
-        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-        List<SubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListOrderedByDate(0, 100);
+        String userName = request.getParameter("inputUserName");
+        String strProblemID = request.getParameter("inputProblemID");
+        String result = request.getParameter("inputResult");
+        String language = request.getParameter("inputLanguage");
+
+        userName = userName != null && userName.length() > 0 ? userName : null;
+        Integer problemID = strProblemID != null && strProblemID.length() > 0 ? Integer.parseInt(strProblemID) : null;
+        result = result != null && result.length() > 0 ? result : null;
+        language = language != null && language.length() > 0 ? language : null;
+
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
+        List<SubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserName(userName, problemID, result, language, 0, 100);
         sqlSession.close();
 
         request.setAttribute("recordList", submitRecordBeans);
@@ -185,17 +195,24 @@ public class SubmitServlet extends HttpServlet {
 
         Integer submitID = Integer.parseInt(strSubmitID);
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        JudgeDetail judgeDetail = sqlSession.getMapper(JudgeDetail.class);
-        List<JudgeDetailBean> judgeDetailList = judgeDetail.getJudegeDetailBySubmitID(submitID);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableJudgeDetail tableJudgeDetail = sqlSession.getMapper(TableJudgeDetail.class);
+        List<JudgeDetailBean> judgeDetailList = tableJudgeDetail.getJudegeDetailBySubmitID(submitID);
 
-        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-        SubmitRecordBean submitRecordBean = submitRecord.getSubmitRecordByID(submitID);
+        TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
+        SubmitRecordBean submitRecordBean = tableSubmitRecord.getSubmitRecordByID(submitID);
+
+        TableCompileInfo tableCompileInfo = sqlSession.getMapper(TableCompileInfo.class);
+        CompileInfoBean compileInfoBean = tableCompileInfo.getCompileResult(submitID);
+        if (compileInfoBean == null) {
+            compileInfoBean = new CompileInfoBean(submitID, "编译通过");
+        }
 
         sqlSession.close();
 
         request.setAttribute("detailList", judgeDetailList);
         request.setAttribute("record", submitRecordBean);
-        request.getRequestDispatcher("/record-detail.jsp").forward(request, response);
+        request.setAttribute("compileInfo", compileInfoBean);
+        request.getRequestDispatcher("/judge-detail.jsp").forward(request, response);
     }
 }

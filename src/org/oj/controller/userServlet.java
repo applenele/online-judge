@@ -1,9 +1,9 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
-import org.oj.database.Database;
-import org.oj.database.Language;
-import org.oj.database.User;
+import org.oj.database.DataSource;
+import org.oj.database.TableLanguage;
+import org.oj.database.TableUser;
 import org.oj.model.javaBean.LanguageBean;
 import org.oj.model.javaBean.UserBean;
 
@@ -41,10 +41,10 @@ public class userServlet extends HttpServlet {
         String strUserID = request.getParameter("userID");
         if (strUserID != null) {
             Integer userID = Integer.parseInt(strUserID);
-            SqlSession sqlSession = Database.getSqlSesion();
-            User user = sqlSession.getMapper(User.class);
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableUser user = sqlSession.getMapper(TableUser.class);
             UserBean userBean = user.getUserByID(userID);
-            List<LanguageBean> languages = sqlSession.getMapper(Language.class).getLanguageList();
+            List<LanguageBean> languages = sqlSession.getMapper(TableLanguage.class).getLanguageList();
             sqlSession.close();
 
             System.out.println(userBean);
@@ -79,8 +79,8 @@ public class userServlet extends HttpServlet {
         if (strUserID != null) {
             Integer userID = Integer.parseInt(strUserID);
 
-            SqlSession sqlSession = Database.getSqlSesion();
-            User user = sqlSession.getMapper(User.class);
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableUser user = sqlSession.getMapper(TableUser.class);
             UserBean userBean = user.getUserByID(userID);
             String userName = userBean.getUserName();
             user.deleteUserById(userID);
@@ -109,8 +109,8 @@ public class userServlet extends HttpServlet {
         String sendCode = request.getParameter("inputSendCode");
         String preferLanguage = request.getParameter("inputPreferLanguage");
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        User user = sqlSession.getMapper(User.class);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableUser user = sqlSession.getMapper(TableUser.class);
 
         UserBean userBean = user.getUserByID(userID);
 

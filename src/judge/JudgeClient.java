@@ -3,7 +3,6 @@ package judge;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javafx.util.Pair;
 import judge.beans.JudgeStateBean;
 import judge.beans.ResultBean;
 import judge.beans.SubmitBean;
@@ -264,15 +263,15 @@ public class JudgeClient extends Thread {
         sytemErrorResultBean.setSubmitID(submitBean.getSubmitID());
 
         byte[] writeBuffer = new byte[8 * 1024];
-        byte[] readBuffer  = new byte[8 * 1024];
+        char[] readBuffer  = new char[8 * 1024];
 
         try {
             //创建socket并得到其输入输出流用于传输数据
             Socket clientSocket = new Socket(serverAddress, serverPort);
 
             //get inputstream and outputstream from socket
-            BufferedOutputStream outputBufferedStream = new BufferedOutputStream(clientSocket.getOutputStream());
-            BufferedInputStream inputBufferedStream = new BufferedInputStream(clientSocket.getInputStream());
+            PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             final String SUBMIT_STATE = "submit";
             final String WAIT_STATE   = "wait";
@@ -298,14 +297,15 @@ public class JudgeClient extends Thread {
                 } else {
                     System.out.println(">>>server to judge[WAIT]: " + message);
                 }
-                outputBufferedStream.write(message.getBytes("utf-8"));//>>>>>>>>>>>>>>>>
-                outputBufferedStream.flush();
+                writer.write(message);
+                writer.flush();
+                //outputBufferedStream.flush();
 
 
 
                 //read message response from judge server
-                int read = inputBufferedStream.read(readBuffer);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                responseString = new String(readBuffer, "utf-8");
+                int read = reader.read(readBuffer, 0, 8192);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                responseString = new String(readBuffer);
                 System.out.println("<<<judge to server: " + responseString);
 
                 if (responseString.startsWith(FINISH_STATE)) {
@@ -341,9 +341,9 @@ public class JudgeClient extends Thread {
 
 
     private void updateState(SubmitRecordBean submitRecordBean) {
-        SqlSession sqlSession = Database.getSqlSesion();
-        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-        submitRecord.updateSubmitRecord(submitRecordBean);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
+        tableSubmitRecord.updateSubmitRecord(submitRecordBean);
         sqlSession.commit();
         sqlSession.close();
     }
@@ -353,13 +353,16 @@ public class JudgeClient extends Thread {
         System.out.println("get result: " + resultBean);
 
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        SubmitRecord submitRecord = sqlSession.getMapper(SubmitRecord.class);
-        JudgeDetail judgeDetail = sqlSession.getMapper(JudgeDetail.class);
-        CompileInfo compileInfo = sqlSession.getMapper(CompileInfo.class);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        //访问提交记录
+        TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
+        //访问评测详细结果
+        TableJudgeDetail tableJudgeDetail = sqlSession.getMapper(TableJudgeDetail.class);
+        //访问编译结果
+        TableCompileInfo tableCompileInfo = sqlSession.getMapper(TableCompileInfo.class);
 
 
-        SubmitRecordBean submitRecordBean = submitRecord.getSubmitRecordByID(resultBean.getSubmitID());
+        SubmitRecordBean submitRecordBean = tableSubmitRecord.getSubmitRecordByID(resultBean.getSubmitID());
         List<TestPointResultBean> testPointResults = resultBean.getDetail();
 
         submitRecordBean.setTimeConsume(0);
@@ -373,15 +376,22 @@ public class JudgeClient extends Thread {
             submitRecordBean.setMemConsume(0);
         } else if (resultBean.getCompileStatus() != 0) {
             //编译错误
-            compileInfo.insertCompileResult(new CompileInfoBean(submitRecordBean.getSubmitID(), resultBean.getCompileResult()));
+            tableCompileInfo.insertCompileResult(new CompileInfoBean(submitRecordBean.getSubmitID(), resultBean.getCompileResult()));
 
             submitRecordBean.setResult(COMPILATION_ERROR);
             submitRecordBean.setTimeConsume(0);
             submitRecordBean.setMemConsume(0);
-        } else { //get running result
-            int maxTimeConsume = 0;
-            int maxMemConsume = 0;
+        } else { //正常运行
+            if (resultBean.getCompileResult().trim().length() != 0) { //代码通过,但可能有警告信息
+                //保存编译信息到数据库
+                tableCompileInfo.insertCompileResult(new CompileInfoBean(submitRecordBean.getSubmitID(), resultBean.getCompileResult()));
+            }
+
+            int maxTimeConsume = 0;//最大时间消耗
+            int maxMemConsume = 0; //最大内存消耗
             String finalResult = ACCEPTED;
+
+            //遍历没一组测试数据
             for (TestPointResultBean t : testPointResults) {
                 JudgeDetailBean judgeDetailBean = new JudgeDetailBean();
 
@@ -394,9 +404,12 @@ public class JudgeClient extends Thread {
 
                 maxTimeConsume = t.getTimeConsume() > maxTimeConsume ? t.getTimeConsume() : maxTimeConsume;
                 maxMemConsume = t.getMemConsume() > maxMemConsume ? t.getMemConsume() : maxMemConsume;
-                judgeDetail.insertJudgeDetail(judgeDetailBean);
+                tableJudgeDetail.insertJudgeDetail(judgeDetailBean);
+
 
                 judgeDetailBean.setResult(t.getResult());
+
+                //将最终结果设置为最后一个不为通过的结果
                 if (!t.getResult().equals(ACCEPTED)) {
                     finalResult = t.getResult();
                 }
@@ -406,8 +419,11 @@ public class JudgeClient extends Thread {
             submitRecordBean.setTimeConsume(maxTimeConsume);
             submitRecordBean.setMemConsume(maxMemConsume);
         }
-        submitRecordBean.setJudgeTime(new Date().getTime());
-        submitRecord.updateSubmitRecord(submitRecordBean);
+
+        submitRecordBean.setJudgeTime(new Date().getTime());//设置评测完毕时间
+
+        //更新提交记录
+        tableSubmitRecord.updateSubmitRecord(submitRecordBean);
         sqlSession.commit();
         sqlSession.close();
     }
@@ -423,37 +439,39 @@ public class JudgeClient extends Thread {
 /*
 发送到服务器的json
 {
-    "submitID": 1,
-    "language":"c++",
-    "timeLimit":"%d",
-    "memLimit":"%d",
-    "runningBaseFolder":"/a/s/",
-    "testPointDataFolder":"/g/s"
+    "submitID":129,
+    "language":"C",
+    "timeLimit":1000,
+    "memLimit":65535,
+    "runningFolder":"/home/xanarry/Desktop/running-dir/submit129",
+    "testPointDataFolder":"/home/xanarry/Workspace/IdeaProjects/oj/out/artifacts/oj_war_exploded/test-points/p1007"
 }
 
 
 返回结果json
 {
-    "submitID":1,
-    "compileStatus":1,
-    "compileResult":"compile error",
-    "result":
-    [
+    "submitID": 128,
+    "systemError": 0,
+    "compileStatus": 0,
+    "compileResult": "",
+    "detail": [
         {
-            "testPointID":1,
-            "result":"accepted"
+            "testPointID": 1,
+            "timeConsume": 0,
+            "memConsume": 391748,
+            "result": "Memory Limit Exceede"
         },
         {
-            "testPointID":2,
-            "result":"accepted"
+            "testPointID": 3,
+            "timeConsume": 0,
+            "memConsume": 391748,
+            "result": "Memory Limit Exceede"
         },
         {
-            "testPointID":3,
-            "result":"accepted"
-        },
-        {
-            "testPointID":4,
-            "result":"accepted"
+            "testPointID": 2,
+            "timeConsume": 0,
+            "memConsume": 391748,
+            "result": "Memory Limit Exceede"
         }
     ]
 }

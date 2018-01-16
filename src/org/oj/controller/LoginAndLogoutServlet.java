@@ -2,8 +2,8 @@ package org.oj.controller;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.ibatis.session.SqlSession;
-import org.oj.database.Database;
-import org.oj.database.User;
+import org.oj.database.DataSource;
+import org.oj.database.TableUser;
 import org.oj.model.javaBean.UserBean;
 import utils.Tools;
 
@@ -74,8 +74,8 @@ public class LoginAndLogoutServlet extends HttpServlet {
 
         System.out.println("email:" + email + " password:" + password + " rememberMe:" + rememberMe + " inputValidateCode:" + validateCode + " sessionVal:" + sessionValidateCode);
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        User user = sqlSession.getMapper(User.class);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableUser user = sqlSession.getMapper(TableUser.class);
         UserBean userBean = user.getUserByEmail(email);
 
         String jsonPattern = "{\"userExist\" : %s, \"correctPassword\" : %s, \"correctValidateCode\" :%s}";

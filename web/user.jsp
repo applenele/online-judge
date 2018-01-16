@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${userName}</title>
+    <title>${user.userName}</title>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 
     <script src="js/jquery-3.2.1.min.js"></script>
@@ -146,14 +146,14 @@
                             <th class="text-right">注册时间:</th>
                             <jsp:useBean id="registerTime" class="java.util.Date"/>
                             <c:set target="${registerTime}" property="time" value="${user.registerTime}"/>
-                            <td class="text-left"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
+                            <td class="text-left"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
                                                                   value="${registerTime}"/></td>
                         </tr>
                         <tr>
                             <th class="text-right">最后登录时间:</th>
                             <jsp:useBean id="lastLoginTime" class="java.util.Date"/>
                             <c:set target="${lastLoginTime}" property="time" value="${user.lastLoginTime}"/>
-                            <td class="text-left"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
+                            <td class="text-left"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
                                                                   value="${lastLoginTime}"/></td>
                         </tr>
                         <tr>
@@ -178,6 +178,7 @@
                         </tbody>
                     </table>
                     <div class="text-center">
+                        <button class="btn btn-info" href="/emailto?email=${user.email}">发送邮件</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
                             修改信息
                         </button>
@@ -186,6 +187,13 @@
                     <div class="col-sm-2"></div>
                 </div>
             </div>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header"><h5>题目信息</h5></div>
+        <div class="card-body">
+            <h1>sadfasdfasdf</h1>
         </div>
     </div>
 

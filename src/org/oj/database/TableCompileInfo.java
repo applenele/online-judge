@@ -6,7 +6,7 @@ import org.oj.model.javaBean.CompileInfoBean;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface CompileInfo {
+public interface TableCompileInfo {
     //insert
     public int insertCompileResult(@Param("compileResult") CompileInfoBean compileResult);
 
@@ -16,6 +16,6 @@ public interface CompileInfo {
     //update  needn't update function
 
     //select
-    public CompileInfoBean getCompileResult(@Param("subimitID") int subimitID);
+    public CompileInfoBean getCompileResult(@Param("submitID") int submitID);
 
 }

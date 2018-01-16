@@ -4,8 +4,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.oj.model.javaBean.JudgeDetailBean;
-import org.oj.model.javaBean.LanguageBean;
+import org.oj.model.javaBean.SubmitRecordBean;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,10 +22,12 @@ public class DatabaseTest {
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
-            Language language = sqlSession.getMapper(Language.class);
-            List<LanguageBean> languageBeans = language.getLanguageList();
 
-            System.out.println(languageBeans);
+
+            ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
+            List<SubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserName("xanarry", null, null, null, 0, 100);
+            sqlSession.close();
+            System.out.println(submitRecordBeans);
             sqlSession.close();
         } finally {
             sqlSession.close();

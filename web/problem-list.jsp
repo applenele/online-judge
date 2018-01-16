@@ -54,7 +54,7 @@
                     <td>${problem.accepted/problem.submitted}</td>
                     <td class="text-center">
                         <a href="record?problemID=${problem.problemID}"><span class="badge badge-light">记录</span></a>
-                        <a href="test-data?problemID=${problem.problemID}"><span class="badge badge-secondary">数据</span></a>
+                        <a href="test-point-list?problemID=${problem.problemID}"><span class="badge badge-secondary">数据</span></a>
                         <a href="/edit-problem?problemID=${problem.problemID}"><span
                                 class="badge badge-primary">编辑</span></a>
                     </td>

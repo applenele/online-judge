@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface SubmitRecord {
+public interface TableSubmitRecord {
     //insert
     public int addSubmitRecord(@Param("submitRecord") SubmitRecordBean submitRecord);
 
@@ -29,4 +29,6 @@ public interface SubmitRecord {
     public List<SubmitRecordBean> getSubmitRecordListByProblemUser(@Param("problemID") int problemID, @Param("userID") int userID, @Param("start") int start, @Param("count") int count);
 
     public List<SubmitRecordBean> getSubmitRecordListOrderedByDate(@Param("start") int start, @Param("count") int count);
+
+    public List<SubmitRecordBean> getSubmitRecordList(@Param("userID") Integer userID, @Param("problemID") Integer problemID, @Param("result") String result, @Param("language") String language, @Param("start") int start, @Param("count") int count);
 }

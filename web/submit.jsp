@@ -33,7 +33,7 @@
 <div class="container" style="margin-top: 70px">
     <h3 class="text-center">${problem.title}</h3>
     <div class="card">
-        <h5 class="card-header">最近提交记录</h5>
+        <h5 class="card-header">本题最近提交记录</h5>
         <c:choose>
             <c:when test="${recordList != null && fnt:length(recordList) > 0}">
                 <table class="table table-sm table-striped">
@@ -57,13 +57,48 @@
                             <td class="text-center">p${1000 + record.problemID}</td>
                             <td class="text-center">${record.timeConsume}</td>
                             <td class="text-center">${record.memConsume}</td>
-                            <td class="text-center">${record.language}</td>
+                            <td class="text-center"><span class="badge badge-secondary">${record.language}</span></td>
                             <td class="text-center">${record.codeLength}</td>
                             <c:set target="${submitTime}" property="time" value="${record.submitTime}"/>
-                            <td class="text-left"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
+                            <td class="text-center"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
                                                                   value="${submitTime}"/></td>
                             <td class="text-center">
-                                <span class="badge badge-success">${record.result}</span>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Queuing'}"><span class="badge badge-secondary">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Compiling'}"><span class="badge badge-secondary">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Running'}"><span class="badge badge-primary">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Accepted'}"><span class="badge badge-success">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Presentation Error'}"><span class="badge badge-warning">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Wrong Answer'}"><span class="badge badge-danger">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Time Limit Exceeded'}"><span class="badge badge-warning">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Memory Limit Exceeded'}"><span class="badge badge-warning">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Output Limit Exceeded'}"><span class="badge badge-warning">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Runtime Error'}"><span class="badge badge-danger">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'System Error'}"><span class="badge badge-dark">${record.result}</span></c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${record.result == 'Compilation Error'}"><span class="badge badge-warning">${record.result}</span></c:when>
+                                </c:choose>
                             </td>
                         </tr>
                     </c:forEach>

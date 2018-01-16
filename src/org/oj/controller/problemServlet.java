@@ -1,8 +1,8 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
-import org.oj.database.Database;
-import org.oj.database.Problem;
+import org.oj.database.DataSource;
+import org.oj.database.TableProblem;
 import org.oj.model.javaBean.ProblemBean;
 
 import javax.servlet.ServletException;
@@ -42,9 +42,9 @@ public class problemServlet extends HttpServlet {
             String strProblemID = request.getParameter("problemID");
             if (strProblemID != null) {
                 int problemID = Integer.parseInt(strProblemID);
-                SqlSession sqlSession = Database.getSqlSesion();
-                Problem problem = sqlSession.getMapper(Problem.class);
-                ProblemBean problemBean = problem.getProblemByID(problemID);
+                SqlSession sqlSession = DataSource.getSqlSesion();
+                TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+                ProblemBean problemBean = tableProblem.getProblemByID(problemID);
                 request.setAttribute("problem", problemBean);
                 sqlSession.close();
                 request.getRequestDispatcher("/edit-problem.jsp").forward(request, response);
@@ -89,17 +89,17 @@ public class problemServlet extends HttpServlet {
         problemBean.setDynamicLangTimeLimit(Integer.parseInt(dynamicLangTimeLimit));
         problemBean.setDynamicLangMemLimit(Integer.parseInt(dynamicLangMemLimit));
 
-        System.out.println("new problem: " + problemBean);
-        SqlSession sqlSession = Database.getSqlSesion();
-        Problem problem = sqlSession.getMapper(Problem.class);
+        System.out.println("new tableProblem: " + problemBean);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
         if (strProblemID == null) {
-            problem.addProblem(problemBean);
+            tableProblem.addProblem(problemBean);
             sqlSession.commit();
             sqlSession.close();
             response.sendRedirect("/problem-list");
         } else {
             problemBean.setProblemID(Integer.parseInt(strProblemID));
-            problem.updateProblemByID(problemBean);
+            tableProblem.updateProblemByID(problemBean);
             sqlSession.commit();
             sqlSession.close();
             response.sendRedirect("/problem?problemID=" + strProblemID);
@@ -116,9 +116,9 @@ public class problemServlet extends HttpServlet {
 
         System.out.println("start: " + start + " count: " + count);
 
-        SqlSession sqlSession = Database.getSqlSesion();
-        Problem problem = sqlSession.getMapper(Problem.class);
-        List<ProblemBean> problemBeanList = problem.getProblemsOrderByCrateTime(start, count);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+        List<ProblemBean> problemBeanList = tableProblem.getProblemsOrderByCrateTime(start, count);
         sqlSession.close();
 
         request.setAttribute("problemList", problemBeanList);
@@ -132,9 +132,9 @@ public class problemServlet extends HttpServlet {
         if (strProblemID != null) {
             problemID = Integer.parseInt(strProblemID);
         }
-        SqlSession sqlSession = Database.getSqlSesion();
-        Problem problem = sqlSession.getMapper(Problem.class);
-        ProblemBean problemBean = problem.getProblemByID(problemID);
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+        ProblemBean problemBean = tableProblem.getProblemByID(problemID);
 
         sqlSession.close();
 

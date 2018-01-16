@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface JudgeDetail {
+public interface TableJudgeDetail {
     //insert
     public int insertJudgeDetail(@Param("judgeDetail") JudgeDetailBean judgeDetail);
 

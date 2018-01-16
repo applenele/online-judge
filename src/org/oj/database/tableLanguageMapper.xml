@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.oj.database.Language">
+<mapper namespace="org.oj.database.TableLanguage">
     <!-- 这里namespace必须是UserMapper接口的路径” -->
 
     <!-- id必须和UserMapper接口中的接口方法名相同 -->

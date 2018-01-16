@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.oj.database.Problem">
+<mapper namespace="org.oj.database.TableProblem">
     <!--insert-->
     <insert id="addProblem" keyProperty="problem_id" useGeneratedKeys="true"
             parameterType="org.oj.model.javaBean.ProblemBean">
@@ -69,6 +69,20 @@
         accepted = #{problem.accepted},
         submitted = #{problem.submitted}
         WHERE problem_id = #{problem.problemID}
+    </update>
+
+
+    <update id="updateSubmittedTimes">
+        UPDATE t_problem
+        SET submitted = t_problem.submitted+1
+        WHERE problem_id=#{problemID}
+    </update>
+
+
+    <update id="updateAcceptedTimes">
+        UPDATE t_problem
+        SET accepted = t_problem.accepted+1
+        WHERE problem_id=#{problemID}
     </update>
 
 

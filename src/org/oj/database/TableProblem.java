@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface Problem {
+public interface TableProblem {
     //insert
     public int addProblem(@Param("problem") ProblemBean problem);
 
@@ -20,6 +20,9 @@ public interface Problem {
     //update
     public void updateProblemByID(@Param("problem") ProblemBean problem);
 
+    public void updateSubmittedTimes(@Param("problemID") int problemID);
+
+    public void updateAcceptedTimes(@Param("problemID") int problemID);
 
 
     //select

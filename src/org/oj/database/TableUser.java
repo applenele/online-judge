@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface User {
+public interface TableUser {
     //insert
     public int addNewUser(UserBean user);
 
@@ -19,6 +19,10 @@ public interface User {
     //update
     public void updateUser(UserBean user);
 
+    public void updateSubmittedTimes(@Param("userID") int userID);
+
+    public void updateAcceptedTimes(@Param("userID") int userID);
+
     //select
     public UserBean getUserByID(@Param("userID") int userID);
 
@@ -27,6 +31,8 @@ public interface User {
 
 
     public List<UserBean> getUserList(@Param("start") int start, @Param("count") int count);
+
+    public List<UserBean> getChart(@Param("start") int start, @Param("count") int count);
 
 
     public boolean checkEmailExist(@Param("email") String email);

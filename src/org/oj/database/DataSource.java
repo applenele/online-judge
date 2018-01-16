@@ -11,7 +11,7 @@ import java.io.InputStream;
 /**
  * Created by xanarry on 18-1-1.
  */
-public class Database {
+public class DataSource {
     private static SqlSessionFactory sqlSessionFactory;
     static {
         String resource = "org/oj/database/mybatis-config.xml";
