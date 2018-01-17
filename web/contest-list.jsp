@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -39,7 +40,7 @@
                 <th>标题</th>
                 <th>状态</th>
                 <th>开始时间</th>
-                <th>比赛时长</th>
+                <th>结束时间</th>
                 <th>比赛赛制</th>
                 <th>比赛类型</th>
                 <th>举办人</th>
@@ -47,16 +48,31 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach begin="0" end="50" step="1" var="cnt">
+            <c:forEach items="${contestList}" var="contest">
                 <tr>
-                    <td>${cnt}</td>
-                    <td>标题${cnt}</td>
+                    <td>${contest.contestID}</td>
+                    <td>${contest.title}</td>
                     <td>进行中</td>
-                    <td>12-12-12 12:12:12</td>
-                    <td>300min</td>
-                    <td>ACM</td>
-                    <td>公开</td>
-                    <td>系统管理员</td>
+
+                    <jsp:useBean id="startTime" class="java.util.Date"/>
+                    <c:set target="${startTime}" property="time" value="${contest.startTime}"/>
+                    <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${startTime}"/></td>
+
+                    <jsp:useBean id="endTime" class="java.util.Date"/>
+                    <c:set target="${endTime}" property="time" value="${contest.endTime}"/>
+                    <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${endTime}"/></td>
+
+                    <td>${contest.contestType}</td>
+                    <c:choose>
+                        <c:when test="${contest.isPublic == true}">
+                            <td>公开</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>加密</td>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <td>${contest.sponsor}</td>
                     <td class="text-center">
                         <span class="badge badge-secondary">编辑</span>
                     </td>
