@@ -103,7 +103,7 @@
 
 <div class="container" style="margin-top: 70px">
     <div class="card">
-        <div class="card-header"><h5>个人信息</h5></div>
+        <div class="card-header">个人信息</div>
         <div class="card-body">
 
             <div class="row">
@@ -190,10 +190,13 @@
         </div>
     </div>
     <br>
+
     <div class="card">
-        <div class="card-header"><h5>题目信息</h5></div>
+        <div class="card-header">已解决的问题编号</div>
         <div class="card-body">
-            <h1>sadfasdfasdf</h1>
+            <c:forEach begin="1" end="40" varStatus="pos">
+            <a href="/P/1003" class="badge badge-success">${pos.count + 1000}</a>
+            </c:forEach>
         </div>
     </div>
 

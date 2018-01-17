@@ -121,6 +121,9 @@
                                     class=""></span>${cookie.get("userName").value}</a>
                         </li>
                         <li class="nav-item"><span class="nav-link"></span></li>
+                        <li class="nav-item"><a href="/admin" class="nav-link"><span class=""></span>管理</a></li>
+
+                        <li class="nav-item"><span class="nav-link"></span></li>
                         <li class="nav-item"><a href="/logout" class="nav-link"><span class=""></span>退出</a></li>
                     </ul>
                 </c:when>

@@ -55,21 +55,11 @@ public class userServlet extends HttpServlet {
                 request.getRequestDispatcher("/user.jsp").forward(request, response);
             } else {
                 MessageBean messageBean = new MessageBean("错误", "错误", "用户ID不存在!", "/", "回到首页");
-                response.sendRedirect("/message?" +
-                        "title=" + URLEncoder.encode(messageBean.getTitle(), "utf8") +
-                        "&header=" + URLEncoder.encode(messageBean.getHeader(), "utf8") +
-                        "&message=" + URLEncoder.encode(messageBean.getMessage(), "utf8") +
-                        "&url=" + URLEncoder.encode(messageBean.getUrl(), "utf8") +
-                        "&linkText=" + URLEncoder.encode(messageBean.getLinkText(), "utf8"));
+                Utils.sendErrorMsg(request, response, messageBean);
             }
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误", "用户ID不存在!", "/", "回到首页");
-            response.sendRedirect("/message?" +
-                    "title=" + URLEncoder.encode(messageBean.getTitle(), "utf8") +
-                    "&header=" + URLEncoder.encode(messageBean.getHeader(), "utf8") +
-                    "&message=" + URLEncoder.encode(messageBean.getMessage(), "utf8") +
-                    "&url=" + URLEncoder.encode(messageBean.getUrl(), "utf8") +
-                    "&linkText=" + URLEncoder.encode(messageBean.getLinkText(), "utf8"));
+            Utils.sendErrorMsg(request, response, messageBean);
         }
     }
 
@@ -88,13 +78,7 @@ public class userServlet extends HttpServlet {
             sqlSession.close();
 
             MessageBean messageBean = new MessageBean("提示", "提示", userName + " 已经被删除!", "/", "回到首页");
-
-            response.sendRedirect("/message?" +
-                    "title=" + URLEncoder.encode(messageBean.getTitle(), "utf8") +
-                    "&header=" + URLEncoder.encode(messageBean.getHeader(), "utf8") +
-                    "&message=" + URLEncoder.encode(messageBean.getMessage(), "utf8") +
-                    "&url=" + URLEncoder.encode(messageBean.getUrl(), "utf8") +
-                    "&linkText=" + URLEncoder.encode(messageBean.getLinkText(), "utf8"));
+            Utils.sendErrorMsg(request, response, messageBean);
         }
 
     }

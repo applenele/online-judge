@@ -117,6 +117,7 @@ CREATE TABLE t_contest (
   `is_public` TINYINT DEFAULT 0,      /*是否公开*/
   `sponsor` VARCHAR(64) NOT NULL,     /*发起人*/
   `contest_type` ENUM("OI", "ACM") DEFAULT "ACM", /*赛制*/
+  `create_time`  BIGINT DEFAULT 0 NOT NULL, /*比赛创建时间*/
   PRIMARY KEY(`contest_id`)
 ) DEFAULT charset = "utf8" auto_increment=1  ENGINE = InnoDB;
 

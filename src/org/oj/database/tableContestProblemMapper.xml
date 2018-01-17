@@ -4,5 +4,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.database.TableContestProblem">
+    <insert id="addProlem">
+      INSERT INTO t_contest_problem (contest_id, problem_id, inner_id, accepted, submited)
+      VALUES (#{contestProblem.contestID},#{contestProblem.problemID}, #{contestProblem.innerID}, #{contestProblem.accepted}, #{contestProblem.submitted})
+    </insert>
 
+    <delete id="deleteProblem">
+      DELETE FROM t_contest_problem WHERE contest_id=#{contestID} AND problem_id=#{problemID}
+    </delete>
+
+    <delete id="deleteAllProblem">
+        DELETE FROM t_contest_problem WHERE contest_id=#{contestID}
+    </delete>
+
+    <update id="updateProblem">
+      UPDATE t_contest_problem SET
+      contest_id=#{contestProblem.contestID},
+      problem_id=#{contestProblem.problemID},
+      inner_id=#{contestProblem.innerID},
+      accepted=#{contestProblem.accepted},
+      submited=#{contestProblem.submitted}
+      WHERE contest_id=#{contestID} AND problem_id=#{problemID}
+    </update>
+
+    <select id="getContestProblem" resultMap="contestProblemMap" resultType="org.oj.model.javaBean.ContestProblemBean">
+      SELECT * FROM t_contest_problem WHERE contest_id=#{contestID} AND problem_id=#{problemID}
+    </select>
+
+    <select id="getContestProblemList" resultMap="contestProblemMap" resultType="org.oj.model.javaBean.ContestProblemBean">
+      SELECT * FROM t_contest_problem WHERE contest_id=#{contestID}
+    </select>
+
+    <resultMap id="contestProblemMap" type="org.oj.model.javaBean.ContestProblemBean">
+        <id property="contestID" column="contest_id"/>
+        <id property="problemID" column="problem_id"/>
+        <result property="innerID"   column="inner_id"/>
+        <result property="accepted"  column="accepted"/>
+        <result property="submitted" column="submitted"/>
+    </resultMap>
 </mapper>

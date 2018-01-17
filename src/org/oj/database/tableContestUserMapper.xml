@@ -4,5 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.database.TableContestUser">
+    <insert id="addUser">
+        INSERT INTO t_contest_user (contest_id, user_id) VALUES
+        (#{contestUser.contestID}, #{contestUser.userID})
+    </insert>
 
+    <delete id="deleteUser">
+      DELETE FROM t_contest_user WHERE contest_id=#{contestID} AND user_id=#{userID}
+    </delete>
+
+    <select id="getContestUserList" resultMap="contestUserMap" resultType="org.oj.model.javaBean.ContestUserBean">
+      SELECT * FROM t_contest_user WHERE contest_id=#{contestID}
+    </select>
+
+    <resultMap id="contestUserMap" type="org.oj.model.javaBean.ContestUserBean">
+        <id property="contestID" column="contest_id"/>
+        <id property="userID"    column="user_id"/>
+    </resultMap>
 </mapper>

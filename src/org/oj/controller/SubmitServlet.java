@@ -115,12 +115,7 @@ public class SubmitServlet extends HttpServlet {
 
         if (strUserID == null) {
             MessageBean messageBean = new MessageBean("提示", "提示", "请登录再提交代码", "/", "回到首页");
-            response.sendRedirect("/message?" +
-                    "title=" + URLEncoder.encode(messageBean.getTitle(), "utf8") +
-                    "&header=" + URLEncoder.encode(messageBean.getHeader(), "utf8") +
-                    "&message=" + URLEncoder.encode(messageBean.getMessage(), "utf8") +
-                    "&url=" + URLEncoder.encode(messageBean.getUrl(), "utf8") +
-                    "&linkText=" + URLEncoder.encode(messageBean.getLinkText(), "utf8"));
+            Utils.sendErrorMsg(request, response, messageBean);
             return;
         }
 

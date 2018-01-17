@@ -7,17 +7,19 @@ public class ContestBean {
     private int contestID;
     private String title;
     private String desc;
-    private int startTime;
-    private int endTime;
-    private int registerStartTime;
-    private int registerEndTime;
+    private long startTime;
+    private long endTime;
+    private long registerStartTime;
+    private long registerEndTime;
+    private String password;
     private boolean isPublic;
     private String sponsor;
     private String contestType;
+    private long createTime;
 
     public ContestBean() {}
 
-    public ContestBean(int contestID, String title, String desc, int startTime, int endTime, int registerStartTime, int registerEndTime, boolean isPublic, String sponsor, String contestType) {
+    public ContestBean(int contestID, String title, String desc, long startTime, long endTime, long registerStartTime, long registerEndTime, String password, boolean isPublic, String sponsor, String contestType, long createTime) {
         this.contestID = contestID;
         this.title = title;
         this.desc = desc;
@@ -25,9 +27,29 @@ public class ContestBean {
         this.endTime = endTime;
         this.registerStartTime = registerStartTime;
         this.registerEndTime = registerEndTime;
+        this.password = password;
         this.isPublic = isPublic;
         this.sponsor = sponsor;
         this.contestType = contestType;
+        this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ContestBean{" +
+                "contestID=" + contestID +
+                ", title='" + title + '\'' +
+                ", desc='" + desc + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", registerStartTime=" + registerStartTime +
+                ", registerEndTime=" + registerEndTime +
+                ", password='" + password + '\'' +
+                ", isPublic=" + isPublic +
+                ", sponsor='" + sponsor + '\'' +
+                ", contestType='" + contestType + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 
     public int getContestID() {
@@ -54,36 +76,44 @@ public class ContestBean {
         this.desc = desc;
     }
 
-    public int getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
-    public int getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
-    public int getRegisterStartTime() {
+    public long getRegisterStartTime() {
         return registerStartTime;
     }
 
-    public void setRegisterStartTime(int registerStartTime) {
+    public void setRegisterStartTime(long registerStartTime) {
         this.registerStartTime = registerStartTime;
     }
 
-    public int getRegisterEndTime() {
+    public long getRegisterEndTime() {
         return registerEndTime;
     }
 
-    public void setRegisterEndTime(int registerEndTime) {
+    public void setRegisterEndTime(long registerEndTime) {
         this.registerEndTime = registerEndTime;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean isPublic() {
@@ -110,19 +140,11 @@ public class ContestBean {
         this.contestType = contestType;
     }
 
-    @Override
-    public String toString() {
-        return "ContestBean{" +
-                "contestID=" + contestID +
-                ", title='" + title + '\'' +
-                ", desc='" + desc + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", registerStartTime=" + registerStartTime +
-                ", registerEndTime=" + registerEndTime +
-                ", isPublic=" + isPublic +
-                ", sponsor='" + sponsor + '\'' +
-                ", contestType='" + contestType + '\'' +
-                '}';
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 }
