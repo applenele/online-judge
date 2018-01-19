@@ -12,7 +12,7 @@
           end_time,
           register_start_time,
           register_end_time,
-          is_public,
+          open,
           sponsor,
           contest_type,
           create_time
@@ -23,7 +23,7 @@
           #{contest.endTime},
           #{contest.registerStartTime},
           #{contest.registerEndTime},
-          #{contest.isPublic},
+          #{contest.open},
           #{contest.sponsor},
           #{contest.contestType},
           #{contest.createTime}
@@ -43,17 +43,18 @@
         `end_time`=#{contest.endTime},
         `register_start_time`=#{contest.registerStartTime},
         `register_end_time`=#{contest.registerEndTime},
-        `is_public`,`sponsor`=#{contest.sponsor},
+        `open`=#{contest.open},
+        `sponsor`=#{contest.sponsor},
         `contest_type`=#{contest.contestType}
       WHERE `contest_id`=#{contest.contestID}
     </update>
 
     <select id="getContestByID" resultMap="contestMap" resultType="org.oj.model.javaBean.ContestBean">
-      SELECT * FROM t_contest WHERE `contest_id`=#{contest.contestID}
+      SELECT * FROM t_contest WHERE `contest_id`=#{contestID}
     </select>
 
     <select id="getContestByTitle" resultMap="contestMap" resultType="org.oj.model.javaBean.ContestBean">
-      SELECT * FROM t_contest WHERE `title`=#{contest.title}
+      SELECT * FROM t_contest WHERE `title`=#{title}
     </select>
 
     <select id="getContestList" resultMap="contestMap" resultType="org.oj.model.javaBean.ContestBean">
@@ -68,7 +69,7 @@
         <result property="endTime"   column="end_time"/>
         <result property="registerStartTime" column="register_start_time"/>
         <result property="registerEndTime"   column="register_end_time"/>
-        <result property="isPublic" column="is_public"/>
+        <result property="open" column="open"/>
         <result property="sponsor"  column="sponsor"/>
         <result property="contestType" column="contest_type"/>
         <result property="createTime" column="create_time"/>

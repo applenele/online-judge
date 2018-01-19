@@ -3,6 +3,7 @@ package org.oj.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -14,5 +15,12 @@ public class Utils {
                 "&message=" + URLEncoder.encode(messageBean.getMessage(), "utf8") +
                 "&url=" + URLEncoder.encode(messageBean.getUrl(), "utf8") +
                 "&linkText=" + URLEncoder.encode(messageBean.getLinkText(), "utf8"));
+    }
+
+    public static void responseJson(HttpServletResponse response, String json) throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(json);
+        out.flush();
     }
 }

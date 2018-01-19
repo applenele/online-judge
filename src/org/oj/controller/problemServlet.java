@@ -21,6 +21,7 @@ import java.util.List;
         urlPatterns = {
                 "/add-problem",
                 "/edit-problem",
+                "/ajax-check-problem-exist",
                 "/problem-list",
                 "/problem"
         }
@@ -29,16 +30,19 @@ import java.util.List;
 public class problemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post: " + request.getRequestURL());
-        if (request.getRequestURI().equals("/add-problem")) addProblem(request, response);
+        String uri = request.getRequestURI();
+        if (uri.equals("/add-problem")) addProblem(request, response);
+        if (uri.equals("/ajax-check-problem-exist")) checkProblemExist(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
-        if (request.getRequestURI().equals("/add-problem")) {
-            request.getRequestDispatcher("/edit-problem.jsp").forward(request, response);
+        String uri = request.getRequestURI();
+        if (uri.equals("/add-problem")) {
+            request.getRequestDispatcher("/problem-edit.jsp").forward(request, response);
         }
 
-        if (request.getRequestURI().equals("/edit-problem")) {
+        if (uri.equals("/edit-problem")) {
             String strProblemID = request.getParameter("problemID");
             if (strProblemID != null) {
                 int problemID = Integer.parseInt(strProblemID);
@@ -47,17 +51,34 @@ public class problemServlet extends HttpServlet {
                 ProblemBean problemBean = tableProblem.getProblemByID(problemID);
                 request.setAttribute("problem", problemBean);
                 sqlSession.close();
-                request.getRequestDispatcher("/edit-problem.jsp").forward(request, response);
+                request.getRequestDispatcher("/problem-edit.jsp").forward(request, response);
             } else {
                 response.sendRedirect("/problem-list");
             }
 
         }
 
-        if (request.getRequestURI().equals("/problem")) showProblem(request, response);
-        if (request.getRequestURI().equals("/problem-list")) getProblems(request, response);
+        if (uri.equals("/problem")) showProblem(request, response);
+        if (uri.equals("/problem-list")) getProblems(request, response);
     }
 
+    private void checkProblemExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strProblemID = request.getParameter("problemID");
+
+        String jsonPattern = "{\"problemID\": %s, \"exist\": %s}";
+        String json = "{\"problemID\": " + strProblemID + ", \"exist\": false}";
+
+        if (strProblemID != null && strProblemID.length() > 0) {
+            Integer problemID = Integer.parseInt(strProblemID);
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+            if (tableProblem.getProblemByID(problemID - 1000) != null) {
+                json = String.format(jsonPattern, problemID, true);
+            }
+        }
+        System.out.println(json);
+        Utils.responseJson(response, json);
+    }
 
     private void addProblem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strProblemID = request.getParameter("inputProblemID");//如果ID不为null. 则是编辑该题目

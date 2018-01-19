@@ -114,7 +114,7 @@ CREATE TABLE t_contest (
   `end_time` bigint NOT NULL,          /*结束时间*/
   `register_start_time` bigint NOT NULL, /*报名开始时间*/
   `register_end_time` bigint NOT NULL,   /*报名结算时间*/
-  `is_public` TINYINT DEFAULT 0,      /*是否公开*/
+  `open` TINYINT DEFAULT 0,      /*是否公开*/
   `sponsor` VARCHAR(64) NOT NULL,     /*发起人*/
   `contest_type` ENUM("OI", "ACM") DEFAULT "ACM", /*赛制*/
   `create_time`  BIGINT DEFAULT 0 NOT NULL, /*比赛创建时间*/
@@ -211,6 +211,7 @@ CREATE VIEW v_submit_record AS
 
 
 
+SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT JOIN t_problem USING (`problem_id`)
 
 
 /*没使用的表*/

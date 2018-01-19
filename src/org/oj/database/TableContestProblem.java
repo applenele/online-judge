@@ -11,7 +11,7 @@ import java.util.List;
 public interface TableContestProblem {
     public int addProlem(@Param("contestProblem") ContestProblemBean contestProblem);
 
-    public void deleteProblem(@Param("contestID") Integer contestID, @Param("problemID") int problemID);
+    public void deleteProblem(@Param("contestID") Integer contestID, @Param("innerID") String innerID);
 
     public void deleteAllProblem(@Param("contestID") Integer contestID);
 

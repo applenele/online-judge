@@ -5,12 +5,12 @@
 
 <mapper namespace="org.oj.database.TableContestProblem">
     <insert id="addProlem">
-      INSERT INTO t_contest_problem (contest_id, problem_id, inner_id, accepted, submited)
+      INSERT INTO t_contest_problem (contest_id, problem_id, inner_id, accepted, submitted)
       VALUES (#{contestProblem.contestID},#{contestProblem.problemID}, #{contestProblem.innerID}, #{contestProblem.accepted}, #{contestProblem.submitted})
     </insert>
 
     <delete id="deleteProblem">
-      DELETE FROM t_contest_problem WHERE contest_id=#{contestID} AND problem_id=#{problemID}
+      DELETE FROM t_contest_problem WHERE contest_id=#{contestID} AND inner_id=#{innerID}
     </delete>
 
     <delete id="deleteAllProblem">
@@ -23,7 +23,7 @@
       problem_id=#{contestProblem.problemID},
       inner_id=#{contestProblem.innerID},
       accepted=#{contestProblem.accepted},
-      submited=#{contestProblem.submitted}
+      submitted=#{contestProblem.submitted}
       WHERE contest_id=#{contestID} AND problem_id=#{problemID}
     </update>
 

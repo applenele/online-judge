@@ -30,11 +30,26 @@
                 $textarea.val(CKEDITOR.instances[$textarea.attr('id')].getData());
             });
 
+
+            var desc = $("#inputContestDesc").val();
+            if (desc.length > 400) {
+                alert("比赛描述不能超过400字");
+                return false;
+            }
+
+
             var title = $("#inputTitle");
             var strStartTime = $("#inputStartTime").val();
             var strEndTime = $("#inputEndTime").val();
             var strRegisterStartTime = $("#inputRegisterStartTime").val();
             var strRegisterEndTime = $("#inputRegisterEndTime").val();
+
+            console.log(title);
+            console.log(strStartTime);
+            console.log(new Date(strStartTime));
+            console.log(strEndTime);
+            console.log(strRegisterStartTime);
+            console.log(strRegisterEndTime);
 
 
 
@@ -73,7 +88,7 @@
             <form method="post" action="/add-contest" <%--onsubmit="return checkForm()"--%>>
                 <div class="input-group">
                     <span class="input-group-addon">比赛名称</span>
-                    <input name="inputTitle" type="text" value="" placeholder="标题不超过200个字符" class="form-control">
+                    <input name="inputTitle" type="text" value="${contest.title}" placeholder="标题不超过200个字符" class="form-control">
                 </div>
                 <br>
 
@@ -81,7 +96,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">开始时间</span>
-                            <input name="inputStartTime" type="text" id="inputStartTime" class="form-control" data-toggle="datetimepicker" data-target="#inputStartTime">
+                            <input name="inputStartTime" type="text" value="${contest.startTime}" id="inputStartTime" class="form-control" data-toggle="datetimepicker" data-target="#inputStartTime">
                             <script type="text/javascript">
                                 $(function () {
                                     $('#inputStartTime').datetimepicker({
@@ -96,7 +111,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">结束时间</span>
-                            <input name="inputEndTime" type="text" id="inputEndTime" class="form-control" data-toggle="datetimepicker" data-target="#inputEndTime">
+                            <input name="inputEndTime" type="text" value="${contest.endTime}" id="inputEndTime" class="form-control" data-toggle="datetimepicker" data-target="#inputEndTime">
                             <script type="text/javascript">
                                 $(function () {
                                     $('#inputEndTime').datetimepicker({
@@ -114,7 +129,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">报名开始</span>
-                            <input name="inputRegisterStartTime" type="text" id="inputRegisterStartTime" class="form-control" data-toggle="datetimepicker" data-target="#inputRegisterStartTime"/>
+                            <input name="inputRegisterStartTime" type="text" value="${contest.registerStartTime}" id="inputRegisterStartTime" class="form-control" data-toggle="datetimepicker" data-target="#inputRegisterStartTime"/>
                             <script type="text/javascript">
                                 $(function () {
                                     $('#inputRegisterStartTime').datetimepicker({
@@ -129,7 +144,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">报名截止</span>
-                            <input name="inputRegisterEndTime" type="text" id="inputRegisterEndTime" class="form-control" data-toggle="datetimepicker" data-target="#inputRegisterEndTime"/>
+                            <input name="inputRegisterEndTime" type="text" value="${contest.registerEndTime}" id="inputRegisterEndTime" class="form-control" data-toggle="datetimepicker" data-target="#inputRegisterEndTime"/>
                             <script type="text/javascript">
                                 $(function () {
                                     $('#inputRegisterEndTime').datetimepicker({
@@ -147,7 +162,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">比赛密码</span>
-                            <input name="inputContestPassword" type="password" class="form-control" placeholder="不填为公开">
+                            <input name="inputContestPassword" type="password" class="form-control" placeholder="不填为公开" value="${contest.password}">
                         </div>
                     </div>
 
@@ -155,8 +170,16 @@
                         <div class="input-group mb-2 mb-sm-0">
                             <div class="input-group-addon">比赛赛制</div>
                             <select class="form-control" name="inputContestType">
-                                <option value="OI">OI</option>
-                                <option selected value="ACM">ACM</option>
+                                <c:choose>
+                                    <c:when test="${contest.contestType == 'IO'}">
+                                        <option selected value="OI">OI</option>
+                                        <option value="ACM">ACM</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="OI">OI</option>
+                                        <option selected value="ACM">ACM</option>
+                                    </c:otherwise>
+                                </c:choose>
                             </select>
                         </div>
                     </div>
@@ -167,7 +190,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">举办人&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input name="inputSponsor" type="text" class="form-control" placeholder="默认当前登录用户">
+                            <input name="inputSponsor" type="text" class="form-control" placeholder="默认当前登录用户" value="${contest.sponsor}">
                         </div>
                     </div>
                 </div>
@@ -175,8 +198,8 @@
                 <br>
 
                 <h3>比赛描述</h3>
-                <textarea name="inputContestDesc" class="ckeditor"
-                          style="visibility: hidden; display: none;"></textarea>
+                <textarea name="inputContestDesc" id="inputContestDesc" class="ckeditor"
+                          style="visibility: hidden; display: none;">${contest.desc}</textarea>
 
                 <br>
                 <h3>题目列表</h3>

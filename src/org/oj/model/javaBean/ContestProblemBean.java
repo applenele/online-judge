@@ -8,16 +8,16 @@ public class ContestProblemBean {
     private int problemID;
     private String innerID;
     private int accepted;
-    private int submited;
+    private int submitted;
 
     public ContestProblemBean() {}
 
-    public ContestProblemBean(int contestID, int problemID, String innerID, int accepted, int submited) {
+    public ContestProblemBean(int contestID, int problemID, String innerID, int accepted, int submitted) {
         this.contestID = contestID;
         this.problemID = problemID;
         this.innerID = innerID;
         this.accepted = accepted;
-        this.submited = submited;
+        this.submitted = submitted;
     }
 
     public int getContestID() {
@@ -52,12 +52,12 @@ public class ContestProblemBean {
         this.accepted = accepted;
     }
 
-    public int getSubmited() {
-        return submited;
+    public int getSubmitted() {
+        return submitted;
     }
 
-    public void setSubmited(int submited) {
-        this.submited = submited;
+    public void setSubmitted(int submitted) {
+        this.submitted = submitted;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ContestProblemBean {
                 ", problemID=" + problemID +
                 ", innerID='" + innerID + '\'' +
                 ", accepted=" + accepted +
-                ", submited=" + submited +
+                ", submitted=" + submitted +
                 '}';
     }
 }

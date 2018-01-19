@@ -15,7 +15,7 @@ public interface TableContest {
 
     public void updateContest(@Param("contest") ContestBean contest);
 
-    public void getContestByID(@Param("contestID") Integer contestID);
+    public ContestBean getContestByID(@Param("contestID") Integer contestID);
 
     public void getContestByTitle(@Param("title") String title);
 

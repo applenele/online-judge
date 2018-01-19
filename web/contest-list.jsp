@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -50,9 +51,10 @@
             <tbody>
             <c:forEach items="${contestList}" var="contest">
                 <tr>
-                    <td>${contest.contestID}</td>
-                    <td>${contest.title}</td>
-                    <td>进行中</td>
+                    <td><a href="/contest-overview?contestID=${contest.contestID}">${contest.contestID}</a></td>
+                    <td><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></td>
+
+                    <td><span class="badge badge-success">进行中</span></td>
 
                     <jsp:useBean id="startTime" class="java.util.Date"/>
                     <c:set target="${startTime}" property="time" value="${contest.startTime}"/>
@@ -63,18 +65,19 @@
                     <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${endTime}"/></td>
 
                     <td>${contest.contestType}</td>
+
                     <c:choose>
-                        <c:when test="${contest.isPublic == true}">
-                            <td>公开</td>
+                        <c:when test="${contest.open==true}">
+                            <td><span class="badge badge-success">公开</span></td>
                         </c:when>
                         <c:otherwise>
-                            <td>加密</td>
+                            <td><span class="badge badge-secondary">加密</span></td>
                         </c:otherwise>
                     </c:choose>
 
                     <td>${contest.sponsor}</td>
                     <td class="text-center">
-                        <span class="badge badge-secondary">编辑</span>
+                        <a href="/edit-contest?contestID=${contest.contestID}"><span class="badge badge-secondary">编辑</span></a>
                     </td>
                 </tr>
             </c:forEach>

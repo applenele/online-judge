@@ -12,14 +12,14 @@ public class ContestBean {
     private long registerStartTime;
     private long registerEndTime;
     private String password;
-    private boolean isPublic;
+    private boolean open;
     private String sponsor;
     private String contestType;
     private long createTime;
 
     public ContestBean() {}
 
-    public ContestBean(int contestID, String title, String desc, long startTime, long endTime, long registerStartTime, long registerEndTime, String password, boolean isPublic, String sponsor, String contestType, long createTime) {
+    public ContestBean(int contestID, String title, String desc, long startTime, long endTime, long registerStartTime, long registerEndTime, String password, boolean open, String sponsor, String contestType, long createTime) {
         this.contestID = contestID;
         this.title = title;
         this.desc = desc;
@@ -28,28 +28,10 @@ public class ContestBean {
         this.registerStartTime = registerStartTime;
         this.registerEndTime = registerEndTime;
         this.password = password;
-        this.isPublic = isPublic;
+        this.open = open;
         this.sponsor = sponsor;
         this.contestType = contestType;
         this.createTime = createTime;
-    }
-
-    @Override
-    public String toString() {
-        return "ContestBean{" +
-                "contestID=" + contestID +
-                ", title='" + title + '\'' +
-                ", desc='" + desc + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", registerStartTime=" + registerStartTime +
-                ", registerEndTime=" + registerEndTime +
-                ", password='" + password + '\'' +
-                ", isPublic=" + isPublic +
-                ", sponsor='" + sponsor + '\'' +
-                ", contestType='" + contestType + '\'' +
-                ", createTime=" + createTime +
-                '}';
     }
 
     public int getContestID() {
@@ -116,12 +98,12 @@ public class ContestBean {
         this.password = password;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public boolean isOpen() {
+        return open;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     public String getSponsor() {
@@ -146,5 +128,23 @@ public class ContestBean {
 
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ContestBean{" +
+                "contestID=" + contestID +
+                ", title='" + title + '\'' +
+                ", desc='" + desc + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", registerStartTime=" + registerStartTime +
+                ", registerEndTime=" + registerEndTime +
+                ", password='" + password + '\'' +
+                ", open=" + open +
+                ", sponsor='" + sponsor + '\'' +
+                ", contestType='" + contestType + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 }
