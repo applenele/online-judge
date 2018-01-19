@@ -17,6 +17,58 @@
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap/popper.min.js"></script>
     <script src="js/bootstrap/bootstrap.min.js"></script>
+
+    <script>
+
+        var SecondsTohhmmss = function(totalSeconds) {
+            var hours   = Math.floor(totalSeconds / 3600);
+            var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
+            var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
+
+            // round seconds
+            seconds = Math.round(seconds * 100) / 100
+
+            var result = (hours < 10 ? "0" + hours : hours);
+            result += "小时" + (minutes < 10 ? "0" + minutes : minutes);
+            result += "分钟" + (seconds  < 10 ? "0" + seconds : seconds);
+            result += "秒";
+
+            return hours + "小时" + minutes + "分钟" + seconds + "秒";
+        }
+        
+        var s = new Date().getTime();
+
+        $(function() {
+            setInterval("GetTime()", 1000);
+        });
+        
+
+        function GetTime() {
+            var min = $("#processBar").attr('aria-valuemin');
+            var max = $("#processBar").attr('aria-valuemax');
+            var cur = new Date().getTime();
+
+            var passed = cur - min;
+            var total  = max - min;
+
+            console.log("start: " + min + " cur: " + cur + " max: " + max);
+            console.log("passed: " + passed + " total: " + total + " %: " + (passed/total));
+
+            if (passed <= total) {
+                $("#processBar").attr('aria-valuenow', new Date().getTime());
+                $("#processBar").css('width', (passed/total)*100 + '%');
+
+                var remainSeconds = Math.floor((total-passed) / 1000);
+                $("#remainTime").html("剩余:" + SecondsTohhmmss(remainSeconds));
+                if (remainSeconds < 600) {
+                    $("#processBar").attr('class', 'progress-bar bg-danger');
+                } else {
+                    $("#processBar").attr('class', 'progress-bar bg-success');
+                }
+
+            }
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -24,11 +76,11 @@
     <h1 align="center">${contest.title}</h1>
     <div class="card">
         <div class="card-header">overview</div>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        <div class="progress" style="height: 10px;">
+            <div id="processBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="${contest.startTime}" aria-valuemin="${contest.startTime}" aria-valuemax="${contest.endTime}" ></div>
         </div>
+        <label class="text-sm-right" id="remainTime" style="font-size: 10px; color: blue">剩余时间:</label>
         <div class="card-body">
-
             <table align="center">
                 <tbody>
                 <tr>
@@ -39,7 +91,29 @@
                     <c:set target="${time}" property="time" value="${contest.registerEndTime}"/>
                     <td><b>报名截止:</b><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${time}"/></td>
                     <td></td>
-                    <td><b>报名状态:</b><label class="label label-success">已报名</label></td>
+
+                    <%--在此出获取当前时间--%>
+                    <jsp:useBean id="current" class="java.util.Date" />
+                    <td>
+                        <b>报名状态:</b>
+                        <%--检查当前登录用户是否报名--%>
+                        <c:choose>
+                            <c:when test="${isRegistered == true}">
+                                <span class="badge badge-success">已报名</span>
+                            </c:when>
+                            <c:otherwise>
+                                <c:choose>
+                                    <c:when test="${current.time > contest.registerStartTime && current.time < contest.registerEndTime}">
+                                        <a href="register-contest?contestID=${contest.contestID}" class="badge badge-warning">我要报名</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="#" class="badge badge-warning">报名已截止</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
+
+                    </td>
                 </tr>
                 <tr>
                     <c:set target="${time}" property="time" value="${contest.startTime}"/>
@@ -48,14 +122,36 @@
                     <c:set target="${time}" property="time" value="${contest.endTime}"/>
                     <td><b>结束时间:</b><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${time}"/></td>
                     <td>&nbsp;&nbsp;</td>
-                    <td><b>比赛状态:</b><label class="label label-success">进行中</label></td>
+                    <td>
+                        <b>比赛状态:</b>
+                        <c:choose>
+                            <c:when test="${current.time < contest.registerStartTime}">
+                                <span class="badge badge-info">即将到来</span><
+                            </c:when>
+                            <c:when test="${current.time > contest.startTime && current.time < contest.endTime}">
+                                <span class="badge badge-success">进行中</span>
+                            </c:when>
+                            <c:when test="${current.time > contest.registerStartTime && current.time < contest.registerEndTime}">
+                                <span class="badge badge-primary">报名中</span>
+                            </c:when>
+                            <c:when test="${current.time > contest.endTime}">
+                                <span class="badge badge-secondary">已结束</span>
+                            </c:when>
+                        </c:choose>
+                    </td>
                 </tr>
                 <tr>
                     <td><b>举办人:</b><a href="/user?userName=${contest.sponsor}">${contest.sponsor}</a></td>
                     <td></td>
                     <td><b>参赛人数:</b>待参数</td>
                     <td></td>
-                    <td><b>竞赛规则:</b>${contest.contestType}</td>
+                    <td>
+                        <b>竞赛规则:</b>
+                        <c:choose>
+                            <c:when test="${contest.contestType == 'ACM'}"><span class="badge badge-success">ACM</span></c:when>
+                            <c:otherwise><span class="badge badge-primary">IO</span></c:otherwise>
+                        </c:choose>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -88,9 +184,9 @@
             <div class="row">
                 <div class="col-6 offset-3">
                     <div class="text-center">
-                        <span class="btn btn-primary">编辑比赛</span>
-                        <span class="btn btn-primary">全部提交</span>
-                        <span class="btn btn-primary">全部用户</span>
+                        <a href="/edit-contest?contestID=${contest.contestID}"><span class="btn btn-primary">编辑比赛</span></a>
+                        <span href="" class="btn btn-primary">全部提交</span>
+                        <span href="" class="btn btn-primary">全部用户</span>
                     </div>
                 </div>
             </div>

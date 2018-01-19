@@ -1,16 +1,15 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
-import org.oj.database.DataSource;
-import org.oj.database.TableContest;
-import org.oj.database.TableContestProblem;
-import org.oj.database.TableProblem;
+import org.oj.database.*;
 import org.oj.model.javaBean.ContestBean;
 import org.oj.model.javaBean.ContestProblemBean;
+import org.oj.model.javaBean.ContestUserBean;
 import org.oj.model.javaBean.ProblemBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +30,8 @@ import java.util.List;
                 "/contest-list",
                 "/edit-contest",
                 "/contest-overview",
-                "/contest-detail"
+                "/contest-detail",
+                "/register-contest"
             }
         )
 
@@ -51,17 +51,25 @@ public class ContestServlet extends HttpServlet {
         String uri = request.getRequestURI();
         System.out.println("get: " + request.getRequestURL());
 
-        if (uri.equals("/add-contest"))    request.getRequestDispatcher("/contest-edit.jsp").forward(request, response);
-        if (uri.equals("/edit-contest-problem")) editContestProblemGet(request, response);
-        if (uri.equals("/delete-contest-problem")) deleteContestProblemGet(request, response);
-        if (uri.equals("/delete-contest")) deleteContest(request, response);
-        if (uri.equals("/contest-list"))   getContestList(request, response);
-        if (uri.equals("/edit-contest"))   editContestGet(request, response);
-        if (uri.equals("/contest-overview")) getContestOverview(request, response);
-        if (uri.equals("/contest-detail"))   getContestDetail(request, response);
+        if (uri.equals("/add-contest"))             request.getRequestDispatcher("/contest-edit.jsp").forward(request, response);
+        if (uri.equals("/edit-contest-problem"))    editContestProblemGet(request, response);
+        if (uri.equals("/delete-contest-problem"))  deleteContestProblemGet(request, response);
+        if (uri.equals("/delete-contest"))          deleteContest(request, response);
+        if (uri.equals("/contest-list"))            getContestList(request, response);
+        if (uri.equals("/edit-contest"))            editContestGet(request, response);
+        if (uri.equals("/contest-overview"))        getContestOverview(request, response);
+        if (uri.equals("/contest-detail"))          getContestDetail(request, response);
+        if (uri.equals("/register-contest"))        registerContest(request, response);
     }
 
+
     private void addContest(HttpServletRequest request, HttpServletResponse response, boolean isUpdate) throws ServletException, IOException {
+        Integer contestID = null;
+        if (isUpdate) {
+            String strContestID = request.getParameter("inputContestID");
+            contestID = Integer.parseInt(strContestID);
+        }
+
         String title = request.getParameter("inputTitle");
         String strStartTime = request.getParameter("inputStartTime");
         String strEndTime = request.getParameter("inputEndTime");
@@ -85,6 +93,12 @@ public class ContestServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        for (Cookie c : request.getCookies()) {
+            if (c.getName().equals("userName")) {
+                sponsor = c.getValue();
+            }
+        }
+
         ContestBean contestBean = new ContestBean();
         contestBean.setTitle(title);
         contestBean.setDesc(desc);
@@ -101,17 +115,18 @@ public class ContestServlet extends HttpServlet {
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableContest tableContest = sqlSession.getMapper(TableContest.class);
 
+
         if (isUpdate) {
+            contestBean.setContestID(contestID);
             tableContest.updateContest(contestBean);
+            response.sendRedirect("contest-overview?contestID=" + contestBean.getContestID());
+
         } else {
             tableContest.addContest(contestBean);
+            response.sendRedirect("edit-contest-problem?contestID=" + contestBean.getContestID());
         }
-
-
         sqlSession.commit();
         sqlSession.close();
-
-        response.sendRedirect("edit-contest-problem?contestID=" + contestBean.getContestID());
     }
 
     private void deleteContest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -151,20 +166,61 @@ public class ContestServlet extends HttpServlet {
 
     private void getContestOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strContestID = request.getParameter("contestID");
+        int contestID = -1;
+
         if (strContestID != null && strContestID.length() > 0) {
-            int contestID = Integer.parseInt(strContestID);
+            contestID = Integer.parseInt(strContestID);
+        }
+
+        if (contestID > 0) {
             SqlSession sqlSession = DataSource.getSqlSesion();
             TableContest tableContest = sqlSession.getMapper(TableContest.class);
             TableContestProblem tableContestProblem = sqlSession.getMapper(TableContestProblem.class);
+            TableContestUser tableContestUser = sqlSession.getMapper(TableContestUser.class);
 
             ContestBean contestBean = tableContest.getContestByID(contestID);
             List<ContestProblemBean> problemList = tableContestProblem.getContestProblemList(contestID);
+
+
+            /*
+             *Cookie userIDCookie = new Cookie("userID", userBean.getUserID() + "");
+             *Cookie userNameCookie = new Cookie("userName", userBean.getUserName());
+             */
+            String strLoginedUserID = null;
+            boolean isRegistered = false;
+
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("userID")) {
+                    strLoginedUserID = c.getValue();
+                    break;
+                }
+            }
+
+            if (strLoginedUserID != null) {
+                int loginedUserID = Integer.parseInt(strLoginedUserID);
+                System.out.println("check user registered: " + loginedUserID);
+                isRegistered = tableContestUser.checkUserRegistered(contestID, loginedUserID);
+                System.out.println("check result: " + isRegistered);
+            } else {
+                MessageBean messageBean = new MessageBean();
+                messageBean.setTitle("错误");
+                messageBean.setHeader("错误信息");
+                messageBean.setMessage("请登录系统后再注册比赛");
+                messageBean.setUrl("/");
+                messageBean.setLinkText("/返回首页");
+
+                sqlSession.close();
+
+                Utils.sendErrorMsg(request, response, messageBean);
+                return;
+            }
 
 
             sqlSession.close();
 
             request.setAttribute("contest", contestBean);
             request.setAttribute("problemList", problemList);
+            request.setAttribute("isRegistered", isRegistered);
 
             request.getRequestDispatcher("/contest-overview.jsp").forward(request, response);
         } else {
@@ -222,10 +278,14 @@ public class ContestServlet extends HttpServlet {
             int contestID = Integer.parseInt(strContestID);
             SqlSession sqlSession = DataSource.getSqlSesion();
             TableContest tableContest = sqlSession.getMapper(TableContest.class);
+            TableContestProblem tableContestProblem = sqlSession.getMapper(TableContestProblem.class);
+
             ContestBean contestBean = tableContest.getContestByID(contestID);
+            List<ContestProblemBean> problemList = tableContestProblem.getContestProblemList(contestID);
             sqlSession.close();
 
             request.setAttribute("contest", contestBean);
+            request.setAttribute("problemList", problemList);
             request.getRequestDispatcher("/contest-edit.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
@@ -294,5 +354,46 @@ public class ContestServlet extends HttpServlet {
         sqlSession.commit();
         sqlSession.close();
         response.sendRedirect("/edit-contest-problem?contestID=" + contestID);
+    }
+
+    private void registerContest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strContestID = request.getParameter("contestID");
+        int contestID = -1;
+        if (strContestID != null && strContestID.length() > 0) {
+            contestID = Integer.parseInt(strContestID);
+        }
+
+        String strLoginedUserID = null;
+        for (Cookie c : request.getCookies()) {
+            if (c.getName().equals("userID")) {
+                strLoginedUserID = c.getValue();
+                break;
+            }
+        }
+
+        if (contestID != -1 || strLoginedUserID != null) {
+            int userID = Integer.parseInt(strLoginedUserID);
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableContestUser tableContestUser = sqlSession.getMapper(TableContestUser.class);
+            if (!tableContestUser.checkUserRegistered(contestID, userID)) {
+                tableContestUser.addUser(new ContestUserBean(contestID, userID));
+                sqlSession.commit();
+                sqlSession.close();
+            }
+
+            response.sendRedirect("/contest-overview?contestID=" + contestID);
+        } else {
+            MessageBean messageBean = new MessageBean();
+            messageBean.setTitle("错误");
+            messageBean.setHeader("错误信息");
+            if (contestID == -1) {
+                messageBean.setMessage("比赛参数错误");
+            } else {
+                messageBean.setMessage("请登录系统后再注册比赛");
+            }
+            messageBean.setUrl("/");
+            messageBean.setLinkText("/返回首页");
+            Utils.sendErrorMsg(request, response, messageBean);
+        }
     }
 }

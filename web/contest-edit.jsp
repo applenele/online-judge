@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -12,7 +13,7 @@
     <title>添加比赛</title>
 
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="plugin/datetimepicker/css/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" href="plugin/datetimepicker/css/tempusdominus-bootstrap-4.min.css"/>
     <link rel="stylesheet" href="css/font-awesome.css">
 
     <script src="js/jquery-3.2.1.min.js"></script>
@@ -24,6 +25,28 @@
     <script src="plugin/datetimepicker/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <script>
+        $(function () {
+            $('#inputStartTime').datetimepicker({
+                locale: 'zh-cn',
+                format: "YYYY/MM/DD HH:mm"
+            });
+
+            $('#inputEndTime').datetimepicker({
+                locale: 'zh-cn',
+                format: "YYYY/MM/DD HH:mm"
+            });
+
+            $('#inputRegisterStartTime').datetimepicker({
+                locale: 'zh-cn',
+                format: "YYYY/MM/DD HH:mm"
+            });
+
+            $('#inputRegisterEndTime').datetimepicker({
+                locale: 'zh-cn',
+                format: "YYYY/MM/DD HH:mm"
+            });
+        });
+
         function checkForm() {
             $('textarea.ckeditor').each(function () {
                 var $textarea = $(this);
@@ -38,7 +61,7 @@
             }
 
 
-            var title = $("#inputTitle");
+            var title = $("#inputTitle").val();
             var strStartTime = $("#inputStartTime").val();
             var strEndTime = $("#inputEndTime").val();
             var strRegisterStartTime = $("#inputRegisterStartTime").val();
@@ -46,32 +69,45 @@
 
             console.log(title);
             console.log(strStartTime);
-            console.log(new Date(strStartTime));
             console.log(strEndTime);
             console.log(strRegisterStartTime);
             console.log(strRegisterEndTime);
 
 
-
-
-            var startTime = toTimestamp(strStartTime);
-            var endTime = toTimestamp(strEndTime);
-
-            if (startTime >= endTime) {
-                alert("比赛开始时间不能在结束时间之后");
+            if (title.length == 0 || strStartTime.length == 0 || strEndTime.length == 0 || strRegisterStartTime.length == 0 || strRegisterEndTime.length == 0) {
+                alert("输入有空");
                 return false;
             }
 
-            var registerStartTime = toTimestamp(strRegisterStartTime);
-            var registerEndTime = toTimestamp(strRegisterEndTime);
+
+            var startTime = new Date(strStartTime + ":00").getTime();
+            var endTime = new Date(strEndTime + ":00").getTime();
+
+            var registerStartTime = new Date(strRegisterStartTime + ":00").getTime();
+            var registerEndTime = new Date(strRegisterEndTime + ":00").getTime();
+
+            var current = new Date().getTime();
+
+
+            if (startTime >= endTime) {
+                alert("比赛开始时间必须在比赛结束时间之前");
+                return false;
+            }
+
 
             if (registerStartTime >= registerEndTime) {
-                alert("报名开始时间不能在结束时间之后");
+                alert("报名开始时间必须在报名结束时间之前");
                 return false;
-            } else if (registerEndTime >= endTime) {
+            } else if (registerEndTime > endTime) {
                 alert("报名结束时间不能在比赛结束时间之后");
                 return false;
             }
+
+            /*if (registerStartTime < current || startTime < current) {
+                alert("时间不能在现在之前");
+                return false;
+            }*/
+
             return true;
         }
 
@@ -81,45 +117,49 @@
 <jsp:include page="navbar.jsp"/>
 
 <div class="container" style="margin-top: 70px">
-
     <div class="card">
         <div class="card-header"><h4>添加比赛</h4></div>
         <div class="card-body">
-            <form method="post" action="/add-contest" <%--onsubmit="return checkForm()"--%>>
+            <c:choose>
+                <c:when test="${contest != null}">
+                        <form method="post" action="/edit-contest" onsubmit="return checkForm()">
+                        <input name="inputContestID" value="${contest.contestID}" hidden>
+                </c:when>
+                <c:otherwise>
+                        <form method="post" action="/add-contest" onsubmit="return checkForm()">
+                </c:otherwise>
+            </c:choose>
+            <form method="post" action="/add-contest" onsubmit="return checkForm()">
                 <div class="input-group">
                     <span class="input-group-addon">比赛名称</span>
-                    <input name="inputTitle" type="text" value="${contest.title}" placeholder="标题不超过200个字符" class="form-control">
+                    <input name="inputTitle" id="inputTitle" type="text" value="${contest.title}"
+                           placeholder="标题不超过200个字符" class="form-control">
                 </div>
                 <br>
 
+                <jsp:useBean id="time" class="java.util.Date"/>
                 <div class="form-row align-items-center">
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">开始时间</span>
-                            <input name="inputStartTime" type="text" value="${contest.startTime}" id="inputStartTime" class="form-control" data-toggle="datetimepicker" data-target="#inputStartTime">
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#inputStartTime').datetimepicker({
-                                        locale: 'zh-cn',
-                                        format: "YYYY/MM/DD HH:mm"
-                                    });
-                                });
-                            </script>
+                            <c:set target="${time}" property="time"
+                                   value="${contest != null ? contest.startTime : time.time}"/>
+                            <input name="inputStartTime" type="text" placeholder="格式: yyyy/mm/dd hh:mm"
+                                   value="<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${time}"/>"
+                                   id="inputStartTime" class="form-control" data-toggle="datetimepicker"
+                                   data-target="#inputStartTime">
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">结束时间</span>
-                            <input name="inputEndTime" type="text" value="${contest.endTime}" id="inputEndTime" class="form-control" data-toggle="datetimepicker" data-target="#inputEndTime">
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#inputEndTime').datetimepicker({
-                                        locale: 'zh-cn',
-                                        format: "YYYY/MM/DD HH:mm"
-                                    });
-                                });
-                            </script>
+                            <c:set target="${time}" property="time"
+                                   value="${contest != null ? contest.endTime : time.time}"/>
+                            <input name="inputEndTime" type="text" placeholder="格式: yyyy/mm/dd hh:mm"
+                                   value="<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${time}"/>"
+                                   id="inputEndTime" class="form-control" data-toggle="datetimepicker"
+                                   data-target="#inputEndTime">
                         </div>
                     </div>
                 </div>
@@ -129,30 +169,24 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">报名开始</span>
-                            <input name="inputRegisterStartTime" type="text" value="${contest.registerStartTime}" id="inputRegisterStartTime" class="form-control" data-toggle="datetimepicker" data-target="#inputRegisterStartTime"/>
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#inputRegisterStartTime').datetimepicker({
-                                        locale: 'zh-cn',
-                                        format: "YYYY/MM/DD HH:mm"
-                                    });
-                                });
-                            </script>
+                            <c:set target="${time}" property="time"
+                                   value="${contest != null ? contest.registerStartTime : time.time}"/>
+                            <input name="inputRegisterStartTime" type="text" placeholder="格式: yyyy/mm/dd hh:mm"
+                                   value="<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${time}"/>"
+                                   id="inputRegisterStartTime" class="form-control" data-toggle="datetimepicker"
+                                   data-target="#inputRegisterStartTime"/>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">报名截止</span>
-                            <input name="inputRegisterEndTime" type="text" value="${contest.registerEndTime}" id="inputRegisterEndTime" class="form-control" data-toggle="datetimepicker" data-target="#inputRegisterEndTime"/>
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#inputRegisterEndTime').datetimepicker({
-                                        locale: 'zh-cn',
-                                        format: "YYYY/MM/DD HH:mm"
-                                    });
-                                });
-                            </script>
+                            <c:set target="${time}" property="time"
+                                   value="${contest != null ? contest.registerEndTime : time.time}"/>
+                            <input name="inputRegisterEndTime" type="text" placeholder="格式: yyyy/mm/dd hh:mm"
+                                   value="<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${time}"/>"
+                                   id="inputRegisterEndTime" class="form-control" data-toggle="datetimepicker"
+                                   data-target="#inputRegisterEndTime"/>
                         </div>
                     </div>
                 </div>
@@ -162,7 +196,8 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">比赛密码</span>
-                            <input name="inputContestPassword" type="password" class="form-control" placeholder="不填为公开" value="${contest.password}">
+                            <input name="inputContestPassword" type="text" class="form-control" placeholder="不填为公开"
+                                   value="${contest.password}">
                         </div>
                     </div>
 
@@ -185,50 +220,59 @@
                     </div>
                 </div>
 
+
                 <br>
                 <div class="form-row align-items-center">
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">举办人&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input name="inputSponsor" type="text" class="form-control" placeholder="默认当前登录用户" value="${contest.sponsor}">
+                            <input name="inputSponsor" type="text" class="form-control" placeholder="默认当前登录用户"
+                                   value="${contest.sponsor}">
                         </div>
                     </div>
                 </div>
 
-                <br>
 
+                <br>
                 <h3>比赛描述</h3>
                 <textarea name="inputContestDesc" id="inputContestDesc" class="ckeditor"
                           style="visibility: hidden; display: none;">${contest.desc}</textarea>
 
-                <br>
-                <h3>题目列表</h3>
-                <div class="card">
-                    <table class="table table-sm table-striped">
-                        <thead>
-                        <tr>
-                            <th>比赛题号</th>
-                            <th>题库题号</th>
-                            <th>题目名称</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach begin="0" end="2" step="1">
+                <c:if test="${problemList != null}">
+                    <br>
+                    <h3>题目列表</h3>
+                    <div class="card">
+                        <table class="table table-sm table-striped">
+                            <thead>
                             <tr>
-                                <td>A</td>
-                                <td>1000</td>
-                                <td>失败的</td>
-                                <td><a href="#">删除</a></td>
+                                <th class="text-center">比赛题号</th>
+                                <th class="text-center">题目名称</th>
+                                <th class="text-center">全局ID</th>
+                                <th class="text-center">通过(人)/提交(次)</th>
                             </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${problemList}" var="problem">
+                                <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problem.innerID}">${problem.innerID}</a></td>
+                                <td class="text-center">题目名</td>
+                                <td class="text-center"><a href="/problem?problemID=${1000+problem.problemID}">${1000 + problem.problemID}</a></td>
+                                <td class="text-center">${problem.accepted}/${problem.submitted}</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                </c:if>
                 <br>
                 <div class="text-center">
-                    <input class="btn btn-success" type="submit" value="保存比赛">
+                    <a href="/edit-contest-problem?contestID=${contest.contestID}" class="btn btn-primary">编辑题目</a>
+                    <c:choose>
+                        <c:when test="${contest != null}"><input class="btn btn-success" type="submit"
+                                                                 value="保存修改"></c:when>
+                        <c:otherwise><input class="btn btn-success" type="submit" value="保存比赛"></c:otherwise>
+                    </c:choose>
+
                 </div>
             </form>
         </div>

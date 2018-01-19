@@ -13,9 +13,14 @@
       DELETE FROM t_contest_user WHERE contest_id=#{contestID} AND user_id=#{userID}
     </delete>
 
+    <select id="checkUserRegistered" resultType="java.lang.Boolean">
+        SELECT COUNT(user_id)=1 FROM t_contest_user WHERE contest_id=#{contestID} AND user_id=#{userID}
+    </select>
+
     <select id="getContestUserList" resultMap="contestUserMap" resultType="org.oj.model.javaBean.ContestUserBean">
       SELECT * FROM t_contest_user WHERE contest_id=#{contestID}
     </select>
+
 
     <resultMap id="contestUserMap" type="org.oj.model.javaBean.ContestUserBean">
         <id property="contestID" column="contest_id"/>

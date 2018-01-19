@@ -13,5 +13,7 @@ public interface TableContestUser {
 
     public void deleteUser(@Param("contestID") Integer contestID, @Param("userID") Integer userID);
 
+    public boolean checkUserRegistered(@Param("contestID") int contestID, @Param("userID") Integer userID);
+
     public List<ContestUserBean> getContestUserList(@Param("contestID") Integer contestID);
 }

@@ -31,7 +31,7 @@
     </insert>
 
     <delete id="deleteContest">
-      DELETE FROM t_contest WHERE `contest_id`=#{contest.contestID}
+      DELETE FROM t_contest WHERE `contest_id`=#{contestID}
     </delete>
 
     <update id="updateContest">
@@ -39,7 +39,7 @@
       SET
         `title`=#{contest.title},
         `desc`=#{contest.desc},
-        `start_time`=#{contest.StartTime},
+        `start_time`=#{contest.startTime},
         `end_time`=#{contest.endTime},
         `register_start_time`=#{contest.registerStartTime},
         `register_end_time`=#{contest.registerEndTime},

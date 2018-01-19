@@ -18,6 +18,14 @@
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap/popper.min.js"></script>
     <script src="js/bootstrap/bootstrap.min.js"></script>
+
+    <script>
+        function deleteContest(contestID, contestTitle) {
+            $("#message").html("是否删除比赛[" + contestTitle + "]");
+            $("#url").attr('href', '/delete-contest?contestID=' + contestID);
+            $("#deleteModal").modal('show');
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -49,20 +57,37 @@
             </tr>
             </thead>
             <tbody>
+            <jsp:useBean id="time" class="java.util.Date"/>
+
+            <jsp:useBean id="current" class="java.util.Date" />
+
+            <%--<h1>${current.time}</h1> this timestamp--%>
+
             <c:forEach items="${contestList}" var="contest">
                 <tr>
                     <td><a href="/contest-overview?contestID=${contest.contestID}">${contest.contestID}</a></td>
                     <td><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></td>
+                    <c:choose>
+                        <c:when test="${current.time < contest.registerStartTime}">
+                            <td><span class="badge badge-info">即将到来</span></td>
+                        </c:when>
+                        <c:when test="${current.time > contest.startTime && current.time < contest.endTime}">
+                            <td><span class="badge badge-success">进行中</span></td>
+                        </c:when>
+                        <c:when test="${current.time > contest.registerStartTime && current.time < contest.registerEndTime}">
+                            <td><span class="badge badge-primary">报名中</span></td>
+                        </c:when>
+                        <c:when test="${current.time > contest.endTime}">
+                            <td><span class="badge badge-secondary">已结束</span></td>
+                        </c:when>
+                    </c:choose>
 
-                    <td><span class="badge badge-success">进行中</span></td>
 
-                    <jsp:useBean id="startTime" class="java.util.Date"/>
-                    <c:set target="${startTime}" property="time" value="${contest.startTime}"/>
-                    <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${startTime}"/></td>
+                    <c:set target="${time}" property="time" value="${contest.startTime}"/>
+                    <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${time}"/></td>
 
-                    <jsp:useBean id="endTime" class="java.util.Date"/>
-                    <c:set target="${endTime}" property="time" value="${contest.endTime}"/>
-                    <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${endTime}"/></td>
+                    <c:set target="${time}" property="time" value="${contest.endTime}"/>
+                    <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${time}"/></td>
 
                     <td>${contest.contestType}</td>
 
@@ -78,6 +103,7 @@
                     <td>${contest.sponsor}</td>
                     <td class="text-center">
                         <a href="/edit-contest?contestID=${contest.contestID}"><span class="badge badge-secondary">编辑</span></a>
+                        <a href="#" onclick="deleteContest(${contest.contestID},'${contest.title}')"><span class="badge badge-danger">删除</span></a>
                     </td>
                 </tr>
             </c:forEach>
@@ -94,6 +120,26 @@
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
     </nav>
+
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">重要提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                    <a id="url" href="#" class="btn btn-danger">是的,删除</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <jsp:include page="footer.jsp"/>
 </body>
 </html>
