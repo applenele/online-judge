@@ -25,18 +25,18 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 
 public class JudgeClient extends Thread {
-    private static String QUEUING = "Queuing";
-    private static String COMPILING = "Compiling";
-    private static String RUNNING = "Running";
-    private static String ACCEPTED = "Accepted";
-    private static String PRESENTATION_ERROR = "Presentation Error";
-    private static String WRONG_ANSWER = "Wrong Answer";
-    private static String TIME_LIMIT_EXCEEDED = "Time Limit Exceeded";
-    private static String MEMORY_LIMIT_EXCEEDED = "Memory Limit Exceeded";
-    private static String OUTPUT_LIMIT_EXCEEDED = "Output Limit Exceeded";
-    private static String RUNTIME_ERROR = "Runtime Error";
-    private static String SYSTEM_ERROR = "System Error";
-    private static String COMPILATION_ERROR = "Compilation Error";
+    public static  final String QUEUING = "Queuing";
+    public static  final String COMPILING = "Compiling";
+    public static  final String RUNNING = "Running";
+    public static  final String ACCEPTED = "Accepted";
+    public static  final String PRESENTATION_ERROR = "Presentation Error";
+    public static  final String WRONG_ANSWER = "Wrong Answer";
+    public static  final String TIME_LIMIT_EXCEEDED = "Time Limit Exceeded";
+    public static  final String MEMORY_LIMIT_EXCEEDED = "Memory Limit Exceeded";
+    public static  final String OUTPUT_LIMIT_EXCEEDED = "Output Limit Exceeded";
+    public static  final String RUNTIME_ERROR = "Runtime Error";
+    public static  final String SYSTEM_ERROR = "System Error";
+    public static  final String COMPILATION_ERROR = "Compilation Error";
 
 
 

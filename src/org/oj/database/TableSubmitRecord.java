@@ -30,5 +30,5 @@ public interface TableSubmitRecord {
 
     public List<SubmitRecordBean> getSubmitRecordListOrderedByDate(@Param("start") int start, @Param("count") int count);
 
-    public List<SubmitRecordBean> getSubmitRecordList(@Param("userID") Integer userID, @Param("problemID") Integer problemID, @Param("result") String result, @Param("language") String language, @Param("start") int start, @Param("count") int count);
+    public List<SubmitRecordBean> getSubmitRecordList(@Param("contestID") Integer contestID, @Param("problemID") Integer problemID, @Param("userID") Integer userID, @Param("result") String result, @Param("language") String language, @Param("start") int start, @Param("count") int count);
 }

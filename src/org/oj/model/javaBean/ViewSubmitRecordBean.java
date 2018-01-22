@@ -3,7 +3,8 @@ package org.oj.model.javaBean;
 public class ViewSubmitRecordBean {
     private int submitID;
     private int problemID;
-    private String title;
+    private String contestTitle;
+    private String problemTitle;
     private int userID;
     private String userName;
     private int contestID;
@@ -20,10 +21,11 @@ public class ViewSubmitRecordBean {
     public ViewSubmitRecordBean() {
     }
 
-    public ViewSubmitRecordBean(int submitID, int problemID, String title, int userID, String userName, int contestID, String result, String language, String sourceCode, int codeLength, int timeConsume, int memConsume, long submitTime, long judgeTime, String compileResult) {
+    public ViewSubmitRecordBean(int submitID, int problemID, String contestTitle, String problemTitle, int userID, String userName, int contestID, String result, String language, String sourceCode, int codeLength, int timeConsume, int memConsume, long submitTime, long judgeTime, String compileResult) {
         this.submitID = submitID;
         this.problemID = problemID;
-        this.title = title;
+        this.contestTitle = contestTitle;
+        this.problemTitle = problemTitle;
         this.userID = userID;
         this.userName = userName;
         this.contestID = contestID;
@@ -54,12 +56,20 @@ public class ViewSubmitRecordBean {
         this.problemID = problemID;
     }
 
-    public String getTitle() {
-        return title;
+    public String getContestTitle() {
+        return contestTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setContestTitle(String contestTitle) {
+        this.contestTitle = contestTitle;
+    }
+
+    public String getProblemTitle() {
+        return problemTitle;
+    }
+
+    public void setProblemTitle(String problemTitle) {
+        this.problemTitle = problemTitle;
     }
 
     public int getUserID() {
@@ -163,7 +173,8 @@ public class ViewSubmitRecordBean {
         return "ViewSubmitRecordBean{" +
                 "submitID=" + submitID +
                 ", problemID=" + problemID +
-                ", title='" + title + '\'' +
+                ", contestTitle='" + contestTitle + '\'' +
+                ", problemTitle='" + problemTitle + '\'' +
                 ", userID=" + userID +
                 ", userName='" + userName + '\'' +
                 ", contestID=" + contestID +

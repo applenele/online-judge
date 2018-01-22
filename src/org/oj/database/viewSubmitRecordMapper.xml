@@ -11,18 +11,34 @@
 
     <select id="getSubmitRecordListByProblemID" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
-        SELECT * FROM v_submit_record WHERE problem_id = #{problemID}
+        SELECT * FROM v_submit_record
+         WHERE 1=1
+        <if test="contestID != null">
+            AND `contest_id` = #{contestID}
+        </if>
+        <if test="problemID != null">
+            AND `problem_id`=#{problemID}
+        </if>
+        ORDER BY `submit_time` DESC limit #{start}, #{count}
     </select>
 
     <select id="getSubmitRecordListOrderedByDate" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
-        SELECT * FROM v_submit_record ORDER BY `submit_time` DESC limit #{start}, #{count}
+        SELECT * FROM v_submit_record
+        WHERE 1=1
+        <if test="contestID != null">
+            AND `contest_id` = #{contestID}
+        </if>
+        ORDER BY `submit_time` DESC limit #{start}, #{count}
     </select>
 
     <select id="getSubmitRecordListByUserID" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
         SELECT * FROM v_submit_record
         WHERE 1=1
+        <if test="contestID != null">
+            AND `contest_id` = #{contestID}
+        </if>
         <if test="userID != null">
             AND `user_id`=#{userID}
         </if>
@@ -42,6 +58,9 @@
             resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
         SELECT * FROM v_submit_record
         WHERE 1=1
+        <if test="contestID != null">
+            AND `contest_id` = #{contestID}
+        </if>
         <if test="userName != null">
             AND `user_name`=#{userName}
         </if>
@@ -61,7 +80,8 @@
     <resultMap id="submitRecordMap" type="org.oj.model.javaBean.ViewSubmitRecordBean">
         <result property="submitID" column="submit_id"/>
         <result property="problemID" column="problem_id"/>
-        <result property="title" column="title"/>
+        <result property="contestTitle" column="contest_title"/>
+        <result property="problemTitle" column="problem_title"/>
         <result property="userID" column="user_id"/>
         <result property="userName" column="user_name"/>
         <result property="contestID" column="contest_id"/>

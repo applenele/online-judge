@@ -188,30 +188,37 @@ INSERT INTO t_language(`language`) VALUES ("Python3");
 
 
 /*视图*/
+DROP VIEW IF EXISTS v_submit_record;
 CREATE VIEW v_submit_record AS
   SELECT
     submit_id,
+    contest_id,
+    t_contest.title contest_title,
     problem_id,
-    title,
+    t_problem.title problem_title,
     user_id,
     user_name,
-    contest_id,
+    compile_result,
     result,
+    time_consume,
+    mem_consume,
     language,
     source_code,
     code_length,
-    time_consume,
-    mem_consume,
     submit_time,
-    judge_time,
-    compile_result
-  FROM ((t_submit_record submit LEFT JOIN t_compile_info compile USING(`submit_id`)) JOIN t_user USING (`user_id`)) JOIN t_problem USING (`problem_id`)
+    judge_time
+  FROM ((t_submit_record submit LEFT JOIN t_compile_info compile USING(`submit_id`)) JOIN t_user USING (`user_id`)) JOIN t_problem USING (`problem_id`) LEFT JOIN t_contest USING (`contest_id`)
+
 
 
 
 
 
 SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT JOIN t_problem USING (`problem_id`)
+
+
+/*查询一个题目通过的人数*/
+SELECT count(t.user_id) as passed from (SELECT DISTINCT user_id FROM v_submit_record WHERE contest_id=19 AND problem_id=7 AND result='Accepted') AS t
 
 
 /*没使用的表*/

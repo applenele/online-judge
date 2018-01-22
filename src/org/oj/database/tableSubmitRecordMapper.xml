@@ -86,6 +86,9 @@
             resultType="org.oj.model.javaBean.SubmitRecordBean">
         SELECT * FROM t_submit_record
         WHERE 1=1
+        <if test="contestID != null">
+            AND `contest_id`=#{contestID}
+        </if>
         <if test="userID != null">
             AND `user_id`=#{userID}
         </if>

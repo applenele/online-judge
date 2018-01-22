@@ -1,6 +1,7 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
+import org.oj.controller.beans.MessageBean;
 import org.oj.database.DataSource;
 import org.oj.database.TableLanguage;
 import org.oj.database.TableUser;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.List;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;

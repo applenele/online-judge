@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -20,187 +23,72 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
-    <h1 align="center">title</h1>
+    <h2 align="center">[<a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a>]排名</h2>
 
     <div class="card">
-        <div class="card-header">overview</div>
+        <div class="card-header"><a href="/contest-detail?contestID=${contest.contestID}"><h5>${contest.title}</h5></a></div>
         <div class="card-body">
             <div class="card">
-                <table class="table table-striped table-hover text-center">
+                <table class="table table-sm table-striped text-center">
                     <thead>
                     <tr>
                         <th>排名</th>
                         <th>用户名</th>
                         <th>AC题数</th>
                         <th>罚时</th>
-
-
-                        <th><a href="/C/179/P/A">A(13/23)</a></th>
-
-                        <th><a href="/C/179/P/B">B(10/27)</a></th>
-
-                        <th><a href="/C/179/P/C">C(1/1)</a></th>
-
-                        <th><a href="/C/179/P/D">D(1/1)</a></th>
-
-                        <th><a href="/C/179/P/E">E(1/1)</a></th>
-
-                        <th><a href="/C/179/P/F">F(1/1)</a></th>
-
-
+                        <c:forEach items="${problemOverview}" var="problem">
+                            <th><a href="/contest-detail?contestID=${contest.contestID}&problemID=${problem.innerID}">${problem.innerID}(${problem.accepted}/${problem.submitted})</a></th>
+                        </c:forEach>
                     </tr>
                     </thead>
+
                     <tbody>
-
-
-
-                    <tr data-rank="1">
-                        <td>1</td>
-                        <td><a href="/User/念诗狂膜" class="myuser-base myuser-violet">念诗狂膜(已退役)</a></td>
-                        <td>6</td>
-                        <td>1028</td>
-
-
-                        <td id="td_A_0" class="alert-info">+0<br>2:49:41</td>
-
-                        <td id="td_B_0" class="alert-success rankyes">+0<br>2:50:13</td>
-
-                        <td id="td_C_0" class="SlateFixBlack rankfirst">+0<br>2:50:51</td>
-
-                        <td id="td_D_0" class="SlateFixBlack rankfirst">+0<br>2:51:51</td>
-
-                        <td id="td_E_0" class="SlateFixBlack rankfirst">+0<br>2:52:31</td>
-
-                        <td id="td_F_0" class="SlateFixBlack rankfirst">+0<br>2:53:22</td>
-
-
-                    </tr>
-
-
-                    <tr data-rank="2">
-                        <td>2</td>
-                        <td><a href="/User/Admin_lh" class="myuser-base myuser-cyan">Admin_lh</a></td>
-                        <td>2</td>
-                        <td>131</td>
-
-
-                        <td id="td_A_1" class="alert-primary">+0<br>0:47:32</td>
-
-                        <td id="td_B_1" class="alert-danger">+0<br>1:23:41</td>
-
-                        <td id="td_C_1" class="SlateFixBlack "></td>
-
-                        <td id="td_D_1" class="SlateFixBlack "></td>
-
-                        <td id="td_E_1" class="SlateFixBlack "></td>
-
-                        <td id="td_F_1" class="SlateFixBlack "></td>
-
-
-                    </tr>
-
-
-                    <tr data-rank="3">
-                        <td>3</td>
-                        <td><a href="/User/Uzi" class="myuser-base myuser-cyan">Uzi</a></td>
-                        <td>2</td>
-                        <td>163</td>
-
-
-                        <td id="td_A_2" class="SlateFixBlack rankyes">+0<br>1:4:11</td>
-
-                        <td id="td_B_2" class="SlateFixBlack rankyes">+0<br>1:39:30</td>
-
-                        <td id="td_C_2" class="SlateFixBlack "></td>
-
-                        <td id="td_D_2" class="SlateFixBlack "></td>
-
-                        <td id="td_E_2" class="SlateFixBlack "></td>
-
-                        <td id="td_F_2" class="SlateFixBlack "></td>
-
-
-                    </tr>
-
-
-                    <tr data-rank="4">
-                        <td>4</td>
-                        <td><a href="/User/无敌的我又回来了" class="myuser-base myuser-cyan">无敌的我又回来了</a></td>
-                        <td>2</td>
-                        <td>170</td>
-
-
-                        <td id="td_A_3" class="SlateFixBlack rankyes">+0<br>1:0:29</td>
-
-                        <td id="td_B_3" class="SlateFixBlack rankyes">+0<br>1:50:21</td>
-
-                        <td id="td_C_3" class="SlateFixBlack "></td>
-
-                        <td id="td_D_3" class="SlateFixBlack "></td>
-
-                        <td id="td_E_3" class="SlateFixBlack "></td>
-
-                        <td id="td_F_3" class="SlateFixBlack "></td>
-
-
-                    </tr>
-
-
-                    <tr data-rank="5">
-                        <td>5</td>
-                        <td><a href="/User/张家维" class="myuser-base myuser-cyan">张家维(张家维)</a></td>
-                        <td>2</td>
-                        <td>180</td>
-
-
-                        <td id="td_A_4" class="SlateFixBlack rankyes">+1<br>1:2:8</td>
-
-                        <td id="td_B_4" class="SlateFixBlack rankyes">+0<br>1:38:31</td>
-
-                        <td id="td_C_4" class="SlateFixBlack "></td>
-
-                        <td id="td_D_4" class="SlateFixBlack "></td>
-
-                        <td id="td_E_4" class="SlateFixBlack "></td>
-
-                        <td id="td_F_4" class="SlateFixBlack "></td>
-
-
-                    </tr>
-
-
+                    <c:forEach items="${rankList}" var="rankBean" varStatus="pos">
+                        <tr>
+                            <td>${pos.count}</td>
+                            <td><a href="/user?userID=${rankBean.userID}"
+                                   class="myuser-base myuser-violet">${rankBean.userName}</a></td>
+                            <td>${rankBean.AC_Count}</td>
+                            <td><fmt:formatNumber type="number" value="${rankBean.totalTimeConsume / 1000}"
+                                                  maxFractionDigits="0" groupingUsed="false"/></td>
+                            <c:forEach items="${problemOverview}" var="problem">
+                                <c:choose>
+                                    <%--如果当前题目有当前用户的提交信息,那么显示数据--%>
+                                    <c:when test="${rankBean.problems.get(problem.problemID) != null}">
+                                        <c:choose>
+                                            <c:when test="${rankBean.problems.get(problem.problemID).firstAccepted}">
+                                                <td style="background-color: #a6f3a6">
+                                                    +${rankBean.problems.get(problem.problemID).tryTimes}<br>${rankBean.problems.get(problem.problemID).timeConsume}
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${rankBean.problems.get(problem.problemID).accepted}">
+                                                <td style="background-color: #dbffdb;">
+                                                    +${rankBean.problems.get(problem.problemID).tryTimes}<br>${rankBean.problems.get(problem.problemID).timeConsume}
+                                                </td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${rankBean.problems.get(problem.problemID).tryTimes != 0}">
+                                                        <td class="alert-danger">-${rankBean.problems.get(problem.problemID).tryTimes}</td>
+                                                    </c:when>
+                                                    <c:otherwise><td></td></c:otherwise>
+                                                </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td></td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <div class="alert alert-primary" role="alert">
-            This is a primary alert—check it out!
-        </div>
-        <div class="alert alert-secondary" role="alert">
-            This is a secondary alert—check it out!
-        </div>
-        <div class="alert alert-success" role="alert">
-            This is a success alert—check it out!
-        </div>
-        <div class="alert alert-danger" role="alert">
-            This is a danger alert—check it out!
-        </div>
-        <div class="alert alert-warning" role="alert">
-            This is a warning alert—check it out!
-        </div>
-        <div class="alert alert-info" role="alert">
-            This is a info alert—check it out!
-        </div>
-        <div class="alert alert-light" role="alert">
-            This is a light alert—check it out!
-        </div>
-        <div class="alert alert-dark" role="alert">
-            This is a dark alert—check it out!
-        </div>
-
-        </div>
     </div>
+</div>
 </div>
 <jsp:include page="footer.jsp"/>
 </body>

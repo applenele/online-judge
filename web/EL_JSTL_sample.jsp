@@ -103,7 +103,11 @@
 <p>contains:${fn:contains(id, "ID")}</p>
 <p>birth:${fn:substring(id, 9, 17)}</p>
 <p>length:${fn:length(id)}</p>
+
+
 <h1>${fn:length(requestScope.get('asdf'))}</h1>
+
+
 <h1>haha<c:out value="${requestScope.get('asdf')}"/></h1>
 </body>
 </html>

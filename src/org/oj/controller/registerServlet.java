@@ -2,6 +2,7 @@ package org.oj.controller;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.ibatis.session.SqlSession;
+import org.oj.controller.beans.MessageBean;
 import org.oj.database.DataSource;
 import org.oj.database.TableLanguage;
 import org.oj.database.TableUser;
@@ -59,12 +60,7 @@ public class registerServlet extends HttpServlet {
         System.out.println(userBean.getUserID());
 
         MessageBean messageBean = new MessageBean("注册成功", "Info", "恭喜您已经成功完成注册,登录使用系统吧!", "/", "Got It");
-        response.sendRedirect("/message?" +
-                "title=" + URLEncoder.encode(messageBean.getTitle(), "utf8") +
-                "&header=" + URLEncoder.encode(messageBean.getHeader(), "utf8") +
-                "&message=" + URLEncoder.encode(messageBean.getMessage(), "utf8") +
-                "&url=" + URLEncoder.encode(messageBean.getUrl(), "utf8") +
-                "&linkText=" + URLEncoder.encode(messageBean.getLinkText(), "utf8"));
+        Utils.sendErrorMsg(request, response, messageBean);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -72,7 +68,7 @@ public class registerServlet extends HttpServlet {
         TableLanguage tableLanguage = DataSource.getSqlSesion().getMapper(TableLanguage.class);
         List<LanguageBean> languageList = tableLanguage.getLanguageList();
         request.setAttribute("languageList", languageList);
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.getRequestDispatcher("user-register.jsp").forward(request, response);
     }
 
 
@@ -95,9 +91,6 @@ public class registerServlet extends HttpServlet {
         String jsonPattern = "{\"userNameExist\": %s, \"emailExist\": %s}";
         String json = String.format(jsonPattern, userNameCheckVal, emailCheckVal);
 
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.print(json);
-        out.flush();
+        Utils.responseJson(response, json);
     }
 }

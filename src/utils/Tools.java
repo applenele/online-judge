@@ -1,14 +1,21 @@
 package utils;
 
+import judge.JudgeClient;
+import org.apache.ibatis.session.SqlSession;
+import org.oj.controller.beans.UserProblemStatisticBean;
+import org.oj.controller.beans.RankBean;
+import org.oj.database.DataSource;
+import org.oj.database.TableUser;
+import org.oj.model.javaBean.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -225,8 +232,168 @@ public class Tools {
     }
 
 
-    public static void main(String[] argv) {
-        System.out.println(randInt(1, 7));
+
+
+
+    public static List<ContestProblemBean> getContestProblemStatistic(List<ViewSubmitRecordBean> submitList, List<ContestProblemBean> problemList) {
+        TreeMap<String, TreeMap<String, Integer>> problemStatistic = new TreeMap<>();
+        //初始化题目的信息, 单独初始化一遍的原因是, 可能有的题目没人提交, 单独从记录中提取不到这个题目的信息
+        TreeMap<Integer, TreeSet<Integer>> accepted = new TreeMap<>();
+        TreeMap<Integer, Integer> submitted = new TreeMap<>();
+
+        for (ContestProblemBean p : problemList) {
+            accepted.put(p.getProblemID(), new TreeSet<>());
+            submitted.put(p.getProblemID(), 0);
+        }
+
+        for (ViewSubmitRecordBean s : submitList) {
+            if (s.getResult().equals(JudgeClient.ACCEPTED)) {
+                accepted.get(s.getProblemID()).add(s.getUserID());
+            }
+            //对任意一次提交做统计
+            submitted.put(s.getProblemID(), submitted.get(s.getProblemID()) + 1);
+        }
+
+        for (ContestProblemBean p : problemList) {
+            p.setAccepted(accepted.get(p.getProblemID()).size());
+            p.setSubmitted(submitted.get(p.getProblemID()));
+        }
+        return problemList;
+    }
+
+    /**
+     * 返回每个题目第一个通过者的ID
+     * @param submitList 对于一个比赛的所有提交记录, 要求按提交时间先后排序
+     * @return 返回一个题目ID到用户ID的map, 标记每个题目的第一个通过者
+     */
+    private static TreeMap<Integer, Integer> firstAcceptedMap(List<ViewSubmitRecordBean> submitList) {
+        TreeMap<Integer, Integer> firstAcMap = new TreeMap<>();
+        for (ViewSubmitRecordBean s : submitList) {
+            //只检查通过的记录
+            if (s.getResult().equals(JudgeClient.ACCEPTED)) {
+                if (!firstAcMap.containsKey(s.getProblemID())) {
+                    firstAcMap.put(s.getProblemID(), s.getUserID());//插入第一个正确提交代码的人
+                }
+            }
+        }
+        return firstAcMap;
+    }
+
+    private static RankBean getOnesRank(ContestBean contest, List<ViewSubmitRecordBean> submitList, List<ContestProblemBean> problemList, int userID) {
+        //传入的submitList需要事先按照提交时间排序
+        submitList.sort(new Comparator<ViewSubmitRecordBean>() {
+            @Override
+            public int compare(ViewSubmitRecordBean o1, ViewSubmitRecordBean o2) {
+                //结果相同比较提交时间
+                return (int) (o1.getSubmitTime() - o2.getSubmitTime());
+            }
+        });
+
+
+        //建立每个题目第一次提交的人的映射关系
+        TreeMap<Integer, Integer> firstAcMap = firstAcceptedMap(submitList);
+
+        //每个用户比赛的信息保存在RankBean中, 对于Map, 手动初始化一下, 否则后面报空指针错误
+        RankBean rankBean = new RankBean();
+        rankBean.setProblems(new TreeMap<>());
+
+        //保存该用户已经通过了的题目
+        HashSet<Integer> acProblems = new HashSet<>(20);
+
+        for (ViewSubmitRecordBean s : submitList) {
+            if (s.getUserID() == userID) {//只处理指定用户的信息
+
+                rankBean.setUserID(s.getUserID());
+                rankBean.setUserName(s.getUserName());
+
+                if (!rankBean.getProblems().containsKey(s.getProblemID())) {//该用户还没有该记录对应题目的信息, 创建数据结构保存
+                    UserProblemStatisticBean problem = new UserProblemStatisticBean();
+                    problem.setProblemID(s.getProblemID());//题目ID
+                    problem.setAccepted(false);//是否通过
+                    problem.setFirstAccepted(false);//是否是第一个通过的人
+                    problem.setTryTimes(0);//通过之前一共错误了多少次
+                    problem.setTimeConsume(0L); //罚时
+                    rankBean.getProblems().put(s.getProblemID(), problem);
+                }
+
+                System.out.println(String.format("uid:%d, pid:%d, stime:%d, result:%s", s.getUserID(), s.getProblemID(), s.getSubmitTime(), s.getResult()));
+
+
+                if (s.getResult().equals(JudgeClient.ACCEPTED)) {
+                    if (!acProblems.contains(s.getProblemID())) {
+                        System.out.println(s.getProblemID() + " 首次AC");
+                        acProblems.add(s.getProblemID());
+                        rankBean.getProblems().get(s.getProblemID()).setAccepted(true);
+                        //check is first ac here
+                        rankBean.getProblems().get(s.getProblemID()).setFirstAccepted(firstAcMap.get(s.getProblemID()) == s.getUserID());
+                        rankBean.getProblems().get(s.getProblemID()).setTimeConsume(s.getSubmitTime() - contest.getStartTime());
+                        System.out.println("更新: " + rankBean);
+                    }
+                } else if (s.getResult().equals(JudgeClient.WRONG_ANSWER) ||
+                        s.getResult().equals(JudgeClient.TIME_LIMIT_EXCEEDED) ||
+                        s.getResult().equals(JudgeClient.MEMORY_LIMIT_EXCEEDED) ||
+                        s.getResult().equals(JudgeClient.OUTPUT_LIMIT_EXCEEDED) ||
+                        s.getResult().equals(JudgeClient.RUNTIME_ERROR)) {
+                    //对于以上情况,罚时20分钟
+                    if (!acProblems.contains(s.getProblemID())) {//对于还没有通过的题目增加罚时
+                        System.out.println("错误提交");
+                        //System.out.println(rankBean.getTotalTimeConsume());
+                        rankBean.setTotalTimeConsume(rankBean.getTotalTimeConsume() + 20 * 60 * 1000);
+                        int oldTryTimes = rankBean.getProblems().get(s.getProblemID()).getTryTimes();
+                        rankBean.getProblems().get(s.getProblemID()).setTryTimes(oldTryTimes + 1);
+                        System.out.println("更新: " + rankBean);
+                    } else {
+                        System.out.println("已经AC, 不用更新");
+                    }
+                }
+
+            }
+        }
+
+        //将所有罚时与每个题目的提交时间加起来
+        rankBean.setAC_Count(acProblems.size());
+        for (Integer pid : rankBean.getProblems().keySet()) {
+            UserProblemStatisticBean tmp = rankBean.getProblems().get(pid);
+            if (tmp.isAccepted()) { //如果题目通过, 则加上该题通过是时候的时间跨度
+                rankBean.setTotalTimeConsume(rankBean.getTotalTimeConsume() + tmp.getTimeConsume());
+            }
+        }
+        return rankBean;
+    }
+
+
+
+    public static List<RankBean> calculateRank(ContestBean contestBean, //比赛信息
+                                                         List<ContestUserBean> contestUserList,//参加比赛的用户信息
+                                                         List<ContestProblemBean> contestProblemList,//比赛中的题目信息
+                                                         List<ViewSubmitRecordBean> submitList) { //比赛提交列表
+        //初始化排名列表, 将每个参赛选手插入到map
+        List<RankBean> rankList = new ArrayList<>(50);
+
+        for (ContestUserBean user : contestUserList) {
+            System.out.println("\n\n\n处理: " + user.getUserID());
+            RankBean rankBean = getOnesRank(contestBean, submitList, contestProblemList, user.getUserID());
+            rankList.add(rankBean);
+            System.out.println("最终结果:" + rankBean);
+        }
+
+        //排序, 排名
+
+        System.out.println("排序前列表:" + rankList);
+        rankList.sort(new Comparator<RankBean>() {
+            @Override
+            public int compare(RankBean o1, RankBean o2) {
+                if (o1.getAC_Count() != o2.getAC_Count()) {
+                    //解题数量逆序, 越多越靠前,所以加负号
+                    return -(o1.getAC_Count() - o2.getAC_Count());
+                } else {
+                    //罚时顺序,越少越靠前,
+                    return  (int) (o1.getTotalTimeConsume() - o2.getTotalTimeConsume());
+                }
+            }
+        });
+
+        return rankList;
     }
 
 }

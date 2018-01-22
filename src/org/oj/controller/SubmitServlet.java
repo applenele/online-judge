@@ -2,6 +2,7 @@ package org.oj.controller;
 
 import judge.JudgeClient;
 import org.apache.ibatis.session.SqlSession;
+import org.oj.controller.beans.MessageBean;
 import org.oj.database.*;
 import org.oj.model.javaBean.*;
 import utils.ConstStrings;
@@ -45,6 +46,12 @@ public class SubmitServlet extends HttpServlet {
 
 
     private void getSubmit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strContestID = request.getParameter("contestID");
+        Integer contestID = 0;
+        if (strContestID != null && strContestID.length() > 0) {
+            contestID = Integer.parseInt(strContestID);
+        }
+
         String strProblemID = request.getParameter("problemID");
         Integer problemID = Integer.parseInt(strProblemID);
 
@@ -86,7 +93,7 @@ public class SubmitServlet extends HttpServlet {
 
         //获取用户在之前对本题目的提交记录
         TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
-        List<SubmitRecordBean> submitRecordBeans = tableSubmitRecord.getSubmitRecordList(userID, problemID, null, null, 0, 3);
+        List<SubmitRecordBean> submitRecordBeans = tableSubmitRecord.getSubmitRecordList(userID, contestID, problemID, null, null, 0, 3);
 
         sqlSession.close();
 
@@ -101,6 +108,12 @@ public class SubmitServlet extends HttpServlet {
 
 
     private void postSubmit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strContestID = request.getParameter("inputContestID");
+        int contesetID = 0;
+        if (strContestID != null && strContestID.length() > 0) {
+            contesetID = Integer.parseInt(strContestID);
+        }
+
         String strProblemID = request.getParameter("inputProblemID");
         String code = request.getParameter("inputCode");
         String language = request.getParameter("inputLanguage");
@@ -113,6 +126,7 @@ public class SubmitServlet extends HttpServlet {
             }
         }
 
+        //检查用户是否登录
         if (strUserID == null) {
             MessageBean messageBean = new MessageBean("提示", "提示", "请登录再提交代码", "/", "回到首页");
             Utils.sendErrorMsg(request, response, messageBean);
@@ -127,7 +141,7 @@ public class SubmitServlet extends HttpServlet {
         SubmitRecordBean submitRecordBean = new SubmitRecordBean();//生成提交记录
         submitRecordBean.setProblemID(problemID);
         submitRecordBean.setUserID(userID);
-        submitRecordBean.setContestID(0);//非比赛提交的代码统一设置为0
+        submitRecordBean.setContestID(contesetID);//非比赛提交的代码统一设置为0
         submitRecordBean.setResult(ConstStrings.result[0]);
         submitRecordBean.setLanguage(language);
         submitRecordBean.setSourceCode(code);
@@ -156,11 +170,21 @@ public class SubmitServlet extends HttpServlet {
         //client.getState()
         client.submit(submitRecordBean, problemBean, testPointDataPath);
         System.out.println("redirect to record list");
-        response.sendRedirect("/record-list");
+        if (contesetID != 0) {
+            response.sendRedirect("/record-list?contestID=" + contesetID);
+        } else {
+            response.sendRedirect("/record-list");
+        }
     }
 
 
     private void getRecordList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strContestID = request.getParameter("contestID");
+        int contestID = 0;
+        if (strContestID != null && strContestID.length() > 0) {
+            contestID = Integer.parseInt(strContestID);
+        }
+
         String userName = request.getParameter("inputUserName");
         String strProblemID = request.getParameter("inputProblemID");
         String result = request.getParameter("inputResult");
@@ -173,7 +197,7 @@ public class SubmitServlet extends HttpServlet {
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
-        List<SubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserName(userName, problemID, result, language, 0, 100);
+        List<ViewSubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserName(contestID, problemID, userName, result, language, 0, 100);
         sqlSession.close();
 
         request.setAttribute("recordList", submitRecordBeans);

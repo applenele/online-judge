@@ -1,11 +1,13 @@
 package org.oj.controller;
 
+import javafx.util.Pair;
+import judge.JudgeClient;
 import org.apache.ibatis.session.SqlSession;
+import org.oj.controller.beans.MessageBean;
+import org.oj.controller.beans.RankBean;
 import org.oj.database.*;
-import org.oj.model.javaBean.ContestBean;
-import org.oj.model.javaBean.ContestProblemBean;
-import org.oj.model.javaBean.ContestUserBean;
-import org.oj.model.javaBean.ProblemBean;
+import org.oj.model.javaBean.*;
+import utils.Tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +19,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(
         name = "ContestServlet",
@@ -31,7 +32,9 @@ import java.util.List;
                 "/edit-contest",
                 "/contest-overview",
                 "/contest-detail",
-                "/register-contest"
+                "/register-contest",
+                "/contest-rank",
+                "/ajax-check-contest-register"
             }
         )
 
@@ -43,6 +46,7 @@ public class ContestServlet extends HttpServlet {
         if (uri.equals("/add-contest")) addContest(request, response, false);
         if (uri.equals("/edit-contest")) editContestPost(request, response);
         if (uri.equals("/edit-contest-problem")) editContestProblemPost(request, response);
+        if (uri.equals("/ajax-check-contest-register")) ajaxCheckContestRegister(request, response);
 
     }
 
@@ -60,8 +64,80 @@ public class ContestServlet extends HttpServlet {
         if (uri.equals("/contest-overview"))        getContestOverview(request, response);
         if (uri.equals("/contest-detail"))          getContestDetail(request, response);
         if (uri.equals("/register-contest"))        registerContest(request, response);
+        if (uri.equals("/contest-rank"))            getContestRank(request, response);
     }
 
+
+    private void getContestRank(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strContestID = request.getParameter("contestID");
+        int contestID = -1;
+        if (strContestID != null && strContestID.length() > 0) {
+            contestID = Integer.parseInt(strContestID);
+        }
+
+        if (contestID > 0) {
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableContest tableContest = sqlSession.getMapper(TableContest.class);
+            TableContestUser tableContestUser = sqlSession.getMapper(TableContestUser.class);
+            TableContestProblem tableContestProblem = sqlSession.getMapper(TableContestProblem.class);
+            ViewSubmitRecord viewSubmitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
+
+            ContestBean contestBean = tableContest.getContestByID(contestID);
+            List<ContestUserBean> users = tableContestUser.getContestUserList(contestID);
+            List<ContestProblemBean> problems = tableContestProblem.getContestProblemList(contestID);
+            List<ViewSubmitRecordBean> submits = viewSubmitRecord.getSubmitRecordListOrderedByDate(contestID,0,100000);
+
+            sqlSession.close();
+
+            List<RankBean> rankList = Tools.calculateRank(contestBean, users, problems, submits);
+
+            List<ContestProblemBean> problemOverview = Tools.getContestProblemStatistic(submits, problems);
+            problemOverview.sort(new Comparator<ContestProblemBean>() {
+                @Override
+                public int compare(ContestProblemBean o1, ContestProblemBean o2) {
+                    return o1.getInnerID().compareTo(o2.getInnerID());
+                }
+            });
+
+            request.setAttribute("contest", contestBean);
+            request.setAttribute("problemOverview", problemOverview);
+            request.setAttribute("rankList", rankList);
+            request.getRequestDispatcher("/contest-rank.jsp").forward(request, response);
+        } else {
+            MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
+            Utils.sendErrorMsg(request, response, messageBean);
+        }
+    }
+
+
+
+    private void ajaxCheckContestRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strContestID = request.getParameter("inputContestID");
+        System.out.println(strContestID);
+
+        String jsonPatter = "{\"contestID\" : %s, \"userID\" :%s, \"registered\": %s}";
+        String json = "";
+        if (strContestID != null && strContestID.length() > 0) {
+            int contestID = Integer.parseInt(strContestID);
+            //{"contestID" : %s, "userID" :%s, "registered": %s}
+            int userID = -1;
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("userID")) {
+                    userID = Integer.parseInt(c.getValue());
+                    break;
+                }
+            }
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableContestUser tableContestUser = sqlSession.getMapper(TableContestUser.class);
+            boolean registered = tableContestUser.checkUserRegistered(contestID, userID);
+            System.out.println("check result contestregisterd: " + registered);
+            sqlSession.close();
+            json = String.format(jsonPatter, contestID, userID, registered);
+        } else {
+            json = String.format(jsonPatter, -1, -1, false);
+        }
+        Utils.responseJson(response, json);
+    }
 
     private void addContest(HttpServletRequest request, HttpServletResponse response, boolean isUpdate) throws ServletException, IOException {
         Integer contestID = null;
@@ -241,33 +317,39 @@ public class ContestServlet extends HttpServlet {
             messageBean.setUrl("/");
             messageBean.setLinkText("返回主页");
         } else {
-            if (curProblem == null || curProblem.trim().length() == 0) {
-                messageBean.setUrl("/contest-overview?contestID=" + strContestID);
-                messageBean.setLinkText("返回比赛");
-            } else {
                 SqlSession sqlSession = DataSource.getSqlSesion();
                 TableContestProblem tableContestProblem = sqlSession.getMapper(TableContestProblem.class);
                 TableContest tableContest = sqlSession.getMapper(TableContest.class);
                 TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+                TableLanguage tableLanguage = sqlSession.getMapper(TableLanguage.class);
 
                 int contestID = Integer.parseInt(strContestID);
                 ContestBean contestBean = tableContest.getContestByID(contestID);
                 ProblemBean problemBean = null;
 
                 List<ContestProblemBean> problemList = tableContestProblem.getContestProblemList(Integer.parseInt(strContestID));
-                for (ContestProblemBean t : problemList) {
-                    if (t.getInnerID().equals(curProblem)) {
-                        problemBean = tableProblem.getProblemByID(t.getProblemID());
-                        break;
+                if (curProblem != null) {
+                    for (ContestProblemBean t : problemList) {
+                        if (t.getInnerID().equals(curProblem)) {
+                            problemBean = tableProblem.getProblemByID(t.getProblemID());
+                            break;
+                        }
                     }
                 }
+
+                if (problemBean == null) {//如果上面查找指定题目ID失败, 那么查找题目列表中的第一个
+                    problemBean = tableProblem.getProblemByID(problemList.get(0).getProblemID());
+                }
+                List<LanguageBean> languages = tableLanguage.getLanguageList();
+
+                sqlSession.close();
 
                 request.setAttribute("contest", contestBean);
                 request.setAttribute("problemList", problemList);
                 request.setAttribute("problem", problemBean);
+                request.setAttribute("languages", languages);
                 request.getRequestDispatcher("/contest-detail.jsp").forward(request, response);
                 return;
-            }
         }
         Utils.sendErrorMsg(request, response, messageBean);
     }

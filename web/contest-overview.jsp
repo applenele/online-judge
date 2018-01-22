@@ -51,9 +51,6 @@
             var passed = cur - min;
             var total  = max - min;
 
-            console.log("start: " + min + " cur: " + cur + " max: " + max);
-            console.log("passed: " + passed + " total: " + total + " %: " + (passed/total));
-
             if (passed <= total) {
                 $("#processBar").attr('aria-valuenow', new Date().getTime());
                 $("#processBar").css('width', (passed/total)*100 + '%');
@@ -73,9 +70,9 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
-    <h1 align="center">${contest.title}</h1>
+    <h2 align="center"><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></h2>
     <div class="card">
-        <div class="card-header">overview</div>
+        <div class="card-header"><h5>overview</h5></div>
         <div class="progress" style="height: 10px;">
             <div id="processBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="${contest.startTime}" aria-valuemin="${contest.startTime}" aria-valuemax="${contest.endTime}" ></div>
         </div>
@@ -107,7 +104,7 @@
                                         <a href="register-contest?contestID=${contest.contestID}" class="badge badge-warning">我要报名</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="#" class="badge badge-warning">报名已截止</a>
+                                        <span href="#" class="badge badge-danger">报名已截止</span>
                                     </c:otherwise>
                                 </c:choose>
                             </c:otherwise>
@@ -185,8 +182,9 @@
                 <div class="col-6 offset-3">
                     <div class="text-center">
                         <a href="/edit-contest?contestID=${contest.contestID}"><span class="btn btn-primary">编辑比赛</span></a>
-                        <span href="" class="btn btn-primary">全部提交</span>
-                        <span href="" class="btn btn-primary">全部用户</span>
+                        <a href="/record-list?contestID=${contest.contestID}" class="btn btn-primary">全部提交</a>
+                        <a href="/user-list?contestID=${contest.contestID}" class="btn btn-primary">全部用户</a>
+                        <a href="/contest-rank?contestID=${contest.contestID}" class="btn btn-primary">查看排名</a>
                     </div>
                 </div>
             </div>

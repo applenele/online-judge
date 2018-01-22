@@ -1,5 +1,7 @@
 package org.oj.controller;
 
+import org.oj.controller.beans.MessageBean;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

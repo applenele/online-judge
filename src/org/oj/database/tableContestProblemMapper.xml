@@ -32,7 +32,7 @@
     </select>
 
     <select id="getContestProblemList" resultMap="contestProblemMap" resultType="org.oj.model.javaBean.ContestProblemBean">
-      SELECT * FROM t_contest_problem WHERE contest_id=#{contestID}
+      SELECT * FROM t_contest_problem WHERE contest_id=#{contestID} ORDER BY inner_id ASC
     </select>
 
     <resultMap id="contestProblemMap" type="org.oj.model.javaBean.ContestProblemBean">
