@@ -153,6 +153,7 @@ CREATE TABLE t_discuss (
   回复某人
   */
   `post_id` INT auto_increment NOT NULL,  /*消息id*/
+  `about`
   `type` TINYINT NOT NULL, /*类型*/
   `post_title` VARCHAR(100) NOT NULL, /*标题*/
   `post_content` text NOT NULL,  /*内容*/
