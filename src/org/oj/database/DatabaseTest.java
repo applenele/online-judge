@@ -27,22 +27,10 @@ public class DatabaseTest {
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
-            TableContest tableContest = sqlSession.getMapper(TableContest.class);
-            TableContestUser tableContestUser = sqlSession.getMapper(TableContestUser.class);
-            TableContestProblem tableContestProblem = sqlSession.getMapper(TableContestProblem.class);
-            ViewSubmitRecord viewSubmitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
+            TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
+            List<DiscussBean> discussList = tableDiscuss.getDiscussListByRootID(0);
 
-            ContestBean contestBean = tableContest.getContestByID(19);
-            List<ContestUserBean> users = tableContestUser.getContestUserList(19);
-            List<ContestProblemBean> problems = tableContestProblem.getContestProblemList(19);
-            List<ViewSubmitRecordBean> submits = viewSubmitRecord.getSubmitRecordListOrderedByDate(19,0,1000);
-
-
-           List<RankBean> rankList = Tools.calculateRank(contestBean, users, problems, submits);
-           System.out.println(rankList);
-
-            List<ContestProblemBean> prolemList = Tools.getContestProblemStatistic(submits, problems);
-            System.out.println(prolemList);
+            System.out.println(discussList);
         } finally {
             sqlSession.close();
         }

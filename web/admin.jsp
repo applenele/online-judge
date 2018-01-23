@@ -61,6 +61,28 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-6">
+            <a href="/post-original-discuss">
+                <div class="jumbotron jumbotron-fluid alert-primary">
+                    <div class="container">
+                        <h1 class="display-5 text-center">发布消息</h1>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6">
+            <a href="/configuration">
+                <div class="jumbotron jumbotron-fluid alert-primary">
+                    <div class="container">
+                        <h1 class="display-5 text-center">啦啦啦</h1>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4">管理用户</h1>

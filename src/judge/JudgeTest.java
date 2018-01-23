@@ -1,7 +1,7 @@
 package judge;
 
 import org.oj.model.javaBean.SubmitRecordBean;
-import utils.ConstStrings;
+import utils.Consts;
 
 import java.util.Date;
 
@@ -27,7 +27,7 @@ public class JudgeTest {
         submitRecordBean.setProblemID(5);
         submitRecordBean.setUserID(2);
         submitRecordBean.setContestID(0);//非比赛提交的代码统一设置为0
-        submitRecordBean.setResult(ConstStrings.result[0]);
+        submitRecordBean.setResult(Consts.result[0]);
         submitRecordBean.setLanguage("C");
         String code = "#inlcude<stdio.h> \n" +
                 "int main()\n" +

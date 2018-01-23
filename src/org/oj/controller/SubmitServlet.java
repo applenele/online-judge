@@ -5,7 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.MessageBean;
 import org.oj.database.*;
 import org.oj.model.javaBean.*;
-import utils.ConstStrings;
+import utils.Consts;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -142,7 +142,7 @@ public class SubmitServlet extends HttpServlet {
         submitRecordBean.setProblemID(problemID);
         submitRecordBean.setUserID(userID);
         submitRecordBean.setContestID(contesetID);//非比赛提交的代码统一设置为0
-        submitRecordBean.setResult(ConstStrings.result[0]);
+        submitRecordBean.setResult(Consts.result[0]);
         submitRecordBean.setLanguage(language);
         submitRecordBean.setSourceCode(code);
         submitRecordBean.setCodeLength(code.length());

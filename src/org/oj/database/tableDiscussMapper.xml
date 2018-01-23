@@ -4,5 +4,80 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.database.TableDiscuss">
+    <insert id="insertDiscuss" useGeneratedKeys="true" keyProperty="discuss.postID" keyColumn="post_id">
+      INSERT INTO t_discuss (
+      `direct_fid`,
+      `root_id`,
+      `type`,
+      `porc_id`,
+      `theme`,
+      `title`,
+      `content`,
+      `post_time`,
+      `user_id`,
+      `user_name`,
+      `reply`,
+      `watch`,
+      `first`) VALUES (
+      #{discuss.directFID},
+      #{discuss.rootID},
+      #{discuss.type},
+      #{discuss.porcID},
+      #{discuss.theme},
+      #{discuss.title},
+      #{discuss.content},
+      #{discuss.postTime},
+      #{discuss.userID},
+      #{discuss.userName},
+      #{discuss.reply},
+      #{discuss.watch},
+      #{discuss.first}
+      )
+    </insert>
 
+
+    <delete id="deleteDiscussByPostID">
+      DELETE FROM t_discuss WHERE post_id=#{postID};
+    </delete>
+
+    <update id="addWatch">
+        UPDATE t_discuss SET watch=watch+1 WHERE post_id=#{postID};
+    </update>
+
+    <select id="getDiscussByPostID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
+        SELECT * FROM t_discuss WHERE post_id=#{postID}
+    </select>
+
+    <select id="getDiscussListByRootID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
+      SELECT * FROM t_discuss WHERE root_id=#{rootID}
+    </select>
+
+    <select id="getDiscussListByPorcID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
+        SELECT * FROM t_discuss
+        WHERE 1=1
+        <if test="type != null">
+            AND `type`=#{type}
+        </if>
+        <if test="porcID != null">
+            AND `porc_id`=#{porcID}
+        </if>
+    </select>
+
+
+    <resultMap id="discussMap" type="org.oj.model.javaBean.DiscussBean">
+        <id property="postID" column="post_id"/>
+        <result property="directFID" column="direct_fid"/>
+        <result property="rootID" column="root_id"/>
+        <result property="type" column="type"/>
+        <result property="porcID" column="porc_id"/>
+        <result property="theme" column="theme"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="postTime" column="post_time"/>
+        <result property="userID" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="reply" column="reply"/>
+        <result property="watch" column="watch"/>
+        <result property="first" column="first"/>
+    </resultMap>
 </mapper>

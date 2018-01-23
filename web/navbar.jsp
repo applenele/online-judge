@@ -91,7 +91,7 @@
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/discuss-list.jsp">讨论</a>
+                    <a class="nav-link" href="/discuss">讨论</a>
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">

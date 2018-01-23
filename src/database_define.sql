@@ -153,14 +153,37 @@ CREATE TABLE t_discuss (
   回复某人
   */
   `post_id` INT auto_increment NOT NULL,  /*消息id*/
-  `about`
-  `type` TINYINT NOT NULL, /*类型*/
-  `post_title` VARCHAR(100) NOT NULL, /*标题*/
-  `post_content` text NOT NULL,  /*内容*/
+  /*以下两个ID如果是非回复的消息, 使用默认值0, 在插入到数据库后,
+   * 触发器将会把post_id, direct_fid, root_id设置为一致, 表示这个消息是原创的
+   */
+  `direct_fid` INT NOT NULL DEFAULT 0,/*如消息是回复别的消息,这里设置为原始消息的ID*/
+  `root_id` INT NOT NULL DEFAULT 0,/*如消息是回复别的消息,一组评论下的根ID*/
+  `type` TINYINT NOT NULL, /*类型, 分别表示题目讨论(0), 比赛讨论(1), 消息发布(2)*/
+  `porc_id` INT,/*根据type, 保存题目或者是比赛的ID*/
+  `theme` VARCHAR(100) NOT NULL DEFAULT "", /*消息的主题*/
+  `title` VARCHAR(100) NOT NULL DEFAULT "", /*标题*/
+  `content` text NOT NULL,  /*内容*/
   `post_time` bigint NOT NULL,  /*提交时间*/
-  `post_user` INT NOT NULL,  /*提交用户*/
+  `user_id` INT NOT NULL,  /*提交用户*/
+  `user_name`     VARCHAR(64)   NOT NULL,   /*用户名, 冗余字段, 避免联合查询*/
+  `reply` INT NOT NULL DEFAULT 0,/*消息被评论的次数*/
+  `watch` INT NOT NULL DEFAULT 0, /*消息被查看的次数*/
+  `first` TINYINT NOT NULL DEFAULT 0, /*是否置顶*/
   PRIMARY KEY(`post_id`)
 ) DEFAULT charset = "utf8" auto_increment=1  ENGINE = InnoDB;
+
+DROP TRIGGER IF EXISTS updateDiscussKes;
+CREATE TRIGGER updateDiscussKes AFTER INSERT ON t_discuss
+  FOR EACH ROW
+  BEGIN
+    IF direct_fid = root_id AND root_id =0 THEN
+      UPDATE t_discuss SET
+        NEW.direct_fid = NEW.post_id,
+        NEW.root_id = NEW.post_id;
+    END IF;
+  END;
+
+
 
 DROP TABLE IF EXISTS t_image_path;
 CREATE TABLE t_image_path (
@@ -220,6 +243,8 @@ SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT J
 
 /*查询一个题目通过的人数*/
 SELECT count(t.user_id) as passed from (SELECT DISTINCT user_id FROM v_submit_record WHERE contest_id=19 AND problem_id=7 AND result='Accepted') AS t
+
+
 
 
 /*没使用的表*/

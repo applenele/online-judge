@@ -5,21 +5,38 @@ package org.oj.model.javaBean;
  */
 public class DiscussBean {
     private int postID;
-    private short type;
-    private String postTitle;
-    private String postContent;
-    private int postTime;
-    private int postUser;
+    private int directFID;
+    private int rootID;
+    private int type;
+    private int porcID;
+    private String theme;
+    private String title;
+    private String content;
+    private long postTime;
+    private int userID;
+    private String userName;
+    private int reply;
+    private int watch;
+    private boolean first;
 
-    public DiscussBean() {}
+    public DiscussBean() {
+    }
 
-    public DiscussBean(int postID, short type, String postTitle, String postContent, int postTime, int postUser) {
+    public DiscussBean(int postID, int directFID, int rootID, int type, int porcID, String theme, String title, String content, long postTime, int userID, String userName, int reply, int watch, boolean first) {
         this.postID = postID;
+        this.directFID = directFID;
+        this.rootID = rootID;
         this.type = type;
-        this.postTitle = postTitle;
-        this.postContent = postContent;
+        this.porcID = porcID;
+        this.theme = theme;
+        this.title = title;
+        this.content = content;
         this.postTime = postTime;
-        this.postUser = postUser;
+        this.userID = userID;
+        this.userName = userName;
+        this.reply = reply;
+        this.watch = watch;
+        this.first = first;
     }
 
     public int getPostID() {
@@ -30,55 +47,127 @@ public class DiscussBean {
         this.postID = postID;
     }
 
-    public short getType() {
+    public int getDirectFID() {
+        return directFID;
+    }
+
+    public void setDirectFID(int directFID) {
+        this.directFID = directFID;
+    }
+
+    public int getRootID() {
+        return rootID;
+    }
+
+    public void setRootID(int rootID) {
+        this.rootID = rootID;
+    }
+
+    public int getType() {
         return type;
     }
 
-    public void setType(short type) {
+    public void setType(int type) {
         this.type = type;
     }
 
-    public String getPostTitle() {
-        return postTitle;
+    public int getPorcID() {
+        return porcID;
     }
 
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
+    public void setPorcID(int porcID) {
+        this.porcID = porcID;
     }
 
-    public String getPostContent() {
-        return postContent;
+    public String getTheme() {
+        return theme;
     }
 
-    public void setPostContent(String postContent) {
-        this.postContent = postContent;
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
-    public int getPostTime() {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public long getPostTime() {
         return postTime;
     }
 
-    public void setPostTime(int postTime) {
+    public void setPostTime(long postTime) {
         this.postTime = postTime;
     }
 
-    public int getPostUser() {
-        return postUser;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setPostUser(int postUser) {
-        this.postUser = postUser;
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getReply() {
+        return reply;
+    }
+
+    public void setReply(int reply) {
+        this.reply = reply;
+    }
+
+    public int getWatch() {
+        return watch;
+    }
+
+    public void setWatch(int watch) {
+        this.watch = watch;
+    }
+
+    public boolean isFirst() {
+        return first;
+    }
+
+    public void setFirst(boolean first) {
+        this.first = first;
     }
 
     @Override
     public String toString() {
         return "DiscussBean{" +
                 "postID=" + postID +
+                ", directFID=" + directFID +
+                ", rootID=" + rootID +
                 ", type=" + type +
-                ", postTitle='" + postTitle + '\'' +
-                ", postContent='" + postContent + '\'' +
+                ", porcID=" + porcID +
+                ", theme='" + theme + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
                 ", postTime=" + postTime +
-                ", postUser=" + postUser +
+                ", userID=" + userID +
+                ", userName='" + userName + '\'' +
+                ", reply=" + reply +
+                ", watch=" + watch +
+                ", first=" + first +
                 '}';
     }
 }
