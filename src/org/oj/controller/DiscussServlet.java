@@ -3,7 +3,9 @@ package org.oj.controller;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.MessageBean;
 import org.oj.database.DataSource;
+import org.oj.database.TableContest;
 import org.oj.database.TableDiscuss;
+import org.oj.database.TableProblem;
 import org.oj.model.javaBean.DiscussBean;
 import utils.Consts;
 
@@ -22,10 +24,10 @@ import java.util.List;
         urlPatterns = {
                 "/post-discuss",
                 "/post-original-discuss",
-                "/delete-discuss",
+                "/discuss-delete",
                 "/discuss",
                 "/discuss-detail",
-                "/set-first"
+                "/discuss-set-first"
             }
         )
 public class DiscussServlet extends HttpServlet {
@@ -41,9 +43,9 @@ public class DiscussServlet extends HttpServlet {
         String uri = request.getRequestURI();
         System.out.println("get: " + request.getRequestURI());
 
-        if (uri.equals("/delete-discuss")) deleteDiscuss(request, response);
+        if (uri.equals("/discuss-delete")) deleteDiscuss(request, response);
         if (uri.equals("/discuss")) getDiscuss(request, response);
-        if (uri.equals("/set-first")) discussSetFirst(request, response);
+        if (uri.equals("/discuss-set-first")) discussSetFirst(request, response);
         if (uri.equals("/post-original-discuss")) request.getRequestDispatcher("/discuss-edit.jsp").forward(request, response);
         if (uri.equals("/discuss-detail")) getDiscussDetail(request, response);
     }
@@ -58,19 +60,23 @@ public class DiscussServlet extends HttpServlet {
 
             String strRootID = request.getParameter("inputRootID");
             Integer rootID = strRootID != null && strRootID.length() > 0 ? Integer.parseInt(strRootID) : null;
-            //回复消息不需要设置以下theme and title
+
+            discussBean.setDirectFID(directFID);
+            discussBean.setRootID(rootID);
+
+            //回复消息不需要设置theme and title具体数据
+            discussBean.setTheme("");
+            discussBean.setTitle("");
+
         } else {
-            String theme = request.getParameter("inputTheme");
             String title = request.getParameter("inputTitle");
-
-            if (theme == null || theme.length() == 0) {
-                discussBean.setTheme("管理员");
-            } else {
-                discussBean.setTheme(theme);
-            }
-
             discussBean.setTitle(title);
         }
+
+
+        SqlSession sqlSession = DataSource.getSqlSesion();
+
+
 
         //设置消息类型
         String strType = request.getParameter("inputType");
@@ -82,6 +88,21 @@ public class DiscussServlet extends HttpServlet {
             String strPorcID = request.getParameter("inputPorcID");
             Integer porcID = strPorcID != null && strPorcID.length() > 0 ? Integer.parseInt(strPorcID) : null;
             discussBean.setPorcID(porcID);
+            if (type == 0) {
+                TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+                discussBean.setTheme(tableProblem.getProblemByID(porcID).getTitle());
+            } else {
+                TableContest tableContest = sqlSession.getMapper(TableContest.class);
+                discussBean.setTheme(tableContest.getContestByID(porcID).getTitle());
+            }
+        } else {
+            String theme = request.getParameter("inputTheme");
+            theme = null;//theme由系统自动设置
+            if (theme == null || theme.length() == 0) {
+                discussBean.setTheme("管理员");
+            } else {
+                discussBean.setTheme(theme);
+            }
         }
 
         //无论什么样的消息, 都必须要设置内容
@@ -122,34 +143,48 @@ public class DiscussServlet extends HttpServlet {
         discussBean.setWatch(0);
 
 
-        SqlSession sqlSession = DataSource.getSqlSesion();
         TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
         tableDiscuss.insertDiscuss(discussBean);
 
+        //设置该信息为原创的信息, 即不是回复别人的
+        if (discussBean.getRootID() == discussBean.getDirectFID() && discussBean.getRootID() == 0) {
+            tableDiscuss.setAsRoot(discussBean);
+        } else {
+            tableDiscuss.addReply(discussBean.getRootID());//对于回复消息, 将楼主的回复数量增加1
+        }
+
+
+        sqlSession.commit();
+        sqlSession.close();
+
+        if (isOriginal) {
+            response.sendRedirect("/discuss?type=" + discussBean.getType() + "&porcID=" + discussBean.getPorcID());
+        } else {
+            response.sendRedirect("/discuss-detail?postID=" + discussBean.getRootID());
+        }
+    }
+
+    private void deleteDiscuss(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strPostID = request.getParameter("postID");
+        Integer postID = strPostID != null && strPostID.length() > 0 ? Integer.parseInt(strPostID) : null;
+
+
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
+        tableDiscuss.deleteDiscussByPostID(postID);
         sqlSession.commit();
         sqlSession.close();
 
         response.sendRedirect("/discuss");
     }
 
-    private void deleteDiscuss(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     private void getDiscuss(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strType = request.getParameter("type");
+        Integer type = strType != null && strType.length() > 0 ? Integer.parseInt(strType) : null;
+
         String strPorcID = request.getParameter("porcID");
+        Integer porcID = strPorcID != null && strPorcID.length() > 0 ? Integer.parseInt(strPorcID) : null;
 
-
-        Integer type = null, porcID = null;
-
-        if (strType != null && strType.length() > 0) {
-            type = Integer.parseInt(strType);
-        }
-
-        if (strPorcID != null && strPorcID.length() > 0) {
-            porcID = Integer.parseInt(strPorcID);
-        }
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);

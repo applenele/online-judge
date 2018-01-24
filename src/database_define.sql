@@ -172,17 +172,6 @@ CREATE TABLE t_discuss (
   PRIMARY KEY(`post_id`)
 ) DEFAULT charset = "utf8" auto_increment=1  ENGINE = InnoDB;
 
-DROP TRIGGER IF EXISTS updateDiscussKes;
-CREATE TRIGGER updateDiscussKes AFTER INSERT ON t_discuss
-  FOR EACH ROW
-  BEGIN
-    IF direct_fid = root_id AND root_id =0 THEN
-      UPDATE t_discuss SET
-        NEW.direct_fid = NEW.post_id,
-        NEW.root_id = NEW.post_id;
-    END IF;
-  END;
-
 
 
 DROP TABLE IF EXISTS t_image_path;

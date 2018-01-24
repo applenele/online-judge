@@ -22,7 +22,14 @@ import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
 /**
  * Created by xanarry on 18-1-2.
  */
-@WebServlet(name = "userServlet", urlPatterns = {"/user", "/delete-user", "/edit-user"})
+@WebServlet(name = "userServlet",
+        urlPatterns = {
+                "/user",
+                "/delete-user",
+                "/edit-user",
+                "/retrieve-password"
+            }
+        )
 public class userServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post " + request.getRequestURL());
@@ -33,7 +40,7 @@ public class userServlet extends HttpServlet {
         System.out.println("get " + request.getRequestURL());
         if (request.getRequestURI().equals("/delete-user"))  deleteUser(request, response);
         if (request.getRequestURI().equals("/user"))         showUser(request, response);
-
+        if (request.getRequestURI().equals("/retrieve-password")) retrievePasswordGet(request, response);
     }
 
 
@@ -127,5 +134,10 @@ public class userServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print(json);
         out.flush();
+    }
+
+
+    private void retrievePasswordGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

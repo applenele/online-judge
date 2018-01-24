@@ -47,15 +47,11 @@
         </ul>
         <div class="text-center">
             <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-light"><a
-                        href="/submit?problemID=${problem.problemID}">提交</a></button>
-                <button type="button" class="btn btn-light"><a href="/status?problemID=${problem.problemID}">状态</a>
-                </button>
-                <button type="button" class="btn btn-light"><a
-                        href="/edit-problem?problemID=${problem.problemID}">编辑</a></button>
-                <button type="button" class="btn btn-light"><a
-                        href="/test-point-list?problemID=${problem.problemID}">查看数据</a>
-                </button>
+                <button type="button" class="btn btn-light"><a href="/submit?problemID=${problem.problemID}">提交</a></button>
+                <button type="button" class="btn btn-light"><a href="/discuss?type=0&porcID=${problem.problemID}">讨论</a></button>
+                <button type="button" class="btn btn-light"><a href="/record-list?problemID=${problem.problemID}">状态</a></button>
+                <button type="button" class="btn btn-light"><a href="/edit-problem?problemID=${problem.problemID}">编辑</a></button>
+                <button type="button" class="btn btn-light"><a href="/test-point-list?problemID=${problem.problemID}">查看数据</a></button>
             </div>
         </div>
     </div>

@@ -181,10 +181,11 @@
             <div class="row">
                 <div class="col-6 offset-3">
                     <div class="text-center">
-                        <a href="/edit-contest?contestID=${contest.contestID}"><span class="btn btn-primary">编辑比赛</span></a>
+                        <a href="/discuss?type=1&porcID=${contest.contestID}" class="btn btn-primary">讨论</a>
                         <a href="/record-list?contestID=${contest.contestID}" class="btn btn-primary">全部提交</a>
                         <a href="/user-list?contestID=${contest.contestID}" class="btn btn-primary">全部用户</a>
                         <a href="/contest-rank?contestID=${contest.contestID}" class="btn btn-primary">查看排名</a>
+                        <a href="/edit-contest?contestID=${contest.contestID}"><span class="btn btn-success">编辑比赛</span></a>
                     </div>
                 </div>
             </div>

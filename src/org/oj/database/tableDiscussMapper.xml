@@ -40,8 +40,19 @@
       DELETE FROM t_discuss WHERE post_id=#{postID};
     </delete>
 
+    <update id="setAsRoot" parameterType="org.oj.model.javaBean.DiscussBean">
+        UPDATE t_discuss SET
+        `root_id`=#{discuss.postID},
+        `direct_fid`=#{discuss.postID}
+        WHERE post_id=#{discuss.postID}
+    </update>
+
     <update id="addWatch">
         UPDATE t_discuss SET watch=watch+1 WHERE post_id=#{postID};
+    </update>
+
+    <update id="addReply">
+        UPDATE t_discuss SET reply=reply+1 WHERE post_id=#{postID};
     </update>
 
     <select id="getDiscussByPostID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
@@ -49,18 +60,19 @@
     </select>
 
     <select id="getDiscussListByRootID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
-      SELECT * FROM t_discuss WHERE root_id=#{rootID}
+      SELECT * FROM t_discuss WHERE root_id=#{rootID} AND `post_id` != `root_id` ORDER BY post_time DESC
     </select>
 
     <select id="getDiscussListByPorcID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
         SELECT * FROM t_discuss
-        WHERE 1=1
+        WHERE `post_id`=`root_id` AND `post_id`=`direct_fid`
         <if test="type != null">
             AND `type`=#{type}
         </if>
         <if test="porcID != null">
             AND `porc_id`=#{porcID}
         </if>
+        ORDER BY post_time DESC
     </select>
 
 

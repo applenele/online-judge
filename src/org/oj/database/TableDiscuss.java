@@ -11,7 +11,10 @@ import java.util.List;
 public interface TableDiscuss {
     int insertDiscuss(@Param("discuss")DiscussBean discuss);
 
+
+    void setAsRoot(@Param("discuss") DiscussBean discuss);
     void addWatch(@Param("postID") Integer postID);
+    void addReply(@Param("postID") Integer postID);
 
     void deleteDiscussByPostID(@Param("postID") Integer postID);
     void deleteDiscussByRootID(@Param("rootID") Integer rootID);
