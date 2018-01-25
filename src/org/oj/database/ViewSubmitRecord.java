@@ -6,7 +6,7 @@ import org.oj.model.javaBean.ViewSubmitRecordBean;
 
 import java.util.List;
 
-public interface ViewSubmitRecord {
+public interface ViewSubmitRecord extends BaseFunction {
     //select
     public SubmitRecordBean getSubmitRecordByID(@Param("submitID") Integer submitID);
 
@@ -18,4 +18,5 @@ public interface ViewSubmitRecord {
 
     public List<ViewSubmitRecordBean> getSubmitRecordListByUserName(@Param("contestID") Integer contestID, @Param("problemID") Integer problemID, @Param("userName") String userName, @Param("result") String result, @Param("language") String language, @Param("start") Integer start, @Param("count") Integer count);
 
+    int getCountOnCondition(@Param("contestID") Integer contestID, @Param("problemID") Integer problemID, @Param("userName") String userName, @Param("result") String result, @Param("language") String language);
 }

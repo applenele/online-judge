@@ -4,6 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.database.ViewSubmitRecord">
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from v_submit_record;
+    </select>
+
+
     <select id="getSubmitRecordByID" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
         SELECT * FROM v_submit_record WHERE submit_id = #{submitID}
@@ -74,6 +79,26 @@
             AND `problem_id`=#{problemID}
         </if>
         ORDER BY submit_time DESC limit #{start}, #{count}
+    </select>
+
+    <select id="getCountOnCondition" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM v_submit_record
+        WHERE 1=1
+        <if test="contestID != null">
+            AND `contest_id` = #{contestID}
+        </if>
+        <if test="userName != null">
+            AND `user_name`=#{userName}
+        </if>
+        <if test="language != null">
+            AND `language` =#{language}
+        </if>
+        <if test="result != null">
+            AND `result`=#{result}
+        </if>
+        <if test="problemID != null">
+            AND `problem_id`=#{problemID}
+        </if>
     </select>
 
 

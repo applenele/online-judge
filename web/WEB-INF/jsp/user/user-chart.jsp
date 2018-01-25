@@ -18,7 +18,7 @@
     <script src="js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <div class="card">
         <table class="table table-striped">
@@ -34,7 +34,7 @@
             <tbody>
             <c:forEach items="${userList}" var="user" varStatus="pos">
                 <tr>
-                    <td class="text-center">${pos.count}</td>
+                    <td class="text-center">${pos.count+(pageInfo.currentPageVal-1)*pageInfo.countPerPage}</td>
                     <td><a href="/user?userID=${user.userID}">${user.userName}</a></td>
                     <td>${user.bio}</td>
                         <jsp:useBean id="registerTime" class="java.util.Date"/>
@@ -46,15 +46,10 @@
         </table>
     </div>
     <br>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
-    <jsp:include page="footer.jsp"/>
+    <p>pageinfo: ${pageInfo}</p>
+    <c:if test="${not empty pageInfo}">
+        <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
+    </c:if>
+    <jsp:include page="/footer.jsp"/>
 </body>
 </html>

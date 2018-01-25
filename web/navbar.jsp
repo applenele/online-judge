@@ -83,11 +83,11 @@
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/problem-list">题库</a>
+                    <a class="nav-link" href="/problem">题库</a>
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contest-list">比赛</a>
+                    <a class="nav-link" href="/contest">比赛</a>
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
@@ -101,7 +101,7 @@
                 <li class="nav-item"><span class="nav-link"></span></li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/chart">排行榜</a>
+                    <a class="nav-link" href="/user-chart">排行榜</a>
                 </li>
 
                 <li class="nav-item"><span class="nav-link"></span></li>

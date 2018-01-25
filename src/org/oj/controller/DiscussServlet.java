@@ -130,7 +130,7 @@ public class DiscussServlet extends HttpServlet {
             messageBean.setLinkText("");
             messageBean.setUrl("#");
 
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
             return;
         }
 

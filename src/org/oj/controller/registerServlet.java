@@ -60,7 +60,7 @@ public class registerServlet extends HttpServlet {
         System.out.println(userBean.getUserID());
 
         MessageBean messageBean = new MessageBean("注册成功", "Info", "恭喜您已经成功完成注册,登录使用系统吧!", "/", "Got It");
-        Utils.sendErrorMsg(request, response, messageBean);
+        Utils.sendErrorMsg(response, messageBean);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

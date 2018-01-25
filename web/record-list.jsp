@@ -50,7 +50,7 @@
 
                 <option value="Output Limit Exceeded">Output Limit Exceeded</option>
 
-                <option value="Compile Error">Compile Error</option>
+                <option value="Compilation Error">Compilation Error</option>
 
                 <option value="System Error">System Error</option>
 
@@ -157,15 +157,10 @@
         </table>
     </div>
     <br>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
+    <p>pageinfo: ${pageInfo}</p>
+    <c:if test="${not empty pageInfo}">
+        <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
+    </c:if>
     <jsp:include page="footer.jsp"/>
 </body>
 </html>

@@ -105,7 +105,7 @@ public class ContestServlet extends HttpServlet {
             request.getRequestDispatcher("/contest-rank.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
         }
     }
 
@@ -217,7 +217,7 @@ public class ContestServlet extends HttpServlet {
             response.sendRedirect("/contest-list");
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误", "该比赛不存在!", "/", "回到首页");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
         }
     }
 
@@ -287,7 +287,7 @@ public class ContestServlet extends HttpServlet {
 
                 sqlSession.close();
 
-                Utils.sendErrorMsg(request, response, messageBean);
+                Utils.sendErrorMsg(response, messageBean);
                 return;
             }
 
@@ -301,7 +301,7 @@ public class ContestServlet extends HttpServlet {
             request.getRequestDispatcher("/contest-overview.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
         }
     }
 
@@ -351,7 +351,7 @@ public class ContestServlet extends HttpServlet {
                 request.getRequestDispatcher("/contest-detail.jsp").forward(request, response);
                 return;
         }
-        Utils.sendErrorMsg(request, response, messageBean);
+        Utils.sendErrorMsg(response, messageBean);
     }
 
     private void editContestGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -371,7 +371,7 @@ public class ContestServlet extends HttpServlet {
             request.getRequestDispatcher("/contest-edit.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
         }
     }
 
@@ -388,7 +388,7 @@ public class ContestServlet extends HttpServlet {
             response.sendRedirect("/edit-contest-problem?contestID=" + contestID);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
         }
     }
     private void editContestProblemGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -409,7 +409,7 @@ public class ContestServlet extends HttpServlet {
             request.getRequestDispatcher("/contest-problem-edit.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误", "该比赛不存在!", "/", "回到首页");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
         }
 
     }
@@ -475,7 +475,7 @@ public class ContestServlet extends HttpServlet {
             }
             messageBean.setUrl("/");
             messageBean.setLinkText("/返回首页");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
         }
     }
 }

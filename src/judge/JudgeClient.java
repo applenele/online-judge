@@ -50,6 +50,7 @@ public class JudgeClient extends Thread {
     private int serverPort;
     private int webServerCopyFile = 1;
 
+    private int vps = 0;
 
 
     public JudgeClient() {
@@ -203,8 +204,11 @@ public class JudgeClient extends Thread {
     }
 
     public void submit(SubmitRecordBean submitRecordBean, ProblemBean problemBean, String testPointDataPath) {
-        runningBaseFolder = "/home/xanarry/Desktop/running-dir";
-
+        if (vps == 0) {
+            runningBaseFolder = "/home/xanarry/Desktop/running-dir";
+        } else {
+            runningBaseFolder = "/root/oj/running-dir";
+        }
         String runningFolder = prepareFiles(submitRecordBean, testPointDataPath);
         if (runningFolder == null) {
             //在准备文件的过程中产生了错误, 尝试删除文件

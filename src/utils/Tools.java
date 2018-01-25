@@ -18,6 +18,8 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
+
 /**
  * Created by xanarry on 18-1-1.
  */
@@ -394,6 +396,19 @@ public class Tools {
         });
 
         return rankList;
+    }
+
+
+    public static String saltBase64Encode(String message) {
+        byte[] encodedBytes = Base64.getEncoder().encode(message.getBytes());
+        return new String(Base64.getEncoder().encode((sha1Hex(message) + new String(encodedBytes)).getBytes()));
+    }
+
+    public static String saltBase64Decode(String code) {
+        String codeInCode = new String(Base64.getDecoder().decode(code));
+        String trueCode = codeInCode.substring(40);
+        byte[] decodedBytes = Base64.getDecoder().decode(trueCode);
+        return new String(decodedBytes);
     }
 
 }

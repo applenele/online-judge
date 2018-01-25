@@ -4,8 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.oj.database.TableUser">
-    <insert id="addNewUser" keyProperty="user_id" useGeneratedKeys="true" keyColumn="user_id"
-            parameterType="org.oj.model.javaBean.UserBean">
+    <insert id="addNewUser" keyProperty="user.userID" useGeneratedKeys="true" keyColumn="user_id" parameterType="org.oj.model.javaBean.UserBean">
         INSERT INTO t_user
         (
         email,
@@ -22,35 +21,42 @@
         )
         VALUES
         (
-        #{email},
-        #{userName},
-        #{password},
-        #{registerTime},
-        #{lastLoginTime},
-        #{userType},
-        #{preferLanguage},
-        #{accepted},
-        #{submitted},
-        #{bio},
-        #{sendCode}
+        #{user.email},
+        #{user.userName},
+        #{user.password},
+        #{user.registerTime},
+        #{user.lastLoginTime},
+        #{user.userType},
+        #{user.preferLanguage},
+        #{user.accepted},
+        #{user.submitted},
+        #{user.bio},
+        #{user.sendCode}
         )
     </insert>
 
 
+
+    <delete id="deleteUserById">
+        DELETE FROM t_user WHERE user_id = #{userID}
+    </delete>
+
+
+
     <update id="updateUser">
         UPDATE t_user SET
-          email           = #{email},
-          user_name       = #{userName},
-          password        = #{password},
-          register_time   = #{registerTime},
-          last_login_time = #{lastLoginTime},
-          user_type       = #{userType},
-          prefer_language = #{preferLanguage},
-          accepted        = #{accepted},
-          submitted        = #{submitted},
-          bio             = #{bio},
-          send_code       = #{sendCode}
-        WHERE user_id = #{userID}
+          email           = #{user.email},
+          user_name       = #{user.userName},
+          password        = #{user.password},
+          register_time   = #{user.registerTime},
+          last_login_time = #{user.lastLoginTime},
+          user_type       = #{user.userType},
+          prefer_language = #{user.preferLanguage},
+          accepted        = #{user.accepted},
+          submitted       = #{user.submitted},
+          bio             = #{user.bio},
+          send_code       = #{user.sendCode}
+        WHERE user_id = #{user.userID}
     </update>
 
     <update id="updateSubmittedTimes">
@@ -67,9 +73,10 @@
     </update>
 
 
-    <delete id="deleteUserById">
-        DELETE FROM t_user WHERE user_id = #{userID}
-    </delete>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from t_user;
+    </select>
 
 
     <select id="getUserByID" resultMap="userMap" resultType="org.oj.model.javaBean.UserBean">
@@ -83,7 +90,7 @@
 
 
     <select id="getUserList" resultMap="userMap" resultType="org.oj.model.javaBean.UserBean">
-        SELECT * from t_user;
+        SELECT * from t_user limit #{start}, #{count};
     </select>
 
     <select id="checkEmailExist" resultType="java.lang.Boolean">
@@ -95,14 +102,6 @@
         SELECT count(user_id) > 0 AS result FROM t_user WHERE user_name=#{userName}
     </select>
 
-    <select id="checkPasswordByUserName" resultType="java.lang.Boolean">
-        SELECT count(user_id) > 0 AS result FROM t_user WHERE user_name=#{userName} AND password=#{password};
-    </select>
-
-
-    <select id="checkPasswordByEmail" resultType="java.lang.Boolean">
-        SELECT count(user_id) > 0 AS result FROM t_user WHERE user_name=#{email} AND password=#{password};
-    </select>
 
     <select id="getChart" resultType="org.oj.model.javaBean.UserBean" resultMap="userMap">
         SELECT * FROM t_user ORDER BY `accepted` DESC, `accepted`/`submitted` DESC LIMIT #{start}, #{count}

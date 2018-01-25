@@ -3,6 +3,7 @@ package org.oj.controller;
 import judge.JudgeClient;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.MessageBean;
+import org.oj.controller.beans.PageBean;
 import org.oj.database.*;
 import org.oj.model.javaBean.*;
 import utils.Consts;
@@ -129,7 +130,7 @@ public class SubmitServlet extends HttpServlet {
         //检查用户是否登录
         if (strUserID == null) {
             MessageBean messageBean = new MessageBean("提示", "提示", "请登录再提交代码", "/", "回到首页");
-            Utils.sendErrorMsg(request, response, messageBean);
+            Utils.sendErrorMsg(response, messageBean);
             return;
         }
 
@@ -179,6 +180,9 @@ public class SubmitServlet extends HttpServlet {
 
 
     private void getRecordList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strPage = request.getParameter("page");
+        int page =  strPage != null ? Integer.parseInt(strPage) : 1;
+
         String strContestID = request.getParameter("contestID");
         int contestID = 0;
         if (strContestID != null && strContestID.length() > 0) {
@@ -197,10 +201,16 @@ public class SubmitServlet extends HttpServlet {
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
-        List<ViewSubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserName(contestID, problemID, userName, result, language, 0, 100);
+        List<ViewSubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserName(contestID, problemID, userName, result, language, (page-1)*Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+
+        //获取分页信息
+        int recordCount = submitRecord.getCountOnCondition(contestID, problemID, userName, result, language);
+        PageBean pageBean = Utils.getPagination(recordCount, page, request);
+
         sqlSession.close();
 
         request.setAttribute("recordList", submitRecordBeans);
+        request.setAttribute("pageInfo", pageBean);
         request.getRequestDispatcher("/record-list.jsp").forward(request, response);
     }
 
