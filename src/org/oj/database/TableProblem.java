@@ -20,26 +20,26 @@ public interface TableProblem extends BaseFunction {
     //update
     void updateProblemByID(@Param("problem") ProblemBean problem);
 
-    void updateSubmittedTimes(@Param("problemID") int problemID);
+    void updateSubmittedTimes(@Param("problemID") Integer problemID);
 
-    void updateAcceptedTimes(@Param("problemID") int problemID);
+    void updateAcceptedTimes(@Param("problemID") Integer problemID);
 
 
     //select
-    ProblemBean getProblemByID(@Param("problemID") int problemID);
+    ProblemBean getProblemByID(@Param("problemID") Integer problemID);
 
-    List<ProblemBean> getProblemsOrderByID(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderByID(@Param("start") Integer start, @Param("count") Integer count);
+    List<ProblemBean> getProblesOrderByIDForLogin(@Param("userID") Integer userID, @Param("result") String result, @Param("start") Integer start, @Param("count") Integer count);
 
-    List<ProblemBean> getProblemsOrderByCrateTime(@Param("start") int start, @Param("count") int count);
 
-    List<ProblemBean> getProblemsOrderByAccepted(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderByAccepted(@Param("start") Integer start, @Param("count") Integer count);
 
-    List<ProblemBean> getProblemsOrderBySubmitted(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderBySubmitted(@Param("start") Integer start, @Param("count") Integer count);
 
-    List<ProblemBean> getProblemsOrderByAcceptedRate(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderByAcceptedRate(@Param("start") Integer start, @Param("count") Integer count);
 
     /*搜索题目*/
-    List<ProblemBean> searchProblem(@Param("problemKeyword") String problemKeyword, @Param("start") int start, @Param("count") int count);
+    List<ProblemBean> searchProblem(@Param("problemKeyword") String problemKeyword, @Param("start") Integer start, @Param("count") Integer count);
     int getSearchResultCount(@Param("problemKeyword") String problemKeyword);
 
 }

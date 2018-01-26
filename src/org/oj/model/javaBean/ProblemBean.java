@@ -20,10 +20,11 @@ public class ProblemBean {
     private int dynamicLangMemLimit;
     private int accepted;
     private int submitted;
+    private String result;/*当用户登录后查看题目时, 本字段记录用户本题是否通过*/
 
     public ProblemBean() {}
 
-    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, int createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submitted) {
+    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, int createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submitted, String result) {
         this.problemID = problemID;
         this.title = title;
         this.desc = desc;
@@ -40,6 +41,7 @@ public class ProblemBean {
         this.dynamicLangMemLimit = dynamicLangMemLimit;
         this.accepted = accepted;
         this.submitted = submitted;
+        this.result = result;
     }
 
     public int getProblemID() {
@@ -170,6 +172,14 @@ public class ProblemBean {
         this.submitted = submitted;
     }
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
     @Override
     public String toString() {
         return "ProblemBean{" +
@@ -189,6 +199,7 @@ public class ProblemBean {
                 ", dynamicLangMemLimit=" + dynamicLangMemLimit +
                 ", accepted=" + accepted +
                 ", submitted=" + submitted +
+                ", result='" + result + '\'' +
                 '}';
     }
 }

@@ -4,11 +4,13 @@ import org.oj.controller.beans.MessageBean;
 import org.oj.controller.beans.PageBean;
 import utils.Consts;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Utils {
@@ -69,5 +71,15 @@ public class Utils {
         pageBean.setUrl(Utils.urlWithoutPageInfo(request));
         System.out.println("after: " + pageBean.getUrl());
         return pageBean;
+    }
+
+    public static HashMap<String, String> getCookieMap(HttpServletRequest request) {
+        HashMap<String, String> cookieMap = new HashMap<>(4);
+        for (Cookie c : request.getCookies()) {
+            if (c.getName().equals("userID") || c.getName().equals("userName")) {
+                cookieMap.put(c.getName(), c.getValue());
+            }
+        }
+        return cookieMap;
     }
 }

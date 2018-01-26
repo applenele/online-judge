@@ -189,10 +189,10 @@ public class SubmitServlet extends HttpServlet {
             contestID = Integer.parseInt(strContestID);
         }
 
-        String userName = request.getParameter("inputUserName");
-        String strProblemID = request.getParameter("inputProblemID");
-        String result = request.getParameter("inputResult");
-        String language = request.getParameter("inputLanguage");
+        String userName = request.getParameter("userName");
+        String strProblemID = request.getParameter("problemID");
+        String result = request.getParameter("result");
+        String language = request.getParameter("language");
 
         userName = userName != null && userName.length() > 0 ? userName : null;
         Integer problemID = strProblemID != null && strProblemID.length() > 0 ? Integer.parseInt(strProblemID) : null;

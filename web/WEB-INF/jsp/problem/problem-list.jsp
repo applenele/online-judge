@@ -14,6 +14,7 @@
 <head>
     <title>题目列表</title>
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
@@ -37,15 +38,23 @@
             <tbody>
             <c:forEach items="${problemList}" var="problem">
                 <tr>
-                    <c:if test="${not empty cookie.get('userID')}"><td class="text-center"><span class="badge badge-success">已通过</span></td></c:if>
-                    <td class="text-center">${1000 + problem.problemID}</td>
+                    <c:if test="${not empty cookie.get('userID')}">
+                        <c:choose>
+                            <c:when test="${problem.result == 'Accepted'}">
+                                <td class="text-center"><span class="badge badge-success"><i class="fa fa-check"></i></span></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="text-center"><span class="badge badge-secondary"></span></td>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
+                    <td class="text-center"><a href="problem?problemID=${problem.problemID}">${1000 + problem.problemID}</a></td>
                     <td class="text-center"><a href="problem?problemID=${problem.problemID}">${problem.title}</td>
-                    <td class="text-center">${problem.accepted/problem.submitted}</td>
+                    <td class="text-center">${problem.accepted}/${problem.submitted}</td>
                     <td class="text-center">
-                        <a href="record?problemID=${problem.problemID}"><span class="badge badge-light">记录</span></a>
-                        <a href="test-point-list?problemID=${problem.problemID}"><span class="badge badge-secondary">数据</span></a>
-                        <a href="/edit-problem?problemID=${problem.problemID}"><span
-                                class="badge badge-primary">编辑</span></a>
+                        <a href="/record-list?problemID=${problem.problemID}"><span class="badge badge-light">记录</span></a>
+                        <a href="/test-point-list?problemID=${problem.problemID}"><span class="badge badge-secondary">数据</span></a>
+                        <a href="/problem-edit?problemID=${problem.problemID}"><span class="badge badge-primary">编辑</span></a>
                     </td>
                 </tr>
             </c:forEach>

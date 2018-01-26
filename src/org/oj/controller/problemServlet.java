@@ -1,5 +1,6 @@
 package org.oj.controller;
 
+import judge.JudgeClient;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.PageBean;
 import org.oj.database.DataSource;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -139,7 +141,19 @@ public class problemServlet extends HttpServlet {
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
-        List<ProblemBean> problemBeanList = tableProblem.getProblemsOrderByCrateTime((page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+
+        List<ProblemBean> problemBeanList;
+        HashMap<String, String> cookieMap = Utils.getCookieMap(request);
+        if (cookieMap.containsKey("userID")) {
+            problemBeanList = tableProblem.getProblesOrderByIDForLogin(
+                    Integer.parseInt(cookieMap.get("userID")),
+                    JudgeClient.ACCEPTED,
+                    (page - 1) * Consts.COUNT_PER_PAGE,
+                    Consts.COUNT_PER_PAGE);
+        } else {
+            problemBeanList = tableProblem.getProblemsOrderByID((page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        }
+
         int recordCount = tableProblem.getCount();
         //获取分页信息
         PageBean pageBean = Utils.getPagination(recordCount, page, request);

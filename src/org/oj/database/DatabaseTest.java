@@ -28,7 +28,10 @@ public class DatabaseTest {
 
         try {
             TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
-            ;
+            List<ProblemBean> t = tableProblem.getProblesOrderByIDForLogin(7, "Accepted", null, null);
+            for (ProblemBean p : t) {
+                System.out.println(p.getProblemID() + " " + p.getTitle() + " " + p.getResult());
+            }
         } finally {
             sqlSession.close();
         }

@@ -97,8 +97,16 @@
     </select>
 
 
-    <select id="getProblemsOrderByCrateTime" resultMap="problemMap" resultType="org.oj.model.javaBean.ProblemBean">
-        SELECT * FROM t_problem ORDER BY create_time ASC limit #{start}, #{count}
+    <select id="getProblesOrderByIDForLogin" resultMap="problemMap" resultType="org.oj.model.javaBean.ProblemBean">
+        SELECT * FROM
+          t_problem
+          LEFT JOIN
+          (SELECT DISTINCT problem_id, result FROM t_submit_record WHERE result=#{result} AND user_id=#{userID}) AS t
+          USING (`problem_id`)
+          ORDER BY problem_id
+          <if test="start != null and count != null">
+              LIMIT #{start}, #{count}
+          </if>
     </select>
 
 
@@ -149,5 +157,6 @@
         <result property="dynamicLangMemLimit" column="dynamic_lang_mem_limit"/>
         <result property="accepted" column="accepted"/>
         <result property="submitted" column="submitted"/>
+        <result property="result" column="result"/>
     </resultMap>
 </mapper>

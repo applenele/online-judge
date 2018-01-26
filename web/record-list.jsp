@@ -27,12 +27,12 @@
     <form action="/record-list" method="get">
         <div class="input-group" style="padding-bottom:15px;">
             <span class="input-group-addon">用户名:</span>
-            <input name="inputUserName" type="text" value="" class="form-control">
+            <input name="userName" type="text" value="" class="form-control">
             <span class="input-group-addon">题号:</span>
-            <input name="inputProblemID" type="text" value="" class="form-control">
+            <input name="problemID" type="text" value="" class="form-control">
 
             <span class="input-group-addon">评测结果:</span>
-            <select name="inputResult" class="form-control">
+            <select name="result" class="form-control">
                 <option value="">All</option>
 
                 <option value="Accepted">Accepted</option>
@@ -56,7 +56,7 @@
             </select>
 
             <span class="input-group-addon">语言:</span>
-            <select name="inputLanguage" class="form-control">
+            <select name="language" class="form-control">
                 <option value="">All</option>
                 <option value="C">C</option>
                 <option value="C++">C++</option>
