@@ -13,45 +13,34 @@
 <html>
 <head>
     <title>题目列表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
 <jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
-
+    <h4>${tableTitle}</h4>
     <div class="card">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>状态</th>
-                <th>题号</th>
-                <th>题目名称</th>
-                <th>通过率</th>
+                <c:if test="${not empty cookie.get('userID')}"><th class="text-center">状态</th></c:if>
+                <th class="text-center">题号</th>
+                <th class="text-center">题目名称</th>
+                <th class="text-center">通过(人)/提交(次)</th>
                 <th class="text-center">操作</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${problemList}" var="problem">
                 <tr>
-                    <td><span class="badge badge-success">已通过</span></td>
-                    <td>p${1000 + problem.problemID}</td>
-                    <td><a href="problem?problemID=${problem.problemID}">${problem.title}</td>
-                    <td>${problem.accepted/problem.submitted}</td>
+                    <c:if test="${not empty cookie.get('userID')}"><td class="text-center"><span class="badge badge-success">已通过</span></td></c:if>
+                    <td class="text-center">${1000 + problem.problemID}</td>
+                    <td class="text-center"><a href="problem?problemID=${problem.problemID}">${problem.title}</td>
+                    <td class="text-center">${problem.accepted/problem.submitted}</td>
                     <td class="text-center">
                         <a href="record?problemID=${problem.problemID}"><span class="badge badge-light">记录</span></a>
                         <a href="test-point-list?problemID=${problem.problemID}"><span class="badge badge-secondary">数据</span></a>
@@ -60,30 +49,13 @@
                     </td>
                 </tr>
             </c:forEach>
-                <tr>
-                    <td></td>
-                    <td>1000</td>
-                    <td>题目名称题目名称</td>
-                    <td>67%</td>
-                    <td class="text-center">
-                        <span class="badge badge-secondary">记录</span>
-                        <span class="badge badge-secondary">数据</span>
-                        <span class="badge badge-secondary">编辑</span>
-                    </td>
-                </tr>
             </tbody>
         </table>
     </div>
     <br>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
+    <c:if test="${not empty pageInfo}">
+        <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
+    </c:if>
     <jsp:include page="/footer.jsp"/>
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.oj.controller.beans.PageBean;
 import org.oj.database.*;
 import org.oj.model.javaBean.LanguageBean;
 import org.oj.model.javaBean.UserBean;
+import org.oj.model.javaBean.ViewSubmitRecordBean;
 import utils.Consts;
 import utils.Tools;
 
@@ -32,6 +33,7 @@ import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
                 "/user-edit",
                 "/user-chart",
                 "/user-delete",
+                "/update-user-type",
                 "/retrieve-password",
                 "/send-retrieve-password-email"
         }
@@ -42,10 +44,11 @@ public class userServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post " + request.getRequestURL());
 
-        String pathInfo = request.getPathInfo();
-        if (pathInfo.equals("/user-edit"))                  editUserPost(request, response);
-        if (pathInfo.equals("/send-retrieve-password-email"))    sendRetrievePasswordEmailPost(request, response);
-        if (pathInfo.equals("/retrieve-password"))          retrievePasswordPost(request, response);
+        String uri = request.getRequestURI();
+        if (uri.equals("/user-edit"))                  editUserPost(request, response);
+        if (uri.equals("/send-retrieve-password-email"))    sendRetrievePasswordEmailPost(request, response);
+        if (uri.equals("/retrieve-password"))          retrievePasswordPost(request, response);
+        if (uri.equals("/update-user-type"))   updateUserTypePost(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -112,7 +115,7 @@ public class userServlet extends HttpServlet {
         if (userBean != null && userBean.getUserName().equals(userName)) {
             String code = Tools.saltBase64Encode(new Date().getTime() + "#" + email);
             String url = new String(request.getRequestURL()).replace(new String(request.getRequestURI()), "") + "/retrieve-password?pattern=" + code;
-            SendMail.sendMail(url, email);
+            SendMail.sendMail(email,"oj系统邮件-找回密码", "请点击以下链接找回密码, 30分钟以内有效!<br>" + url);
             json = String.format(jsonPattern, true, true, true);
         } else {
             json = String.format(jsonPattern, false, false, true);
@@ -129,12 +132,13 @@ public class userServlet extends HttpServlet {
             TableUser user = sqlSession.getMapper(TableUser.class);
             UserBean userBean = user.getUserByID(userID);
             List<LanguageBean> languages = sqlSession.getMapper(TableLanguage.class).getLanguageList();
-            sqlSession.close();
+            List<Integer> acceptedProblem = sqlSession.getMapper(ViewSubmitRecord.class).getUserAcceptedProblems(userID);
 
-            System.out.println(userBean);
+            sqlSession.close();
 
             if (userBean != null) {
                 request.setAttribute("user", userBean);
+                request.setAttribute("acceptedProblem", acceptedProblem);
                 request.setAttribute("languages", languages);
                 request.getRequestDispatcher("/WEB-INF/jsp/user/user-information.jsp").forward(request, response);
             } else {
@@ -258,5 +262,24 @@ public class userServlet extends HttpServlet {
         messageBean.setUrl("/");
         messageBean.setLinkText("返回首页");
         Utils.sendErrorMsg(response, messageBean);
+    }
+
+    private void updateUserTypePost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strUserID = request.getParameter("inputUserID");
+        String strUserType = request.getParameter("inputUserType");
+        Integer userID = strUserID != null && strUserID.length() > 0 ? Integer.parseInt(strUserID) : null;
+        Short userType = Short.parseShort(strUserType);
+
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableUser tableUser = sqlSession.getMapper(TableUser.class);
+        UserBean userBean = tableUser.getUserByID(userID);
+        userBean.setUserType(userType);
+        tableUser.updateUser(userBean);
+
+        sqlSession.commit();
+        sqlSession.close();
+
+        System.out.println("asdfasdfasdf");
+        response.sendRedirect("/user?userID=" + userID);
     }
 }

@@ -16,6 +16,14 @@
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
+
+    <script>
+        function confirmDeleteUser(userID, userName) {
+            $("#warningMessage").html("删除用户[<b>" + userName + "</b>]的所有信息, 是否继续?");
+            $("#deleteUser").attr('href', '/user-delete?userID=' + userID);
+            $("#deleteModal").modal('show');
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="/navbar.jsp"/>
@@ -40,10 +48,9 @@
                 <td class="text-center"><a href="/user?userID=${user.userID}">${user.userName}</a></td>
                 <td class="text-center">
                     <c:choose>
-                        <c:when test="${user.userType == 3}">皇帝</c:when>
-                        <c:when test="${user.userType == 2}">丞相</c:when>
-                        <c:when test="${user.userType == 1}">知县</c:when>
-                        <c:otherwise>平民</c:otherwise>
+                        <c:when test="${user.userType == 2}">管理员</c:when>
+                        <c:when test="${user.userType == 1}">高级用户</c:when>
+                        <c:otherwise>普通用户</c:otherwise>
                     </c:choose>
                 </td>
                 <td class="text-center">${user.bio}</td>
@@ -51,12 +58,32 @@
                 <td class="text-center"><fmt:formatDate pattern="yyyy/MM/dd" value="${registerTime}"/></td>
                 <td class="text-center">${user.preferLanguage}</td>
                 <td class="text-center">${user.accepted}/${user.submitted}</td>
-                <td class="text-center"><a href="/user-delete?userID=${user.userID}" class="badge badge-danger">删除</a></td>
+                <td class="text-center"><a href="#" onclick="confirmDeleteUser('${user.userID}', '${user.userName}')" class="badge badge-danger">删除</a href="#"></td>
                 </c:forEach>
             </tbody>
         </table>
     </div>
     <br>
+
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">重要提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="warningMessage">与该用户相关的所有信息即将永久性删除, 是否继续?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                    <a id="deleteUser" href="#" class="btn btn-danger">是的,删除</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <p>pageinfo: ${pageInfo}</p>
     <c:if test="${not empty pageInfo}">

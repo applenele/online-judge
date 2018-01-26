@@ -1,9 +1,12 @@
 package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
+import org.oj.controller.beans.PageBean;
 import org.oj.database.DataSource;
 import org.oj.database.TableProblem;
 import org.oj.model.javaBean.ProblemBean;
+import org.oj.model.javaBean.UserBean;
+import utils.Consts;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +22,11 @@ import java.util.List;
 @WebServlet(
         name = "problemServlet",
         urlPatterns = {
-                "/add-problem",
-                "/edit-problem",
+                "/problem-add",
+                "/problem-edit",
                 "/ajax-check-problem-exist",
                 "/problem-list",
+                "/problem-search",
                 "/problem"
         }
 )
@@ -38,9 +42,7 @@ public class problemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
         String uri = request.getRequestURI();
-        if (uri.equals("/add-problem")) {
-            request.getRequestDispatcher("/WEB-INF/jsp/problem/problem-edit.jsp").forward(request, response);
-        }
+        if (uri.equals("/add-problem")) request.getRequestDispatcher("/WEB-INF/jsp/problem/problem-edit.jsp").forward(request, response);
 
         if (uri.equals("/edit-problem")) {
             String strProblemID = request.getParameter("problemID");
@@ -60,6 +62,8 @@ public class problemServlet extends HttpServlet {
 
         if (uri.equals("/problem")) showProblem(request, response);
         if (uri.equals("/problem-list")) getProblems(request, response);
+
+        if (uri.equals("/problem-search")) searchProblem(request, response);
     }
 
     private void checkProblemExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -130,18 +134,42 @@ public class problemServlet extends HttpServlet {
 
 
     private void getProblems(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String strStart = request.getParameter("start");
-        String strCount = request.getParameter("count");
-        int start = strStart != null ? Integer.parseInt(strStart) : 0;
-        int count = strCount != null ? Integer.parseInt(strCount) : 100;
-
-        System.out.println("start: " + start + " count: " + count);
+        String strPage = request.getParameter("page");
+        int page =  strPage != null ? Integer.parseInt(strPage) : 1;
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
-        List<ProblemBean> problemBeanList = tableProblem.getProblemsOrderByCrateTime(start, count);
+        List<ProblemBean> problemBeanList = tableProblem.getProblemsOrderByCrateTime((page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        int recordCount = tableProblem.getCount();
+        //获取分页信息
+        PageBean pageBean = Utils.getPagination(recordCount, page, request);
+
+        sqlSession.close();
+        request.setAttribute("tableTitle", "题目列表(" + recordCount + ")");
+        request.setAttribute("pageInfo", pageBean);
+        request.setAttribute("problemList", problemBeanList);
+        request.getRequestDispatcher("/WEB-INF/jsp/problem/problem-list.jsp").forward(request, response);
+    }
+
+
+
+    private void searchProblem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String problemKeyword = request.getParameter("inputProblemKeyword");
+
+        String strPage = request.getParameter("page");
+        int page =  strPage != null ? Integer.parseInt(strPage) : 1;
+
+        SqlSession sqlSession = DataSource.getSqlSesion();
+        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+        List<ProblemBean> problemBeanList = tableProblem.searchProblem(problemKeyword, (page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        int recordCount = tableProblem.getSearchResultCount(problemKeyword);
+        //获取分页信息
+        PageBean pageBean = Utils.getPagination(recordCount, page, request);
+
         sqlSession.close();
 
+        request.setAttribute("tableTitle", "搜索结果(" + recordCount + ")");
+        request.setAttribute("pageInfo", pageBean);
         request.setAttribute("problemList", problemBeanList);
         request.getRequestDispatcher("/WEB-INF/jsp/problem/problem-list.jsp").forward(request, response);
     }

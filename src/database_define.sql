@@ -306,3 +306,5 @@ CREATE TRIGGER deleteContestTrgger AFTER DELETE ON t_contest
     /*删除该比赛下的所有提交代码*/
     DELETE FROM t_submit_record WHERE t_submit_record.contest_id=@contestID;
   END;
+
+INSERT

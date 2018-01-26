@@ -105,8 +105,8 @@
 
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item"><span class="nav-link"></span></li>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="搜索题目编号,标题" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" action="/problem-search" method="get">
+                    <input class="form-control mr-sm-2" type="search" name="inputProblemKeyword" placeholder="模糊搜索题目编号,标题" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
                 </form>
             </ul>
@@ -116,12 +116,10 @@
                 <c:when test="${cookie.containsKey('userID')}">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="/user?userID=${cookie.get('userID').value}" class="nav-link"><span
-                                    class=""></span>${cookie.get("userName").value}</a>
+                            <a href="/user?userID=${cookie.get('userID').value}" class="nav-link"><span class=""></span>${cookie.get("userName").value}</a>
                         </li>
                         <li class="nav-item"><span class="nav-link"></span></li>
                         <li class="nav-item"><a href="/admin" class="nav-link"><span class=""></span>管理</a></li>
-
                         <li class="nav-item"><span class="nav-link"></span></li>
                         <li class="nav-item"><a href="/logout" class="nav-link"><span class=""></span>退出</a></li>
                     </ul>
@@ -131,8 +129,7 @@
                 <c:otherwise>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><span
-                                    class=""></span>登录</a>
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><span class=""></span>登录</a>
                         </li>
                         <li class="nav-item"><span class="nav-link"></span></li>
                         <li class="nav-item"><a href="/register" class="nav-link"><span class=""></span>注册</a></li>

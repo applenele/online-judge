@@ -22,15 +22,13 @@ public class DatabaseTest {
     public static void main(String[] argv) throws IOException {
         String resource = "org/oj/database/mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
-
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
-            TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
-            List<DiscussBean> discussList = tableDiscuss.getDiscussListByRootID(0);
 
-            System.out.println(discussList);
+
+        try {
+            TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+            ;
         } finally {
             sqlSession.close();
         }

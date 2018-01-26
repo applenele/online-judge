@@ -9,7 +9,7 @@ import javax.mail.internet.*;
 
 public class SendMail
 {
-    public static boolean sendMail(String msg, String address) {
+    public static boolean sendMail(String address, String subject, String msg) {
         Properties props = new Properties();
 
         // 开启debug调试
@@ -31,8 +31,8 @@ public class SendMail
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("xiong-yang@qq.com"));
-            message.setSubject("系统邮件-找回密码");
-            message.setContent("请点击以下链接找回密码, 30分钟以内有效!<br>" + msg, "text/html;charset=UTF-8");
+            message.setSubject(subject);
+            message.setContent(msg, "text/html;charset=UTF-8");
             message.setSentDate(new Date());
             message.saveChanges();
 
@@ -49,10 +49,5 @@ public class SendMail
             return false;
         }
         return true;
-    }
-
-
-    public static void main(String [] args) throws GeneralSecurityException, MessagingException {
-        sendMail("asdfasdf", "xiong-yang@qq.com");
     }
 }

@@ -8,34 +8,38 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface TableProblem {
+public interface TableProblem extends BaseFunction {
     //insert
-    public int addProblem(@Param("problem") ProblemBean problem);
+    int addProblem(@Param("problem") ProblemBean problem);
 
     //delete
-    public void deleteProblemByID(@Param("problemID") int problemID);
+    void deleteProblemByID(@Param("problemID") int problemID);
 
 
 
     //update
-    public void updateProblemByID(@Param("problem") ProblemBean problem);
+    void updateProblemByID(@Param("problem") ProblemBean problem);
 
-    public void updateSubmittedTimes(@Param("problemID") int problemID);
+    void updateSubmittedTimes(@Param("problemID") int problemID);
 
-    public void updateAcceptedTimes(@Param("problemID") int problemID);
+    void updateAcceptedTimes(@Param("problemID") int problemID);
 
 
     //select
-    public ProblemBean getProblemByID(@Param("problemID") int problemID);
+    ProblemBean getProblemByID(@Param("problemID") int problemID);
 
-    public List<ProblemBean> getProblemsOrderByID(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderByID(@Param("start") int start, @Param("count") int count);
 
-    public List<ProblemBean> getProblemsOrderByCrateTime(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderByCrateTime(@Param("start") int start, @Param("count") int count);
 
-    public List<ProblemBean> getProblemsOrderByAccepted(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderByAccepted(@Param("start") int start, @Param("count") int count);
 
-    public List<ProblemBean> getProblemsOrderBySubmitted(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderBySubmitted(@Param("start") int start, @Param("count") int count);
 
-    public List<ProblemBean> getProblemsOrderByAcceptedRate(@Param("start") int start, @Param("count") int count);
+    List<ProblemBean> getProblemsOrderByAcceptedRate(@Param("start") int start, @Param("count") int count);
+
+    /*搜索题目*/
+    List<ProblemBean> searchProblem(@Param("problemKeyword") String problemKeyword, @Param("start") int start, @Param("count") int count);
+    int getSearchResultCount(@Param("problemKeyword") String problemKeyword);
 
 }

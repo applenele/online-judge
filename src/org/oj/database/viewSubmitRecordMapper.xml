@@ -37,27 +37,7 @@
         ORDER BY `submit_time` DESC limit #{start}, #{count}
     </select>
 
-    <select id="getSubmitRecordListByUserID" resultMap="submitRecordMap"
-            resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
-        SELECT * FROM v_submit_record
-        WHERE 1=1
-        <if test="contestID != null">
-            AND `contest_id` = #{contestID}
-        </if>
-        <if test="userID != null">
-            AND `user_id`=#{userID}
-        </if>
-        <if test="language != null">
-            AND `language` =#{language}
-        </if>
-        <if test="result != null">
-            AND `result`=#{result}
-        </if>
-        <if test="problemID != null">
-            AND `problem_id`=#{problemID}
-        </if>
-        ORDER BY submit_time DESC limit #{start}, #{count}
-    </select>
+
 
     <select id="getSubmitRecordListByUserName" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
@@ -101,6 +81,10 @@
         </if>
     </select>
 
+
+    <select id="getUserAcceptedProblems" resultType="java.lang.Integer">
+        SELECT DISTINCT problem_id FROM v_submit_record WHERE user_id=#{userID} AND result ='Accepted' ORDER BY problem_id
+    </select>
 
     <resultMap id="submitRecordMap" type="org.oj.model.javaBean.ViewSubmitRecordBean">
         <result property="submitID" column="submit_id"/>

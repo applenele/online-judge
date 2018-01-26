@@ -102,7 +102,7 @@ public class ContestServlet extends HttpServlet {
             request.setAttribute("contest", contestBean);
             request.setAttribute("problemOverview", problemOverview);
             request.setAttribute("rankList", rankList);
-            request.getRequestDispatcher("/contest-rank.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/contest/contest-rank.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
             Utils.sendErrorMsg(response, messageBean);
@@ -233,7 +233,7 @@ public class ContestServlet extends HttpServlet {
         List<ContestBean> contestBeanList = tableContest.getContestList((page - 1) * 100, 100);
         sqlSession.close();
         request.setAttribute("contestList", contestBeanList);
-        request.getRequestDispatcher("/contest-list.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/jsp/contest/contest-list.jsp").forward(request, response);
     }
 
     private void editContestPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -298,7 +298,7 @@ public class ContestServlet extends HttpServlet {
             request.setAttribute("problemList", problemList);
             request.setAttribute("isRegistered", isRegistered);
 
-            request.getRequestDispatcher("/contest-overview.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/contest/contest-overview.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误信息", "遇到不可靠参数", "/edit-contest-problem?contestID=" + strContestID, "返回");
             Utils.sendErrorMsg(response, messageBean);
@@ -348,7 +348,7 @@ public class ContestServlet extends HttpServlet {
                 request.setAttribute("problemList", problemList);
                 request.setAttribute("problem", problemBean);
                 request.setAttribute("languages", languages);
-                request.getRequestDispatcher("/contest-detail.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/contest/contest-detail.jsp").forward(request, response);
                 return;
         }
         Utils.sendErrorMsg(response, messageBean);
@@ -406,7 +406,7 @@ public class ContestServlet extends HttpServlet {
             request.setAttribute("problemList", tableContestProblem.getContestProblemList(contestID));
             request.setAttribute("contest", contestBean);
             sqlSession.close();
-            request.getRequestDispatcher("/contest-problem-edit.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/contest/contest-problem-edit.jsp").forward(request, response);
         } else {
             MessageBean messageBean = new MessageBean("错误", "错误", "该比赛不存在!", "/", "回到首页");
             Utils.sendErrorMsg(response, messageBean);

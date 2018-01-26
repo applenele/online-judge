@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fnt" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -50,7 +51,7 @@
             if (flag == 0) {
                 $.ajax({
                     type: 'POST',
-                    url: '/edit-user',
+                    url: '/user-edit',
                     data: {
                         'inputUserID': inputUserID,
                         'inputUserName': inputNewUserName,
@@ -178,10 +179,9 @@
                         </tbody>
                     </table>
                     <div class="text-center">
-                        <button class="btn btn-info" href="/emailto?email=${user.email}">发送邮件</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
-                            修改信息
-                        </button>
+                        <a class="btn btn-success" href="/send-email?userID=${user.userID}">发送邮件</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">修改信息</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUserTypeModal">修改权限</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
                     </div>
                     <div class="col-sm-2"></div>
@@ -192,13 +192,15 @@
     <br>
 
     <div class="card">
-        <div class="card-header">已解决的问题编号</div>
+        <div class="card-header">已解决的问题(${fnt:length(acceptedProblem)})</div>
         <div class="card-body">
-            <c:forEach begin="1" end="40" varStatus="pos">
-            <a href="/P/1003" class="badge badge-success">${pos.count + 1000}</a>
+            <c:forEach items="${acceptedProblem}" var="problemID">
+            <a href="/problem?problemID=${problemID}" class="badge badge-success">${problemID + 1000}</a>
             </c:forEach>
         </div>
     </div>
+
+
 
     <div class="modal fade" id="deleteModal">
         <div class="modal-dialog" role="document">
@@ -210,7 +212,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>信息即将永久性删除, 是否继续?</p>
+                    <p>与该用户相关的所有信息即将永久性删除, 是否继续?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
@@ -231,11 +233,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" id="editForm" action="/edit-user">
+                    <form method="post" id="editForm" action="/user-edit">
                         <input id="inputUserID" value="${user.userID}" hidden>
                         <div class="input-group">
                             <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;用户名</span>
-                            <input name="userName" type="text" value="${user.userName}" id="inputNewUserName" placeholder="用户名"
+                            <input name="userName" type="text" value="${user.userName}" id="inputNewUserName" readonly placeholder="用户名"
                                    class="form-control">
                         </div>
                         <label class="offset-sm-1" id="newUserNameTip" style="display: none; color: red">用户名已经存在</label>
@@ -299,6 +301,48 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" onclick="editUser()">保存修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateUserTypeModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">修改权限</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/update-user-type">
+                        <input name="inputUserID" value="${user.userID}" hidden>
+                        <div class="input-group">
+                            <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;用户名</span>
+                            <input name="userName" type="text" value="${user.userName}" readonly class="form-control">
+                        </div>
+                        <br>
+
+                        <div class="input-group">
+                            <span class="input-group-addon">邮箱地址</span>
+                            <input type="text" value="${user.email}" readonly placeholder="不超过50个字" class="form-control">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <div class="input-group-addon">语言偏好</div>
+                            <select class="form-control" name="inputUserType">
+                                <option <c:if test="${user.userType == 0}"> selected </c:if> value="0">普通用户</option>
+                                <option <c:if test="${user.userType == 1}"> selected </c:if> value="1">高级用户</option>
+                                <option <c:if test="${user.userType == 2}"> selected </c:if> value="2">系统管理员</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
