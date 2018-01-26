@@ -21,7 +21,7 @@
     <script src="js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
 
     <nav aria-label="Page navigation example">
@@ -84,6 +84,6 @@
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
     </nav>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="/footer.jsp"/>
 </body>
 </html>

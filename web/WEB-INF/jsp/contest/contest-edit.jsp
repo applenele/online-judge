@@ -12,17 +12,17 @@
 <head>
     <title>添加比赛</title>
 
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="plugin/datetimepicker/css/tempusdominus-bootstrap-4.min.css"/>
-    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugin/datetimepicker/css/tempusdominus-bootstrap-4.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 
-    <script src="plugin/ckeditor/ckeditor.js"></script>
-    <script src="plugin/datetimepicker/js/moment-with-locales.min.js"></script>
-    <script src="plugin/datetimepicker/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="/plugin/ckeditor/ckeditor.js"></script>
+    <script src="/plugin/datetimepicker/js/moment-with-locales.min.js"></script>
+    <script src="/plugin/datetimepicker/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <script>
         $(function () {
@@ -114,7 +114,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 
 <div class="container" style="margin-top: 70px">
     <div class="card">
@@ -301,6 +301,6 @@
     </script>--%>
 
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>

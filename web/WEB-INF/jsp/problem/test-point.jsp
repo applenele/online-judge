@@ -20,7 +20,7 @@
     <script src="js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <h3 class="text-center"><a href="">${problem.title}</a></h3>
     <br>
@@ -46,7 +46,7 @@
         </div>
     </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </div>
 </body>
 </html>

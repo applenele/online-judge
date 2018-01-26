@@ -13,11 +13,11 @@
 <head>
     <title>比赛列表</title>
 
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 
     <script>
         function deleteContest(contestID, contestTitle) {
@@ -28,7 +28,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
 
     <nav aria-label="Page navigation example">
@@ -140,6 +140,6 @@
             </div>
         </div>
     </div>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="/footer.jsp"/>
 </body>
 </html>

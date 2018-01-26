@@ -11,11 +11,11 @@
 <head>
     <title>找回密码</title>
 
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
     
     <script>
         function retrievePassword() {
@@ -74,7 +74,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 
 <div class="container" style="margin-top: 70px">
     <h3 class="text-center">${problem.title}</h3>
@@ -163,6 +163,6 @@
     </div>
 </div>
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>

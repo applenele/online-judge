@@ -22,7 +22,7 @@
 </head>
 
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 
 
 <div class="container" style="margin-top:70px">
@@ -120,6 +120,6 @@
     </div>
 
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>

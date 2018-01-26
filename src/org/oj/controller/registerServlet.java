@@ -23,17 +23,27 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-@WebServlet(name = "registerServlet", urlPatterns = {"/register", "/ajaxCheckRegisterInfo"})
+@WebServlet(name = "registerServlet", urlPatterns = {"/register", "/ajax-check-register-info"})
 public class registerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post: " + request.getRequestURL());
+        String uri = request.getRequestURI();
 
-        if (request.getRequestURI().endsWith("ajaxCheckRegisterInfo")) {
-            ajaxCheckRegisterInfo(request, response);
-            return;
-        }
+        if (uri.equals("/ajax-check-register-info")) ajaxCheckRegisterInfo(request, response);
+        if (uri.equals("/register")) registerGet(request, response);
 
+    }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("get: " + request.getRequestURL());
+
+        TableLanguage tableLanguage = DataSource.getSqlSesion().getMapper(TableLanguage.class);
+        List<LanguageBean> languageList = tableLanguage.getLanguageList();
+        request.setAttribute("languageList", languageList);
+        request.getRequestDispatcher("/WEB-INF/jsp/user/user-register.jsp").forward(request, response);
+    }
+
+    protected void registerGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = request.getParameter("inputUserName");
         String email    = request.getParameter("inputEmail");
         String password = request.getParameter("inputPassword");
@@ -50,25 +60,14 @@ public class registerServlet extends HttpServlet {
         userBean.setPreferLanguage(preferLanguage);
         userBean.setSendCode(true);
 
-        System.out.println(userBean.toString());
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableUser user = sqlSession.getMapper(TableUser.class);
         int retVal = user.addNewUser(userBean);
         sqlSession.commit();
         sqlSession.close();
-        System.out.println("return value: " + retVal);
-        System.out.println(userBean.getUserID());
 
         MessageBean messageBean = new MessageBean("注册成功", "Info", "恭喜您已经成功完成注册,登录使用系统吧!", "/", "Got It");
         Utils.sendErrorMsg(response, messageBean);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("get: " + request.getRequestURL());
-        TableLanguage tableLanguage = DataSource.getSqlSesion().getMapper(TableLanguage.class);
-        List<LanguageBean> languageList = tableLanguage.getLanguageList();
-        request.setAttribute("languageList", languageList);
-        request.getRequestDispatcher("user-register.jsp").forward(request, response);
     }
 
 

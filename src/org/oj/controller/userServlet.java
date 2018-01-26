@@ -4,10 +4,7 @@ import email.SendMail;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.MessageBean;
 import org.oj.controller.beans.PageBean;
-import org.oj.database.BaseFunction;
-import org.oj.database.DataSource;
-import org.oj.database.TableLanguage;
-import org.oj.database.TableUser;
+import org.oj.database.*;
 import org.oj.model.javaBean.LanguageBean;
 import org.oj.model.javaBean.UserBean;
 import utils.Consts;
@@ -30,12 +27,13 @@ import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
  */
 @WebServlet(name = "userServlet",
         urlPatterns = {
-            "/user",
-            "/user-list",
-            "/user-edit",
-            "/user-chart",
-            "/retrieve-password",
-            "/send-retrieve-password-email"
+                "/user",
+                "/user-list",
+                "/user-edit",
+                "/user-chart",
+                "/user-delete",
+                "/retrieve-password",
+                "/send-retrieve-password-email"
         }
     )
 
@@ -54,7 +52,7 @@ public class userServlet extends HttpServlet {
         System.out.println("get " + request.getRequestURL());
         String uri = request.getRequestURI();
 
-        if (uri.equals("/user"))    showUser(request, response);
+        if (uri.equals("/user"))         showUserGet(request, response);
         if (uri.equals("/user-list"))    userListGet(request, response);//直接访问根部, 返回用户列表
         if (uri.equals("/user-chart"))   userChartGet(request, response);//直接访问根部, 返回用户列表
         if (uri.equals("/user-delete"))  deleteUserGet(request, response);
@@ -123,7 +121,7 @@ public class userServlet extends HttpServlet {
     }
 
 
-    private void showUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void showUserGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strUserID = request.getParameter("userID");
         if (strUserID != null) {
             Integer userID = Integer.parseInt(strUserID);
@@ -138,7 +136,7 @@ public class userServlet extends HttpServlet {
             if (userBean != null) {
                 request.setAttribute("user", userBean);
                 request.setAttribute("languages", languages);
-                request.getRequestDispatcher("/user.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/user/user-information.jsp").forward(request, response);
             } else {
                 MessageBean messageBean = new MessageBean("错误", "错误", "用户ID不存在!", "/", "回到首页");
                 Utils.sendErrorMsg(response, messageBean);
@@ -154,12 +152,16 @@ public class userServlet extends HttpServlet {
         String strUserID = request.getParameter("userID");
         if (strUserID != null) {
             Integer userID = Integer.parseInt(strUserID);
-
             SqlSession sqlSession = DataSource.getSqlSesion();
+
+            //删除用户本身信息
             TableUser user = sqlSession.getMapper(TableUser.class);
             UserBean userBean = user.getUserByID(userID);
             String userName = userBean.getUserName();
+
+            /*数据库中定义的触发器将会删除和该用户相关的: 提交信息, 比赛信息, 讨论信息*/
             user.deleteUserById(userID);
+
             sqlSession.commit();
             sqlSession.close();
 
@@ -208,11 +210,7 @@ public class userServlet extends HttpServlet {
 
         String jsonPattern = "{\"userNameExist\" : %s, \"correctOldPassword\" :%s}";
         String json = String.format(jsonPattern, userNameExist, oldPasswordOk);
-        System.out.println(json);
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.print(json);
-        out.flush();
+        Utils.responseJson(response, json);
     }
 
 
@@ -236,7 +234,7 @@ public class userServlet extends HttpServlet {
             }
             request.setAttribute("email", c[1]);
         }
-        request.getRequestDispatcher("../user-retrieve-password.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/user/user-retrieve-password.jsp").forward(request, response);
     }
 
     private void retrievePasswordPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -11,11 +11,11 @@
 <html>
 <head>
     <title>${user.userName}</title>
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 
     <script>
         function editUser() {
@@ -99,7 +99,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 
 <div class="container" style="margin-top: 70px">
     <div class="card">
@@ -214,7 +214,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-                    <a href="/delete-user?userID=${user.userID}" class="btn btn-danger">是的,删除</a>
+                    <a href="/user-delete?userID=${user.userID}" class="btn btn-danger">是的,删除</a>
                 </div>
             </div>
         </div>
@@ -303,6 +303,6 @@
             </div>
         </div>
     </div>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="/footer.jsp"/>
 </body>
 </html>

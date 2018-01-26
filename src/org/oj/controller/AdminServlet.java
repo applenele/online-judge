@@ -16,6 +16,6 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
         System.out.println("get: " + request.getRequestURL());
-        if (uri.equals("/admin")) request.getRequestDispatcher("/admin.jsp").forward(request, response);
+        if (uri.equals("/admin")) request.getRequestDispatcher("/WEB-INF/jsp/admin/admin.jsp").forward(request, response);
     }
 }

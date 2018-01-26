@@ -103,20 +103,17 @@ public class LoginAndLogoutServlet extends HttpServlet {
 
                     response.addCookie(userIDCookie);
                     response.addCookie(userNameCookie);
-                    System.out.println("login ok");
                 } else {
                     //验证码错误
                     correctValidateCode = false;
                 }
             } else {
                 //密码错误
-                System.out.println("密码错误");
                 correctPassword = false;
             }
 
         } else {
             //用户不存在
-            System.out.println("用户不存在");
             userExist = false;
         }
 
@@ -124,15 +121,11 @@ public class LoginAndLogoutServlet extends HttpServlet {
         sqlSession.close();
 
         String json = String.format(jsonPattern, userExist, correctPassword, correctValidateCode);
-        System.out.println(json);
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.print(json);
-        out.flush();
+        Utils.responseJson(response, json);
     }
 
 
-    protected void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Cookie[] cookies = request.getCookies();
         for (Cookie c : cookies) {
             c.setMaxAge(0);

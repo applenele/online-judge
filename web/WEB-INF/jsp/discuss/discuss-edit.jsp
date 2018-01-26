@@ -17,7 +17,7 @@
     <script src="js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <div class="card">
         <div class="card-header">发布新的消息</div>
@@ -39,6 +39,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>

@@ -13,7 +13,8 @@ public interface TableSubmitRecord {
     public int addSubmitRecord(@Param("submitRecord") SubmitRecordBean submitRecord);
 
     //delete
-    public void deleteSubmitRecord(@Param("submitID") int submitID);
+    void deleteSubmitRecord(@Param("submitID") int submitID);
+    void deleteSubmitRecordByUserID(@Param("userID") int userID);
 
     //update
     //insert

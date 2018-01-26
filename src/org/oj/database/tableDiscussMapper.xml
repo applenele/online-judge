@@ -40,6 +40,10 @@
       DELETE FROM t_discuss WHERE post_id=#{postID};
     </delete>
 
+    <delete id="deleteDiscussByUserD">
+        DELETE FROM t_discuss WHERE user_id=#{userID}
+    </delete>
+
     <update id="setAsRoot" parameterType="org.oj.model.javaBean.DiscussBean">
         UPDATE t_discuss SET
         `root_id`=#{discuss.postID},

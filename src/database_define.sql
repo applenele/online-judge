@@ -220,18 +220,18 @@ CREATE VIEW v_submit_record AS
     code_length,
     submit_time,
     judge_time
-  FROM ((t_submit_record submit LEFT JOIN t_compile_info compile USING(`submit_id`)) JOIN t_user USING (`user_id`)) JOIN t_problem USING (`problem_id`) LEFT JOIN t_contest USING (`contest_id`)
+  FROM ((t_submit_record submit LEFT JOIN t_compile_info compile USING(`submit_id`)) JOIN t_user USING (`user_id`)) JOIN t_problem USING (`problem_id`) LEFT JOIN t_contest USING (`contest_id`);
 
 
 
 
 
 
-SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT JOIN t_problem USING (`problem_id`)
+SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT JOIN t_problem USING (`problem_id`);
 
 
 /*查询一个题目通过的人数*/
-SELECT count(t.user_id) as passed from (SELECT DISTINCT user_id FROM v_submit_record WHERE contest_id=19 AND problem_id=7 AND result='Accepted') AS t
+SELECT count(t.user_id) as passed from (SELECT DISTINCT user_id FROM v_submit_record WHERE contest_id=19 AND problem_id=7 AND result='Accepted') AS t;
 
 
 
@@ -245,3 +245,64 @@ CREATE TABLE t_source_code (
   `source_code_length` INT,
   PRIMARY KEY(`submit_id`)
 ) DEFAULT charset = "utf8"  ENGINE = InnoDB;
+
+
+
+/*删除用户后*/
+DROP TRIGGER IF EXISTS deleteUserTrigger;
+CREATE TRIGGER deleteUserTrigger AFTER DELETE ON t_user
+  FOR EACH ROW
+  BEGIN
+    SET @userID = OLD.user_id;
+    /*删除该该用户的提交记录*/
+    DELETE FROM t_submit_record WHERE t_submit_record.user_id=@userID;
+    /*删除该用户的讨论记录*/
+    DELETE FROM t_discuss WHERE t_discuss.user_id=@userID;
+    /*删除该用户的比赛记录*/
+    DELETE FROM t_contest_user WHERE t_contest_user.user_id=@userID;
+  END;
+
+
+/*删除提交记录*/
+DROP TRIGGER IF EXISTS deleteSubmitRecordTrigger;
+CREATE TRIGGER deleteSubmitRecordTrigger AFTER DELETE ON t_submit_record
+  FOR EACH ROW
+  BEGIN
+    SET @submitID = OLD.submit_id;
+    /*删除该提交下的详细评测结果*/
+    DELETE FROM t_judge_detail WHERE t_judge_detail.submit_id=@submitID;
+    /*删除该提交下的编译结果*/
+    DELETE FROM t_compile_info WHERE t_compile_info.submit_id=@submitID;
+  END;
+
+
+/*删除题目记录*/
+DROP TRIGGER IF EXISTS deleteProblemTrigger;
+CREATE TRIGGER deleteProblemTrigger AFTER DELETE ON t_problem
+  FOR EACH ROW
+  BEGIN
+    /*获取被删除提交的ID*/
+    SET @problemID = OLD.problem_id;
+    /*删除该题目的测试点*/
+    DELETE FROM t_test_point WHERE t_test_point.problem_id=@problemID;
+    /*删除所有关于该题目的提交记录*/
+    DELETE FROM t_submit_record WHERE t_submit_record.problem_id=@problemID;
+    /*从所有比赛中删除这个题目*/
+    DELETE FROM t_contest_problem WHERE t_contest_problem.problem_id=@problemID;
+  END;
+
+
+/*删除比赛*/
+DROP TRIGGER IF EXISTS deleteContestTrgger;
+CREATE TRIGGER deleteContestTrgger AFTER DELETE ON t_contest
+  FOR EACH ROW
+  BEGIN
+    /*获取被删除比赛的ID*/
+    SET @contestID = OLD.contest_id;
+    /*删除比赛用户*/
+    DELETE FROM t_contest_user WHERE t_contest_user.contest_id=@contestID;
+    /*删除比赛题目*/
+    DELETE FROM t_contest_problem WHERE t_contest_problem.contest_id=@contestID;
+    /*删除该比赛下的所有提交代码*/
+    DELETE FROM t_submit_record WHERE t_submit_record.contest_id=@contestID;
+  END;

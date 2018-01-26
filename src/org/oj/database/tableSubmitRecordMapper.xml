@@ -39,7 +39,11 @@
 
 
     <delete id="deleteSubmitRecord">
-      DELETE * from t_submit_record WHERE submit_id = #{submitID}
+      DELETE  from t_submit_record WHERE submit_id = #{submitID}
+    </delete>
+
+    <delete id="deleteSubmitRecordByUserID">
+        DELETE FROM t_submit_record WHERE user_id = #{userID}
     </delete>
 
 

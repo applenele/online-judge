@@ -25,7 +25,7 @@ import java.util.List;
                 "/post-discuss",
                 "/post-original-discuss",
                 "/discuss-delete",
-                "/discuss",
+                "/discuss-list",
                 "/discuss-detail",
                 "/discuss-set-first"
             }
@@ -44,7 +44,7 @@ public class DiscussServlet extends HttpServlet {
         System.out.println("get: " + request.getRequestURI());
 
         if (uri.equals("/discuss-delete")) deleteDiscuss(request, response);
-        if (uri.equals("/discuss")) getDiscuss(request, response);
+        if (uri.equals("/discuss-list"))    discussListGet(request, response);
         if (uri.equals("/discuss-set-first")) discussSetFirst(request, response);
         if (uri.equals("/post-original-discuss")) request.getRequestDispatcher("/discuss-edit.jsp").forward(request, response);
         if (uri.equals("/discuss-detail")) getDiscussDetail(request, response);
@@ -158,7 +158,7 @@ public class DiscussServlet extends HttpServlet {
         sqlSession.close();
 
         if (isOriginal) {
-            response.sendRedirect("/discuss?type=" + discussBean.getType() + "&porcID=" + discussBean.getPorcID());
+            response.sendRedirect("/discuss-list?type=" + discussBean.getType() + "&porcID=" + discussBean.getPorcID());
         } else {
             response.sendRedirect("/discuss-detail?postID=" + discussBean.getRootID());
         }
@@ -175,10 +175,10 @@ public class DiscussServlet extends HttpServlet {
         sqlSession.commit();
         sqlSession.close();
 
-        response.sendRedirect("/discuss");
+        response.sendRedirect("/discuss-list");
     }
 
-    private void getDiscuss(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void discussListGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strType = request.getParameter("type");
         Integer type = strType != null && strType.length() > 0 ? Integer.parseInt(strType) : null;
 
@@ -193,7 +193,7 @@ public class DiscussServlet extends HttpServlet {
 
 
         request.setAttribute("discussList", discussList);
-        request.getRequestDispatcher("/discuss-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/discuss/discuss-list.jsp").forward(request, response);
     }
 
 
@@ -220,6 +220,6 @@ public class DiscussServlet extends HttpServlet {
         request.setAttribute("replyList", replyList);
         System.out.println(discussBean);
         System.out.println(replyList);
-        request.getRequestDispatcher("/discuss-reply.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/discuss/discuss-reply.jsp").forward(request, response);
     }
 }

@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <c:if test="${discussList == null || fnt:length(discussList) == 0}">
         <c:choose>
@@ -114,6 +114,6 @@
         </c:forEach>
     </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>

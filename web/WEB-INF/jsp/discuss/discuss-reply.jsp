@@ -32,7 +32,7 @@
 
 
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <div class="card">
         <div class="card-header"><h5>${discuss.title}</h5></div>
@@ -128,7 +128,7 @@
         </c:forEach>
     </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>
 </html>

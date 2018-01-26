@@ -18,6 +18,7 @@ public interface TableDiscuss {
 
     void deleteDiscussByPostID(@Param("postID") Integer postID);
     void deleteDiscussByRootID(@Param("rootID") Integer rootID);
+    void deleteDiscussByUserD(@Param("userID") Integer userID);
 
     DiscussBean getDiscussByPostID(@Param("postID") Integer postID);
     List<DiscussBean> getDiscussListByRootID(@Param("rootID") Integer rootID);

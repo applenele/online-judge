@@ -10,17 +10,17 @@ import java.util.List;
  */
 public interface TableUser extends BaseFunction{
     //insert
-    int addNewUser(UserBean user);
+    int addNewUser(@Param("user") UserBean user);
 
 
 
     //delete
-    void deleteUserById(int userID);
+    void deleteUserById(@Param("userID") Integer userID);
 
 
 
     //update
-    void updateUser(UserBean user);
+    void updateUser(@Param("user") UserBean user);
     void updateSubmittedTimes(@Param("userID") int userID);
     void updateAcceptedTimes(@Param("userID") int userID);
 

@@ -39,7 +39,7 @@ public class problemServlet extends HttpServlet {
         System.out.println("get: " + request.getRequestURL());
         String uri = request.getRequestURI();
         if (uri.equals("/add-problem")) {
-            request.getRequestDispatcher("/problem-edit.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/problem/problem-edit.jsp").forward(request, response);
         }
 
         if (uri.equals("/edit-problem")) {
@@ -143,7 +143,7 @@ public class problemServlet extends HttpServlet {
         sqlSession.close();
 
         request.setAttribute("problemList", problemBeanList);
-        request.getRequestDispatcher("/problem-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/problem/problem-list.jsp").forward(request, response);
     }
 
 
@@ -160,7 +160,7 @@ public class problemServlet extends HttpServlet {
         sqlSession.close();
 
         request.setAttribute("problem", problemBean);
-        request.getRequestDispatcher("/problem.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/problem/problem.jsp").forward(request, response);
     }
 
 }

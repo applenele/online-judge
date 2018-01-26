@@ -33,26 +33,25 @@
             success: function (data) {
                 console.log(JSON.stringify(data));
                 //"{userExist : %s, correctPassword : %s, correctValidateCode :%s}"
-
                 if (data.userExist == false) {
-                    $("#emailTip").show();
+                    $("#loginEmailTip").show();
                 } else {
-                    $("#emailTip").hide();
+                    $("#loginEmailTip").hide();
                 }
 
                 if (data.correctPassword == false) {
-                    $("#passwordTip").show();
+                    $("#loginPasswordTip").show();
                 } else {
-                    $("#passwordTip").hide();
+                    $("#loginPasswordTip").hide();
                 }
 
                 if (data.correctValidateCode == false) {
-                    $("#validateCodeTip").show();
+                    $("#loginValidateCodeTip").show();
                 } else {
-                    $("#validateCodeTip").hide();
+                    $("#loginValidateCodeTip").hide();
                 }
 
-                if (data.userExist == true && data.correctPassword == true && data.correctValidateCode) {
+                if (data.userExist == true && data.correctPassword == true && data.correctValidateCode == true) {
                     window.location.href = "/";
                 }
 
@@ -83,15 +82,15 @@
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/problem">题库</a>
+                    <a class="nav-link" href="/problem-list">题库</a>
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contest">比赛</a>
+                    <a class="nav-link" href="/contest-list">比赛</a>
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/discuss">讨论</a>
+                    <a class="nav-link" href="/discuss-list">讨论</a>
                 </li>
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <li class="nav-item">
@@ -144,15 +143,16 @@
     </div>
 </nav>
 
+
+
+
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">登录</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
 
 
@@ -161,25 +161,23 @@
                     <span class="input-group-addon">邮&nbsp;&nbsp;&nbsp;&nbsp;箱</span>
                     <input type="text" class="form-control" id="inputLoginEmail" name="inputLoginEmail" placeholder="邮箱地址">
                 </div>
-                <label class="offset-8" id="emailTip" style="display: none; color: red">邮箱不存在</label>
+                <label class="offset-8" id="loginEmailTip" style="display: none; color: red">邮箱不存在</label>
                 <br>
 
 
                 <div class="input-group">
                     <span class="input-group-addon">密&nbsp;&nbsp;&nbsp;&nbsp;码</span>
-                    <input type="password" class="form-control" id="inputLoginPassword" name="inputLoginPassword"
-                           placeholder="登录密码">
+                    <input type="password" class="form-control" id="inputLoginPassword" name="inputLoginPassword" placeholder="登录密码">
                     <br>
                 </div>
-                <label class="offset-8" id="passwordTip" style="display: none; color: red">密码错误</label>
+                <label class="offset-8" id="loginPasswordTip" style="display: none; color: red">密码错误</label>
                 <br>
 
                 <div class="input-group">
                     <span class="input-group-addon">验证码</span>
-                    <input type="text" class="form-control" id="inputLoginValidateCode" name="inputLoginValidateCode"
-                           placeholder="输入验证码中的结果">
+                    <input type="text" class="form-control" id="inputLoginValidateCode" name="inputLoginValidateCode" placeholder="输入验证码中的结果">
                 </div>
-                <label class="offset-8" id="validateCodeTip" style="display: none; color: red">验证码错误</label>
+                <label class="offset-8" id="loginValidateCodeTip" style="display: none; color: red">验证码错误</label>
                 <br>
 
                 <div class="input-group">

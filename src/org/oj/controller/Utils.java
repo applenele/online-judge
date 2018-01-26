@@ -36,6 +36,7 @@ public class Utils {
         }
 
         boolean hasParam = false;
+        boolean hasPageParam = false;
         for (String key : params.keySet()) {
             if (!key.equals("page")) {
                 if (!hasParam) {
@@ -44,9 +45,15 @@ public class Utils {
                 } else {
                     url += ("&" + key + "=" + params.get(key)[0]);
                 }
+            } else {
+                hasPageParam = true;
             }
         }
-        return url + "&";//有参数, 在后面最佳参数
+        if (params.size() == 1 && hasPageParam) {
+            return url + "?";//有唯一的page参数, 去除之后应该跟?
+        } else {
+            return url + "&";//有参数, 在后面最佳参数
+        }
     }
 
     public static PageBean getPagination(int recordCount, int currentPage,  HttpServletRequest request) {

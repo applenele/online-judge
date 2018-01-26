@@ -10,11 +10,12 @@
 <html>
 <head>
     <title>注册</title>
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/oj.js"></script>
 
     <script language="JavaScript">
         function checkRegisterInfo() {
@@ -25,7 +26,7 @@
 
 
             var userNameTip = $("#userNameTip");
-            var emailTip = $("#emailTip");
+            var emailTip    = $("#emailTip");
             var passwordTip = $("#passwordTip");
             var confirmPasswordTip = $("#confirmPasswordTip");
 
@@ -39,16 +40,16 @@
                 userNameTip.hide();
             }
 
-            if (email.length == 0) {
-                emailTip.html("邮箱地址不能为空");
+            if (verifyemail(email) == false) {
+                emailTip.html("邮箱地址不合法");
                 emailTip.show();
                 isOk++;
             } else {
                 emailTip.hide();
             }
 
-            if (password.length < 3) {
-                passwordTip.html("密码长度不能小于3");
+            if (password.length < 6) {
+                passwordTip.html("密码长度不能小于6");
                 passwordTip.show();
                 isOk++;
             } else {
@@ -63,10 +64,11 @@
                 confirmPasswordTip.hide();
             }
 
+            console.log("ok:" + isOk);
             if (isOk == 0)
                 $.ajax({
                     type: 'POST',
-                    url: "/ajaxCheckRegisterInfo",
+                    url: "/ajax-check-register-info",
                     data: {
                         inputUserName: userName,
                         inputEmail: email
@@ -106,7 +108,7 @@
 </head>
 
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <div class="card-body">
         <div class="text-center">
@@ -180,6 +182,6 @@
     </div>
 </div>
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>

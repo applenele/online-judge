@@ -10,7 +10,17 @@
     </insert>
 
     <delete id="deleteUser">
-      DELETE FROM t_contest_user WHERE contest_id=#{contestID} AND user_id=#{userID}
+      DELETE FROM t_contest_user
+        WHERE 1=1
+        <if test="contestID != null">
+            AND contest_id=#{contestID}
+        </if>
+        <if test="userID != null">
+            AND user_id=#{userID}
+        </if>
+        <if test="contestID == null and userID==null">
+            AND 1=2
+        </if>
     </delete>
 
     <select id="checkUserRegistered" resultType="java.lang.Boolean">
