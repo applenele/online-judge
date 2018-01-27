@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.oj.controller.beans.RankBean;
 import org.oj.model.javaBean.*;
+import utils.Consts;
 import utils.Tools;
 
 import java.io.IOException;
@@ -27,10 +28,12 @@ public class DatabaseTest {
 
 
         try {
-            TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
-            List<ProblemBean> t = tableProblem.getProblesOrderByIDForLogin(7, "Accepted", null, null);
-            for (ProblemBean p : t) {
-                System.out.println(p.getProblemID() + " " + p.getTitle() + " " + p.getResult());
+            ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
+                                 System.out.println(submitRecord.getCountOnCondition(19, null, null, null, null));
+            List<ViewSubmitRecordBean> recordList = submitRecord.getSubmitRecordList(19, null, null, null, null, null, null);
+            //获取分页信息null, null);
+            for (ViewSubmitRecordBean p : recordList) {
+                System.out.println(p + "\n\n");
             }
         } finally {
             sqlSession.close();

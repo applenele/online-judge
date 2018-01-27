@@ -34,25 +34,15 @@
             <span class="input-group-addon">评测结果:</span>
             <select name="result" class="form-control">
                 <option value="">All</option>
-
                 <option value="Accepted">Accepted</option>
-
                 <option value="Presentation Error">Presentation Error</option>
-
                 <option value="Time Limit Exceeded">Time Limit Exceeded</option>
-
                 <option value="Memory Limit Exceeded">Memory Limit Exceeded</option>
-
                 <option value="Wrong Answer">Wrong Answer</option>
-
                 <option value="Runtime Error">Runtime Error</option>
-
                 <option value="Output Limit Exceeded">Output Limit Exceeded</option>
-
                 <option value="Compilation Error">Compilation Error</option>
-
                 <option value="System Error">System Error</option>
-
             </select>
 
             <span class="input-group-addon">语言:</span>

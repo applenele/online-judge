@@ -183,12 +183,6 @@ public class SubmitServlet extends HttpServlet {
         String strPage = request.getParameter("page");
         int page =  strPage != null ? Integer.parseInt(strPage) : 1;
 
-        String strContestID = request.getParameter("contestID");
-        int contestID = 0;
-        if (strContestID != null && strContestID.length() > 0) {
-            contestID = Integer.parseInt(strContestID);
-        }
-
         String userName = request.getParameter("userName");
         String strProblemID = request.getParameter("problemID");
         String result = request.getParameter("result");
@@ -201,10 +195,10 @@ public class SubmitServlet extends HttpServlet {
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
-        List<ViewSubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordListByUserName(contestID, problemID, userName, result, language, (page-1)*Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        List<ViewSubmitRecordBean> submitRecordBeans = submitRecord.getSubmitRecordList(0, problemID, userName, result, language, (page-1)*Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
 
         //获取分页信息
-        int recordCount = submitRecord.getCountOnCondition(contestID, problemID, userName, result, language);
+        int recordCount = submitRecord.getCountOnCondition(0, problemID, userName, result, language);
         PageBean pageBean = Utils.getPagination(recordCount, page, request);
 
         sqlSession.close();

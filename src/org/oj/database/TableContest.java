@@ -8,16 +8,17 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface TableContest {
-    public int addContest(@Param("contest") ContestBean contest);
+public interface TableContest extends BaseFunction {
+    int addContest(@Param("contest") ContestBean contest);
 
-    public void deleteContest(@Param("contestID") Integer contestID);
+    void deleteContest(@Param("contestID") Integer contestID);
 
-    public void updateContest(@Param("contest") ContestBean contest);
+    void updateContest(@Param("contest") ContestBean contest);
 
-    public ContestBean getContestByID(@Param("contestID") Integer contestID);
+    ContestBean getContestByID(@Param("contestID") Integer contestID);
 
-    public void getContestByTitle(@Param("title") String title);
+    void getContestByTitle(@Param("title") String title);
 
-    public List<ContestBean> getContestList(@Param("start") Integer start, @Param("count") Integer count);
+    List<ContestBean> getContestList(@Param("start") Integer start, @Param("count") Integer count);
+
 }

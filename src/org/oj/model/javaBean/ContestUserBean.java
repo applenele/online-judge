@@ -6,12 +6,14 @@ package org.oj.model.javaBean;
 public class ContestUserBean {
     private int contestID;
     private int userID;
+    private String userName;
 
     public ContestUserBean() {}
 
-    public ContestUserBean(int contestID, int userID) {
+    public ContestUserBean(int contestID, int userID, String userName) {
         this.contestID = contestID;
         this.userID = userID;
+        this.userName = userName;
     }
 
     public int getContestID() {
@@ -30,11 +32,20 @@ public class ContestUserBean {
         this.userID = userID;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "ContestUserBean{" +
                 "contestID=" + contestID +
                 ", userID=" + userID +
+                ", userName=" + userName +
                 '}';
     }
 }

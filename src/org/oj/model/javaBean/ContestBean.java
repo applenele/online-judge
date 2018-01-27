@@ -12,7 +12,6 @@ public class ContestBean {
     private long registerStartTime;
     private long registerEndTime;
     private String password;
-    private boolean open;
     private String sponsor;
     private String contestType;
     private long createTime;
@@ -28,7 +27,6 @@ public class ContestBean {
         this.registerStartTime = registerStartTime;
         this.registerEndTime = registerEndTime;
         this.password = password;
-        this.open = open;
         this.sponsor = sponsor;
         this.contestType = contestType;
         this.createTime = createTime;
@@ -98,14 +96,6 @@ public class ContestBean {
         this.password = password;
     }
 
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
     public String getSponsor() {
         return sponsor;
     }
@@ -141,7 +131,6 @@ public class ContestBean {
                 ", registerStartTime=" + registerStartTime +
                 ", registerEndTime=" + registerEndTime +
                 ", password='" + password + '\'' +
-                ", open=" + open +
                 ", sponsor='" + sponsor + '\'' +
                 ", contestType='" + contestType + '\'' +
                 ", createTime=" + createTime +

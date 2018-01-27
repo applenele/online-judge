@@ -8,12 +8,14 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface TableContestUser {
-    public int addUser(@Param("contestUser") ContestUserBean contestUser);
+public interface TableContestUser extends BaseFunction {
+    int addUser(@Param("contestUser") ContestUserBean contestUser);
 
-    public void deleteUser(@Param("contestID") Integer contestID, @Param("userID") Integer userID);
+    void deleteUser(@Param("contestID") Integer contestID, @Param("userID") Integer userID);
 
-    public boolean checkUserRegistered(@Param("contestID") int contestID, @Param("userID") Integer userID);
+    boolean checkUserRegistered(@Param("contestID") int contestID, @Param("userID") Integer userID);
 
-    public List<ContestUserBean> getContestUserList(@Param("contestID") Integer contestID);
+    List<ContestUserBean> getContestUserList(@Param("contestID") Integer contestID);
+
+    Integer getContestUserCount(@Param("contestID") Integer contestID);
 }

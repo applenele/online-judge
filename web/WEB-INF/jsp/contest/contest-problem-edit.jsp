@@ -84,7 +84,8 @@
 <jsp:include page="/navbar.jsp"/>
 
 <div class="container" style="margin-top: 70px">
-    <h3 class="text-center">${contest.title}</h3>
+    <a href="/contest-overview?contestID=${contest.contestID}"><h3 class="text-center">${contest.title}</h3></a>
+
     <div class="card">
         <div class="card-header">题目列表</div>
         <div class="card-body">
@@ -94,19 +95,19 @@
                         <table class="table table-sm table-striped">
                             <thead>
                             <tr>
-                                <th>比赛题号</th>
-                                <th>题库题号</th>
-                                <th>题目名称</th>
-                                <th>操作</th>
+                                <th class="text-center">比赛题号</th>
+                                <th class="text-center">题库题号</th>
+                                <th class="text-center">题目名称</th>
+                                <th class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody id="contestProblemTable">
                             <c:forEach items="${problemList}" var="contestProblem">
                                 <tr>
-                                    <td>${contestProblem.innerID}</td>
-                                    <td>${1000+contestProblem.problemID}</td>
-                                    <td>title</td>
-                                    <td><a href="/delete-contest-problem?contestID=${contest.contestID}&innerID=${contestProblem.innerID}">删除</a></td>
+                                    <td class="text-center"><a>${contestProblem.innerID}</td>
+                                    <td class="text-center">${1000+contestProblem.problemID}</td>
+                                    <td class="text-center"><a href="/problem?problemID=${contestProblem.problemID}">${contestProblem.title}</a></td>
+                                    <td class="text-center"><a href="/delete-contest-problem?contestID=${contest.contestID}&innerID=${contestProblem.innerID}">删除</a></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -120,7 +121,7 @@
 
             <br>
 
-            <form method="post" id="addContestProblemForm" action="/edit-contest-problem">
+            <form method="post" id="addContestProblemForm" action="/contest-problem-edit">
                 <input name="inputContestID" value="${contest.contestID}" hidden>
                 <div class="form-row align-items-center">
                     <div class="col-sm-5">
@@ -139,12 +140,16 @@
 
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <span class="btn btn-success" id="addProblemBtn" onclick="checkProblemID()">加入题目列表</span>
+                            <span class="btn btn-primary" id="addProblemBtn" onclick="checkProblemID()">加入题目列表</span>
                         </div>
                     </div>
                 </div>
             </form>
+            <div class="text-center">
+                <a href="/contest-overview?contestID=${contest.contestID}" class="btn btn-success">完成操作</a>
+            </div>
         </div>
+
     </div>
 </div>
 

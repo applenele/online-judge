@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fnt" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -71,12 +72,17 @@
 <jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <h2 align="center"><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></h2>
+
+    <%--在此出获取当前时间--%>
+    <jsp:useBean id="current" class="java.util.Date" />
     <div class="card">
         <div class="card-header"><h5>overview</h5></div>
-        <div class="progress" style="height: 10px;">
-            <div id="processBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="${contest.startTime}" aria-valuemin="${contest.startTime}" aria-valuemax="${contest.endTime}" ></div>
-        </div>
-        <label class="text-sm-right" id="remainTime" style="font-size: 10px; color: blue">剩余时间:</label>
+        <c:if test="${current.time <= contest.endTime and current.time >= contest.startTime}">
+            <div class="progress" style="height: 10px;">
+                <div id="processBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="${contest.startTime}" aria-valuemin="${contest.startTime}" aria-valuemax="${contest.endTime}" ></div>
+            </div>
+            <label class="text-sm-right" id="remainTime" style="font-size: 10px; color: blue">剩余时间:</label>
+        </c:if>
         <div class="card-body">
             <table align="center">
                 <tbody>
@@ -89,22 +95,41 @@
                     <td><b>报名截止:</b><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${time}"/></td>
                     <td></td>
 
-                    <%--在此出获取当前时间--%>
-                    <jsp:useBean id="current" class="java.util.Date" />
                     <td>
                         <b>报名状态:</b>
+
                         <%--检查当前登录用户是否报名--%>
                         <c:choose>
+                            <%--已经报名则显示已经报名--%>
                             <c:when test="${isRegistered == true}">
                                 <span class="badge badge-success">已报名</span>
                             </c:when>
+                            <%--如果没有报名--%>
                             <c:otherwise>
+                                <%--检查比赛是否还在报名日期--%>
                                 <c:choose>
                                     <c:when test="${current.time > contest.registerStartTime && current.time < contest.registerEndTime}">
-                                        <a href="register-contest?contestID=${contest.contestID}" class="badge badge-warning">我要报名</a>
+                                        <%--如果还在报名日期中, 检查是否登录--%>
+                                        <c:choose>
+                                            <%--没有登录则要求先登录--%>
+                                            <c:when test="${empty cookie.get('userID').value}">
+                                                <a class="badge badge-warning" href="#" data-toggle="modal" data-target="#msgModal">我要报名</a>
+                                            </c:when>
+                                            <%--已经登录则根据比赛是公开还是私有判断使用什么方式报名--%>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${fnt:length(contest.password) > 0}"><%--比赛需要密码--%>
+                                                        <a class="badge badge-warning" href="#" data-toggle="modal" data-target="#passwordModal">我要报名</a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a href="/contest-register?contestID=${contest.contestID}" class="badge badge-warning">我要报名</a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:when>
                                     <c:otherwise>
-                                        <span href="#" class="badge badge-danger">报名已截止</span>
+                                        <span href="#" class="badge badge-danger">已截止</span>
                                     </c:otherwise>
                                 </c:choose>
                             </c:otherwise>
@@ -132,7 +157,7 @@
                                 <span class="badge badge-primary">报名中</span>
                             </c:when>
                             <c:when test="${current.time > contest.endTime}">
-                                <span class="badge badge-secondary">已结束</span>
+                                <span class="badge badge-danger">已结束</span>
                             </c:when>
                         </c:choose>
                     </td>
@@ -140,7 +165,7 @@
                 <tr>
                     <td><b>举办人:</b><a href="/user?userName=${contest.sponsor}">${contest.sponsor}</a></td>
                     <td></td>
-                    <td><b>参赛人数:</b>待参数</td>
+                    <td><b>参赛人数:</b>${userCount}</td>
                     <td></td>
                     <td>
                         <b>竞赛规则:</b>
@@ -168,8 +193,8 @@
                     <tbody>
                     <c:forEach items="${problemList}" var="problem">
                         <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problem.innerID}">${problem.innerID}</a></td>
-                            <td class="text-center">题目名</td>
-                            <td class="text-center"><a href="/problem?problemID=${1000+problem.problemID}">${1000 + problem.problemID}</a></td>
+                        <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problem.innerID}">${problem.title}</a></td>
+                            <td class="text-center">${1000 + problem.problemID}</td>
                             <td class="text-center">${problem.accepted}/${problem.submitted}</td>
                         </tr>
                     </c:forEach>
@@ -182,16 +207,67 @@
                 <div class="col-6 offset-3">
                     <div class="text-center">
                         <a href="/discuss?type=1&porcID=${contest.contestID}" class="btn btn-primary">讨论</a>
-                        <a href="/record-list?contestID=${contest.contestID}" class="btn btn-primary">全部提交</a>
-                        <a href="/user-list?contestID=${contest.contestID}" class="btn btn-primary">全部用户</a>
+                        <a href="/contest-record-list?contestID=${contest.contestID}" class="btn btn-primary">全部提交</a>
                         <a href="/contest-rank?contestID=${contest.contestID}" class="btn btn-primary">查看排名</a>
-                        <a href="/edit-contest?contestID=${contest.contestID}"><span class="btn btn-success">编辑比赛</span></a>
+                        <a href="/contest-user-list?contestID=${contest.contestID}" class="btn btn-primary">查看用户</a>
+                        <a href="/contest-edit?contestID=${contest.contestID}"><span class="btn btn-success">编辑比赛</span></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="msgModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">重要提示</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>请登录后再报名</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">知道了</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="passwordModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">${contest.title}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/contest-register" method="post">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>该比赛已经加密, 请输入比赛密码进入比赛</label>
+                    <input hidden name="contestID" value="${contest.contestID}">
+                    <input type="password" class="form-control" type="password" name="inputContestPassword" placeholder="Password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">返回</button>
+                <button class="btn btn-success" type="submit">报名</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 <jsp:include page="/footer.jsp"/>
 </body>
 </html>

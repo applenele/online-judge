@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fnt" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -31,18 +32,9 @@
 <jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
-
+    <h4>${tableTitle}</h4>
     <div class="card">
-        <table class="table table-striped">
+        <table class="table table-striped text-center">
             <thead>
             <tr>
                 <th>ID</th>
@@ -50,10 +42,10 @@
                 <th>状态</th>
                 <th>开始时间</th>
                 <th>结束时间</th>
-                <th>比赛赛制</th>
-                <th>比赛类型</th>
+                <th>赛制</th>
+                <th>是否公开</th>
                 <th>举办人</th>
-                <th class="text-center">操作</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -90,20 +82,17 @@
                     <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${time}"/></td>
 
                     <td>${contest.contestType}</td>
-
                     <c:choose>
-                        <c:when test="${contest.open==true}">
+                        <c:when test="${fnt:length(contest.password) == 0}">
                             <td><span class="badge badge-success">公开</span></td>
                         </c:when>
                         <c:otherwise>
                             <td><span class="badge badge-secondary">加密</span></td>
                         </c:otherwise>
                     </c:choose>
-
                     <td>${contest.sponsor}</td>
-                    <td class="text-center">
-                        <a href="/edit-contest?contestID=${contest.contestID}"><span class="badge badge-secondary">编辑</span></a>
-                        <a href="#" onclick="deleteContest(${contest.contestID},'${contest.title}')"><span class="badge badge-danger">删除</span></a>
+                    <td>
+                        <a href="/contest-edit?contestID=${contest.contestID}"><span class="badge badge-secondary">编辑</span></a>
                     </td>
                 </tr>
             </c:forEach>
@@ -111,35 +100,10 @@
         </table>
     </div>
     <br>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
+    <c:if test="${not empty pageInfo}">
+    <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
+    </c:if>
 
-    <div class="modal fade" id="deleteModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">重要提示</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="message"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-                    <a id="url" href="#" class="btn btn-danger">是的,删除</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <jsp:include page="/footer.jsp"/>
 </body>
 </html>

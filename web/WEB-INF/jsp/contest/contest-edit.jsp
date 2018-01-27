@@ -122,14 +122,14 @@
         <div class="card-body">
             <c:choose>
                 <c:when test="${contest != null}">
-                        <form method="post" action="/edit-contest" onsubmit="return checkForm()">
+                        <form method="post" action="/contest-edit" onsubmit="return checkForm()">
                         <input name="inputContestID" value="${contest.contestID}" hidden>
                 </c:when>
                 <c:otherwise>
-                        <form method="post" action="/add-contest" onsubmit="return checkForm()">
+                        <form method="post" action="/contest-add" onsubmit="return checkForm()">
                 </c:otherwise>
             </c:choose>
-            <form method="post" action="/add-contest" onsubmit="return checkForm()">
+            <form method="post" action="/contest-add" onsubmit="return checkForm()">
                 <div class="input-group">
                     <span class="input-group-addon">比赛名称</span>
                     <input name="inputTitle" id="inputTitle" type="text" value="${contest.title}"
@@ -196,8 +196,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">比赛密码</span>
-                            <input name="inputContestPassword" type="text" class="form-control" placeholder="不填为公开"
-                                   value="${contest.password}">
+                            <input name="inputContestPassword" type="text" class="form-control" placeholder="不填为公开" value="${contest.password}">
                         </div>
                     </div>
 
@@ -226,21 +225,27 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span class="input-group-addon">举办人&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input name="inputSponsor" type="text" class="form-control" placeholder="默认当前登录用户"
-                                   value="${contest.sponsor}">
+                            <c:choose>
+                                <c:when test="${not empty contest}">
+                                    <input name="inputSponsor" type="text" class="form-control" placeholder="默认当前登录用户" readonly value="${contest.sponsor}">
+                                </c:when>
+                                <c:otherwise>
+                                    <input name="inputSponsor" type="text" class="form-control" placeholder="默认当前登录用户" readonly value="${cookie.get('userName').value}">
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
 
 
                 <br>
-                <h3>比赛描述</h3>
+                <h4>比赛描述</h4>
                 <textarea name="inputContestDesc" id="inputContestDesc" class="ckeditor"
                           style="visibility: hidden; display: none;">${contest.desc}</textarea>
 
                 <c:if test="${problemList != null}">
                     <br>
-                    <h3>题目列表</h3>
+                    <a href="/contest-problem-edit?contestID=${contest.contestID}"><h4>题目列表</h4></a>
                     <div class="card">
                         <table class="table table-sm table-striped">
                             <thead>
@@ -266,11 +271,14 @@
                 </c:if>
                 <br>
                 <div class="text-center">
-                    <a href="/edit-contest-problem?contestID=${contest.contestID}" class="btn btn-primary">编辑题目</a>
                     <c:choose>
-                        <c:when test="${contest != null}"><input class="btn btn-success" type="submit"
-                                                                 value="保存修改"></c:when>
-                        <c:otherwise><input class="btn btn-success" type="submit" value="保存比赛"></c:otherwise>
+                        <c:when test="${contest != null}">
+                            <input class="btn btn-success" type="submit" value="保存修改">
+                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除比赛</a>
+                        </c:when>
+                        <c:otherwise>
+                            <input class="btn btn-success" type="submit" value="保存比赛">
+                        </c:otherwise>
                     </c:choose>
 
                 </div>
@@ -278,7 +286,25 @@
         </div>
     </div>
 
-
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">重要提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>是否删除比赛: <b>${contest.title}</b>, 以及相关数据</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                    <a id="url" href="/contest-delete?contestID=${contest.contestID}" class="btn btn-danger">是的,删除</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <%--
     <textarea id="editor1"></textarea>
     <button onclick="setContent()">Set Content</button>

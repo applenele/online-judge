@@ -5,8 +5,8 @@
 
 <mapper namespace="org.oj.database.TableContestUser">
     <insert id="addUser">
-        INSERT INTO t_contest_user (contest_id, user_id) VALUES
-        (#{contestUser.contestID}, #{contestUser.userID})
+        INSERT INTO t_contest_user (contest_id, user_id, user_name) VALUES
+        (#{contestUser.contestID}, #{contestUser.userID}, #{contestUser.userName})
     </insert>
 
     <delete id="deleteUser">
@@ -31,9 +31,18 @@
       SELECT * FROM t_contest_user WHERE contest_id=#{contestID}
     </select>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_contest_user
+    </select>
+
+    <select id="getContestUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_contest_user WHERE contest_id=#{contestID}
+    </select>
+
 
     <resultMap id="contestUserMap" type="org.oj.model.javaBean.ContestUserBean">
         <id property="contestID" column="contest_id"/>
         <id property="userID"    column="user_id"/>
+        <result property="userName" column="user_name"/>
     </resultMap>
 </mapper>

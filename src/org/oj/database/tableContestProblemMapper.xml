@@ -5,8 +5,8 @@
 
 <mapper namespace="org.oj.database.TableContestProblem">
     <insert id="addProlem">
-      INSERT INTO t_contest_problem (contest_id, problem_id, inner_id, accepted, submitted)
-      VALUES (#{contestProblem.contestID},#{contestProblem.problemID}, #{contestProblem.innerID}, #{contestProblem.accepted}, #{contestProblem.submitted})
+      INSERT INTO t_contest_problem (contest_id, problem_id, title, inner_id, accepted, submitted)
+      VALUES (#{contestProblem.contestID},#{contestProblem.problemID},#{contestProblem.title}, #{contestProblem.innerID}, #{contestProblem.accepted}, #{contestProblem.submitted})
     </insert>
 
     <delete id="deleteProblem">
@@ -21,6 +21,7 @@
       UPDATE t_contest_problem SET
       contest_id=#{contestProblem.contestID},
       problem_id=#{contestProblem.problemID},
+      title=#{contestProblem.title},
       inner_id=#{contestProblem.innerID},
       accepted=#{contestProblem.accepted},
       submitted=#{contestProblem.submitted}
@@ -39,6 +40,7 @@
         <id property="contestID" column="contest_id"/>
         <id property="problemID" column="problem_id"/>
         <result property="innerID"   column="inner_id"/>
+        <result property="title"     column="title"/>
         <result property="accepted"  column="accepted"/>
         <result property="submitted" column="submitted"/>
     </resultMap>

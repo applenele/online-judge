@@ -6,15 +6,17 @@ package org.oj.model.javaBean;
 public class ContestProblemBean {
     private int contestID;
     private int problemID;
+    private String title;
     private String innerID;
     private int accepted;
     private int submitted;
 
     public ContestProblemBean() {}
 
-    public ContestProblemBean(int contestID, int problemID, String innerID, int accepted, int submitted) {
+    public ContestProblemBean(int contestID, int problemID, String title, String innerID, int accepted, int submitted) {
         this.contestID = contestID;
         this.problemID = problemID;
+        this.title = title;
         this.innerID = innerID;
         this.accepted = accepted;
         this.submitted = submitted;
@@ -34,6 +36,14 @@ public class ContestProblemBean {
 
     public void setProblemID(int problemID) {
         this.problemID = problemID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getInnerID() {
@@ -65,6 +75,7 @@ public class ContestProblemBean {
         return "ContestProblemBean{" +
                 "contestID=" + contestID +
                 ", problemID=" + problemID +
+                ", title='" + title + '\'' +
                 ", innerID='" + innerID + '\'' +
                 ", accepted=" + accepted +
                 ", submitted=" + submitted +

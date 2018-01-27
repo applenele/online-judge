@@ -23,10 +23,10 @@
 <body>
 <jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
-    <h2 align="center">[<a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a>]排名</h2>
+    <h2 align="center"><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></h2>
 
     <div class="card">
-        <div class="card-header"><a href="/contest-detail?contestID=${contest.contestID}"><h5>${contest.title}</h5></a></div>
+        <div class="card-header">比赛排名</div>
         <div class="card-body">
             <div class="card">
                 <table class="table table-sm table-striped text-center">
@@ -41,15 +41,14 @@
                         </c:forEach>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${rankList}" var="rankBean" varStatus="pos">
                         <tr>
-                            <td>${pos.count}</td>
-                            <td><a href="/user?userID=${rankBean.userID}"
+                            <td style="vertical-align: middle">${pos.count}</td>
+                            <td style="vertical-align: middle"><a href="/user?userID=${rankBean.userID}"
                                    class="myuser-base myuser-violet">${rankBean.userName}</a></td>
-                            <td>${rankBean.AC_Count}</td>
-                            <td><fmt:formatNumber type="number" value="${rankBean.totalTimeConsume / 1000}"
+                            <td style="vertical-align: middle">${rankBean.AC_Count}</td>
+                            <td style="vertical-align: middle"><fmt:formatNumber type="number" value="${rankBean.totalTimeConsume / 1000}"
                                                   maxFractionDigits="0" groupingUsed="false"/></td>
                             <c:forEach items="${problemOverview}" var="problem">
                                 <c:choose>

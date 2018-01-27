@@ -23,7 +23,7 @@
 <div class="container" style="margin-top: 70px">
     <div class="card">
         <div class="card-header">
-            <h2>${msg.header}</h2>
+            <h4>${msg.header}</h4>
         </div>
         <div class="card-body text-center">
             <h3>${msg.message}</h3>

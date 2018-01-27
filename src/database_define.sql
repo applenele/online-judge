@@ -114,7 +114,7 @@ CREATE TABLE t_contest (
   `end_time` bigint NOT NULL,          /*结束时间*/
   `register_start_time` bigint NOT NULL, /*报名开始时间*/
   `register_end_time` bigint NOT NULL,   /*报名结算时间*/
-  `open` TINYINT DEFAULT 0,      /*是否公开*/
+  `password` VARCHAR(20) DEFAULT "",      /*比赛密码, 为空的是否公开, 不为空的事就加密*/
   `sponsor` VARCHAR(64) NOT NULL,     /*发起人*/
   `contest_type` ENUM("OI", "ACM") DEFAULT "ACM", /*赛制*/
   `create_time`  BIGINT DEFAULT 0 NOT NULL, /*比赛创建时间*/
@@ -128,6 +128,7 @@ CREATE TABLE t_contest_problem (
   /*比赛题目*/
   `contest_id` INT NOT NULL,  /*比赛id*/
   `problem_id` INT NOT NULL,  /*题目全局id*/
+  `title`      VARCHAR(100),  /*题目标题(冗余)*/
   `inner_id`   VARCHAR(2),    /*题目在本次比赛中的id*/
   `accepted`   INT NOT NULL DEFAULT 0, /*通过次数*/
   `submitted`  INT NOT NULL DEFAULT 0, /*提交次数*/
@@ -141,6 +142,7 @@ CREATE TABLE t_contest_user (
   /*参与比赛的用户*/
   `contest_id` INT NOT NULL,
   `user_id` INT NOT NULL,
+  `user_name` VARCHAR(64) NOT NULL, /*冗余字段*/
   PRIMARY KEY(`contest_id`, `user_id`)
 ) DEFAULT charset = "utf8"  ENGINE = InnoDB;
 

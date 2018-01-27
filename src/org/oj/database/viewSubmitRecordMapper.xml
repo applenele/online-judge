@@ -39,8 +39,7 @@
 
 
 
-    <select id="getSubmitRecordListByUserName" resultMap="submitRecordMap"
-            resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
+    <select id="getSubmitRecordList" resultMap="submitRecordMap" resultType="org.oj.model.javaBean.ViewSubmitRecordBean">
         SELECT * FROM v_submit_record
         WHERE 1=1
         <if test="contestID != null">
@@ -58,7 +57,9 @@
         <if test="problemID != null">
             AND `problem_id`=#{problemID}
         </if>
-        ORDER BY submit_time DESC limit #{start}, #{count}
+        <if test="start != null and count != null">
+            ORDER BY submit_time DESC limit #{start}, #{count}
+        </if>
     </select>
 
     <select id="getCountOnCondition" resultType="java.lang.Integer">

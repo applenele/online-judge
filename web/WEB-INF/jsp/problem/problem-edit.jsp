@@ -251,13 +251,13 @@
                 <br>
 
                 <div class="text-center">
-                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal">删除题目</a>
                     <c:choose>
                         <c:when test="${problem == null}">
                             <input class="btn btn-success" type="submit" value="添加题目">
                         </c:when>
                         <c:otherwise>
                             <input class="btn btn-success" type="submit" value="保存修改">
+                            <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal">删除题目</a>
                         </c:otherwise>
                     </c:choose>
                 </div>

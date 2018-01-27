@@ -75,7 +75,7 @@
 
 
     <select id="getCount" resultType="java.lang.Integer">
-        select count(*) from t_user;
+        select count(*) from t_user
     </select>
 
 

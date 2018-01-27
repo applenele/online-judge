@@ -6,13 +6,13 @@
 <mapper namespace="org.oj.database.TableContest">
     <insert id="addContest" keyProperty="contest.contestID" keyColumn="contest_id" useGeneratedKeys="true">
         INSERT INTO t_contest (
-          `title`,
-          `desc`,
+          title,
+          desc,
           start_time,
           end_time,
           register_start_time,
           register_end_time,
-          open,
+          password,
           sponsor,
           contest_type,
           create_time
@@ -23,7 +23,7 @@
           #{contest.endTime},
           #{contest.registerStartTime},
           #{contest.registerEndTime},
-          #{contest.open},
+          #{contest.password},
           #{contest.sponsor},
           #{contest.contestType},
           #{contest.createTime}
@@ -43,7 +43,7 @@
         `end_time`=#{contest.endTime},
         `register_start_time`=#{contest.registerStartTime},
         `register_end_time`=#{contest.registerEndTime},
-        `open`=#{contest.open},
+        `password`=#{contest.password},
         `sponsor`=#{contest.sponsor},
         `contest_type`=#{contest.contestType}
       WHERE `contest_id`=#{contest.contestID}
@@ -58,7 +58,11 @@
     </select>
 
     <select id="getContestList" resultMap="contestMap" resultType="org.oj.model.javaBean.ContestBean">
-      SELECT * FROM t_contest ORDER BY create_time DESC limit #{start}, #{count}
+      SELECT * FROM t_contest ORDER BY end_time DESC, start_time ASC limit #{start}, #{count}
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from t_contest
     </select>
 
     <resultMap id="contestMap" type="org.oj.model.javaBean.ContestBean">
@@ -69,7 +73,7 @@
         <result property="endTime"   column="end_time"/>
         <result property="registerStartTime" column="register_start_time"/>
         <result property="registerEndTime"   column="register_end_time"/>
-        <result property="open" column="open"/>
+        <result property="password" column="password"/>
         <result property="sponsor"  column="sponsor"/>
         <result property="contestType" column="contest_type"/>
         <result property="createTime" column="create_time"/>
