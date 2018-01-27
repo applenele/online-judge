@@ -29,6 +29,18 @@ import java.util.List;
         }
 )
 public class TestPointServlet extends HttpServlet {
+    private String testPointDirRealPath;
+    private String testPointDirContestPath;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        //初始化测试点保存的绝对路径和相对网站根目录的路径
+        testPointDirRealPath    = getServletContext().getRealPath("/WEB-INF/test-point/");
+        testPointDirContestPath = getServletContext().getContextPath() + "/WEB-INF/test-point/";
+
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post: " + request.getRequestURL());
         if (request.getRequestURI().equals("/add-test-point")) addTestPoint(request, response);
@@ -52,11 +64,9 @@ public class TestPointServlet extends HttpServlet {
         Integer problemID = Integer.parseInt(strProblemID);
 
         //设置文件保存路径, 网站根目录/test-point/题目ID/[1.in|1.out]
-        String testPointSavePath = getServletContext().getRealPath("/test-points") + "/p" + (1000 + problemID);
+        String testPointSavePath = testPointDirRealPath + "/" + (1000 + problemID);
 
         System.out.println("testPointSavePath: " + testPointSavePath);
-        System.out.println("inputText: " + inputData);
-        System.out.println("outputText: " + outputData);
 
         int testPointID = Tools.saveTestPoint(testPointSavePath, inputData, outputData);
         if (testPointID == -1) {
@@ -70,11 +80,11 @@ public class TestPointServlet extends HttpServlet {
         //设置测试点编号
         testPointBean.setTestPointID(testPointID);
         //设置输入文本路径
-        testPointBean.setInputTextPath(getServletContext().getContextPath() + "/test-points/p" + (1000 + problemID) + "/" + testPointID + ".in");
+        testPointBean.setInputTextPath(testPointDirContestPath + "/" + (1000 + problemID) + "/" + testPointID + ".in");
         //设置输入文本长度
         testPointBean.setInputTextLength(inputData.length());
         //设置输出文本路径
-        testPointBean.setOutputTextPath(getServletContext().getContextPath() + "/test-points/p" + (1000 + problemID) + "/" + testPointID + ".out");
+        testPointBean.setOutputTextPath(testPointDirContestPath + "/" + (1000 + problemID) + "/" + testPointID + ".out");
         //设置输出文本长度
         testPointBean.setOutputTextLength(outputData.length());
 
@@ -95,7 +105,7 @@ public class TestPointServlet extends HttpServlet {
         Integer problemID = Integer.parseInt(strProblemID);
         Integer testPointID = Integer.parseInt(strTestPointID);
 
-        String testPointSavePath = getServletContext().getRealPath("/test-points") + "/p" + (1000 + problemID);
+        String testPointSavePath = testPointDirRealPath + "/" + (1000 + problemID);
 
         //删除文件
         if (Tools.deleteTestPoint(testPointSavePath, testPointID)) {
@@ -127,10 +137,9 @@ public class TestPointServlet extends HttpServlet {
 
         sqlSession.close();
 
-        System.out.println(testPoints);
         request.setAttribute("testPointList", testPoints);
         request.setAttribute("problem", problemBean);
-        request.getRequestDispatcher("/test-point-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/problem/test-point-list.jsp").forward(request, response);
     }
 
     private void getTestPoint(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -158,14 +167,11 @@ public class TestPointServlet extends HttpServlet {
         String inputText = Tools.readFileToString(getServletContext().getRealPath(testPointBean.getInputTextPath()));
         String outputText = Tools.readFileToString(getServletContext().getRealPath(testPointBean.getOutputTextPath()));
 
-        System.out.println("inputText: " + inputText);
-        System.out.println("outputText: " + outputText);
-
         request.setAttribute("testPoint", testPointBean);
         request.setAttribute("problem", problemBean);
         request.setAttribute("inputText", inputText);
         request.setAttribute("outputText", outputText);
-        request.getRequestDispatcher("/test-point.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/problem/test-point.jsp").forward(request, response);
     }
 
 

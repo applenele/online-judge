@@ -21,7 +21,7 @@
 <div class="container" style="margin-top: 70px">
     <div class="row">
         <div class="col-6">
-            <a href="/add-contest">
+            <a href="/contest-add">
             <div class="jumbotron jumbotron-fluid alert-primary">
                 <div class="container">
                     <h1 class="display-5 text-center">添加比赛</h1>
@@ -30,7 +30,7 @@
             </a>
         </div>
         <div class="col-6">
-            <a href="/add-problem">
+            <a href="/problem-add">
             <div class="jumbotron jumbotron-fluid alert-primary">
                 <div class="container">
                     <h1 class="display-5 text-center">添加题目</h1>

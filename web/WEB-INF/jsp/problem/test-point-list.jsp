@@ -32,7 +32,7 @@
 <jsp:include page="/navbar.jsp"/>
 
 <div class="container" style="margin-top: 70px">
-    <h3 class="text-center"><a href="">${problem.title}</a></h3>
+    <h3 class="text-center"><a href="/problem?problemID=${problem.problemID}">${problem.title}</a></h3>
     <br>
     <div class="card">
         <h5 class="card-header">所有测试点</h5>
@@ -93,7 +93,8 @@
                 <input name="inputProblemID" value="${problem.problemID}" hidden>
                 <br>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">添加数据</button>
+                    <a href="/problem-edit?problemID=${problem.problemID}" class="btn btn-primary">编辑题目</a>
+                    <button type="submit" class="btn btn-success">添加数据</button>
                 </div>
             </form>
         </div>

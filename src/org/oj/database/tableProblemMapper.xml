@@ -5,7 +5,7 @@
 
 <mapper namespace="org.oj.database.TableProblem">
     <!--insert-->
-    <insert id="addProblem" keyProperty="problem_id" useGeneratedKeys="true"
+    <insert id="addProblem" keyProperty="problem.problemID" keyColumn="problem_id" useGeneratedKeys="true"
             parameterType="org.oj.model.javaBean.ProblemBean">
         INSERT INTO
         t_problem

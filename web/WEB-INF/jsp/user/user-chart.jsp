@@ -46,7 +46,6 @@
         </table>
     </div>
     <br>
-    <p>pageinfo: ${pageInfo}</p>
     <c:if test="${not empty pageInfo}">
         <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
     </c:if>

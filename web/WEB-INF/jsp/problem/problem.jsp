@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fnt" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <html>
@@ -26,32 +27,24 @@
 
 
 <div class="container" style="margin-top:70px">
-
+    <h1 class="text-center">${problem.title}</h1>
+    <table align="center">
+        <tbody>
+        <tr>
+            <td><b>时间限制:</b>${problem.staticLangTimeLimit}ms </td>
+            <td> </td>
+            <td><b>内存限制:</b>${problem.staticLangMemLimit}KB</td>
+        </tr>
+        </tbody>
+    </table>
     <div class="card-body">
-        <h1 class="text-center">${problem.title}</h1>
-
-        <ul class="list-inline text-center">
-            <li class="list-inline-item">
-                <ul class="list-inline text-center">
-                    <li class="list-inline-item">提交次数:</li>
-                    <li class="list-inline-item">${problem.submitted}</li>
-                </ul>
-            </li>
-            <li class="list-inline-item">&nbsp;&nbsp;</li>
-            <li class="list-inline-item">
-                <ul class="list-inline text-center">
-                    <li class="list-inline-item">通过次数:</li>
-                    <li class="list-inline-item">${problem.accepted}</li>
-                </ul>
-            </li>
-        </ul>
         <div class="text-center">
             <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-light"><a href="/submit?problemID=${problem.problemID}">提交</a></button>
-                <button type="button" class="btn btn-light"><a href="/discuss?type=0&porcID=${problem.problemID}">讨论</a></button>
-                <button type="button" class="btn btn-light"><a href="/record-list?problemID=${problem.problemID}">状态</a></button>
-                <button type="button" class="btn btn-light"><a href="/edit-problem?problemID=${problem.problemID}">编辑</a></button>
-                <button type="button" class="btn btn-light"><a href="/test-point-list?problemID=${problem.problemID}">查看数据</a></button>
+                <a class="btn" href="/submit?problemID=${problem.problemID}">提交</a>
+                <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a></button>
+                <a class="btn" href="/record-list?problemID=${problem.problemID}">状态</a></button>
+                <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
+                <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
             </div>
         </div>
     </div>
@@ -61,64 +54,54 @@
     <blockquote class="card modal-body">
         ${problem.desc}
     </blockquote>
-    <br/>
 
     <h3>输入</h3>
     <blockquote class="card modal-body">
         ${problem.inputDesc}
     </blockquote>
-    <br/>
 
     <h3>输出</h3>
     <blockquote class="card modal-body">
         ${problem.outputDesc}
     </blockquote>
-    <br/>
 
 
     <div class="row">
         <div class="col-sm-6">
             <h3>输入样例</h3>
             <blockquote class="card">
-                <pre class="pre-scrollable" style="height: 250px">${problem.inputSample}</pre>
+                <pre class="pre-scrollable" style="height: 180px">${problem.inputSample}</pre>
             </blockquote>
         </div>
 
         <div class="col-sm-6">
             <h3>输出样例</h3>
             <blockquote class="card">
-                <pre class="pre-scrollable" style="height: 250px">${problem.outputSample}</pre>
+                <pre class="pre-scrollable" style="height: 180px">${problem.outputSample}</pre>
             </blockquote>
         </div>
     </div>
 
-
     <h3>提示</h3>
     <blockquote class="card modal-body">
-        ${problem.hint}
+        ${problem.hint != null && fnt:length(problem.hint) > 0 ? problem.hint : '无'}
     </blockquote>
-    <br/>
 
     <h3>来源</h3>
     <blockquote class="card modal-body">
-        ${problem.source}
+        ${problem.source != null && fnt:length(problem.source) > 0 ? problem.source : '无'}
     </blockquote>
     <br/>
 
     <div class="text-center">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-light"><a
-                    href="/submit?problemID=${problem.problemID}">提交</a></button>
-            <button type="button" class="btn btn-light"><a href="/status?problemID=${problem.problemID}">状态</a>
-            </button>
-            <button type="button" class="btn btn-light"><a
-                    href="/edit-problem?problemID=${problem.problemID}">编辑</a></button>
-            <button type="button" class="btn btn-light"><a
-                    href="/test-point-list?problemID=${problem.problemID}">查看数据</a>
-            </button>
+            <a class="btn" href="/submit?problemID=${problem.problemID}">提交</a>
+            <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a></button>
+            <a class="btn" href="/record-list?problemID=${problem.problemID}">状态</a></button>
+            <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
+            <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
         </div>
     </div>
-
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>

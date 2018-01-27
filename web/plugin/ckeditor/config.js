@@ -28,7 +28,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+	//config.removeButtons = 'Underline,Subscript,Superscript';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
@@ -37,5 +37,10 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
     config.image_previewText = ' '; //预览区域显示内容
     config.filebrowserImageUploadUrl = "/upload-image"; //要上传的action或servlet
-    config.language = 'zh-cn';
+    //设置回车不是<p>,而是<br>
+	config.enterMode = CKEDITOR.ENTER_BR;
+    config.shiftEnterMode = CKEDITOR.ENTER_P;
+	config.language = 'zh-cn';
+    config.entities = false;
+    config.allowedContent=true;
 };

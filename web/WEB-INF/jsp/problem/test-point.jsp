@@ -22,8 +22,7 @@
 <body>
 <jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
-    <h3 class="text-center"><a href="">${problem.title}</a></h3>
-    <br>
+    <h3 class="text-center"><a href="/problem?problemID=${problemID}">${problem.title}</a></h3>
 
     <div class="card">
         <h5 class="card-header">测试点${testPointID.testPointID}</h5>
@@ -31,12 +30,12 @@
             <%--<h4 class="card-title">Special title treatment</h4>--%>
             <form class="form-group" action="/add-test-point" method="post">
                 <label>输入数据</label>
-                <textarea class="form-control pre-scrollable" name="inputInputData" readonly rows="10"
+                <textarea class="form-control pre-scrollable" name="inputInputData" readonly rows="7"
                           style="font-family: Consolas">${inputText}</textarea>
 
                 <br>
                 <label>输入数据</label>
-                <textarea class="form-control pre-scrollable" name="inputOutputData" readonly rows="10"
+                <textarea class="form-control pre-scrollable" name="inputOutputData" readonly rows="7"
                           style="font-family: Consolas">${outputText}</textarea>
                 <br>
                 <div class="text-center">

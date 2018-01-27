@@ -13,11 +13,11 @@
 <head>
     <title>提交代码</title>
 
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -31,7 +31,7 @@
 --%>
 
 <div class="container" style="margin-top: 70px">
-    <h3 class="text-center">${problem.title}</h3>
+    <a href="/problem?problemID=${problem.problemID}"><h3 class="text-center">${problem.title}</h3></a>
     <div class="card">
         <h5 class="card-header">本题最近提交记录</h5>
         <c:choose>
@@ -124,7 +124,7 @@
                 <input hidden name="inputProblemID" value="${problem.problemID}">
                 <div class="form-group">
                     <label>源代码</label>
-                    <textarea class="form-control" name="inputCode" rows="15"></textarea>
+                    <textarea class="form-control" name="inputCode" rows="10"></textarea>
                 </div>
 
                 <div class="form-row align-items-center">
