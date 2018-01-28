@@ -86,6 +86,8 @@
 <div class="container" style="margin-top: 70px">
     <a href="/contest-overview?contestID=${contest.contestID}"><h3 class="text-center">${contest.title}</h3></a>
 
+    <%--在此出获取当前时间--%>
+    <jsp:useBean id="current" class="java.util.Date" />
     <div class="card">
         <div class="card-header">题目列表</div>
         <div class="card-body">
@@ -107,7 +109,14 @@
                                     <td class="text-center"><a>${contestProblem.innerID}</td>
                                     <td class="text-center">${1000+contestProblem.problemID}</td>
                                     <td class="text-center"><a href="/problem?problemID=${contestProblem.problemID}">${contestProblem.title}</a></td>
-                                    <td class="text-center"><a href="/delete-contest-problem?contestID=${contest.contestID}&innerID=${contestProblem.innerID}">删除</a></td>
+                                    <c:choose>
+                                        <c:when test="${current.time < contest.startTime - 10*60*1000}"><%--比赛前10分钟之前允许删除用户--%>
+                                            <td class="text-center"><a href="/delete-contest-problem?contestID=${contest.contestID}&innerID=${contestProblem.innerID}">删除</a></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td><span>删除</span></td>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </tr>
                             </c:forEach>
                             </tbody>

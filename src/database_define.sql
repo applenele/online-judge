@@ -309,4 +309,3 @@ CREATE TRIGGER deleteContestTrgger AFTER DELETE ON t_contest
     DELETE FROM t_submit_record WHERE t_submit_record.contest_id=@contestID;
   END;
 
-INSERT

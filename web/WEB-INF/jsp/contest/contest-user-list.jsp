@@ -41,7 +41,14 @@
                         <tr>
                         <td><a href="/user?userID=${user.userID}">${user.userID}</a></td>
                         <td><a href="/user?userID=${user.userID}">${user.userName}</a></td>
-                        <td><a href="/contest-user-delete?contestID=${contest.contestID}&userID=${user.userID}">移除比赛</a></td>
+                            <c:choose>
+                                <c:when test="${current.time < contest.startTime - 10*60*1000}"><%--比赛前10分钟之前允许删除用户--%>
+                                    <td><a href="/contest-user-delete?contestID=${contest.contestID}&userID=${user.userID}">移除比赛</a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><span>移除比赛</span></td>
+                                </c:otherwise>
+                            </c:choose>
                         </tr>
                     </c:forEach>
                     </tbody>
