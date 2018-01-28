@@ -44,6 +44,13 @@
         DELETE FROM t_discuss WHERE user_id=#{userID}
     </delete>
 
+    <delete id="deleteDiscussByRootID">
+        DELETE FROM t_discuss WHERE root_id=#{rootID}
+    </delete>
+
+
+
+
     <update id="setAsRoot" parameterType="org.oj.model.javaBean.DiscussBean">
         UPDATE t_discuss SET
         `root_id`=#{discuss.postID},
@@ -52,12 +59,23 @@
     </update>
 
     <update id="addWatch">
-        UPDATE t_discuss SET watch=watch+1 WHERE post_id=#{postID};
+        UPDATE t_discuss SET watch=watch+1 WHERE post_id=#{postID}
     </update>
 
-    <update id="addReply">
-        UPDATE t_discuss SET reply=reply+1 WHERE post_id=#{postID};
+    <update id="updateReply" statementType="CALLABLE">
+        CALL updateReplyCount(#{postID})
     </update>
+
+
+    <update id="setFirst">
+        UPDATE t_discuss SET first=#{val} WHERE post_id=#{postID}
+    </update>
+
+
+
+
+
+
 
     <select id="getDiscussByPostID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
         SELECT * FROM t_discuss WHERE post_id=#{postID}
@@ -67,7 +85,7 @@
       SELECT * FROM t_discuss WHERE root_id=#{rootID} AND `post_id` != `root_id` ORDER BY post_time DESC
     </select>
 
-    <select id="getDiscussListByPorcID" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
+    <select id="getDiscussTitleList" resultMap="discussMap" resultType="org.oj.model.javaBean.DiscussBean">
         SELECT * FROM t_discuss
         WHERE `post_id`=`root_id` AND `post_id`=`direct_fid`
         <if test="type != null">
@@ -76,7 +94,21 @@
         <if test="porcID != null">
             AND `porc_id`=#{porcID}
         </if>
-        ORDER BY post_time DESC
+        ORDER BY first DESC, post_time DESC
+        <if test="start!=null and count!=null">
+            limit #{start}, #{count}
+        </if>
+    </select>
+
+    <select id="getCountOfTitleList" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_discuss
+        WHERE `post_id`=`root_id` AND `post_id`=`direct_fid`
+        <if test="type != null">
+            AND `type`=#{type}
+        </if>
+        <if test="porcID != null">
+            AND `porc_id`=#{porcID}
+        </if>
     </select>
 
 

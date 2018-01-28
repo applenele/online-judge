@@ -309,3 +309,12 @@ CREATE TRIGGER deleteContestTrgger AFTER DELETE ON t_contest
     DELETE FROM t_submit_record WHERE t_submit_record.contest_id=@contestID;
   END;
 
+
+/*更新评论的回复次数*/
+DROP PROCEDURE IF EXISTS updateReplyCount;
+CREATE PROCEDURE updateReplyCount(IN postID INT)
+  BEGIN
+    DECLARE cnt INT;
+    SELECT count(post_id) INTO cnt FROM t_discuss WHERE post_id!=root_id AND post_id!=direct_fid AND root_id=postID;
+    UPDATE t_discuss SET reply=cnt WHERE post_id=postID;
+  END;

@@ -68,15 +68,15 @@
                                             <c:otherwise>
                                                 <c:choose>
                                                     <c:when test="${rankBean.problems.get(problem.problemID).tryTimes != 0}">
-                                                        <td class="alert-danger">-${rankBean.problems.get(problem.problemID).tryTimes}</td>
+                                                        <td style="vertical-align: middle" class="alert-danger">-${rankBean.problems.get(problem.problemID).tryTimes}</td>
                                                     </c:when>
-                                                    <c:otherwise><td></td></c:otherwise>
+                                                    <c:otherwise><td style="vertical-align: middle"></td></c:otherwise>
                                                 </c:choose>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
                                     <c:otherwise>
-                                        <td></td>
+                                        <td style="vertical-align: middle"></td>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>

@@ -8,13 +8,15 @@ import java.util.List;
 /**
  * Created by xanarry on 18-1-1.
  */
-public interface TableDiscuss {
+public interface TableDiscuss extends BaseFunction {
     int insertDiscuss(@Param("discuss")DiscussBean discuss);
 
 
     void setAsRoot(@Param("discuss") DiscussBean discuss);
     void addWatch(@Param("postID") Integer postID);
-    void addReply(@Param("postID") Integer postID);
+    void updateReply(@Param("postID") Integer postID);/*有删除回复的时候使用*/
+    void setFirst(@Param("postID") Integer postID, @Param("val") Integer val);
+
 
     void deleteDiscussByPostID(@Param("postID") Integer postID);
     void deleteDiscussByRootID(@Param("rootID") Integer rootID);
@@ -22,5 +24,8 @@ public interface TableDiscuss {
 
     DiscussBean getDiscussByPostID(@Param("postID") Integer postID);
     List<DiscussBean> getDiscussListByRootID(@Param("rootID") Integer rootID);
-    List<DiscussBean> getDiscussListByPorcID(@Param("type") Integer type, @Param("porcID") Integer porcID);
+
+
+    List<DiscussBean> getDiscussTitleList( @Param("type") Integer type, @Param("porcID") Integer porcID, @Param("start") Integer start, @Param("count") Integer count);
+    Integer getCountOfTitleList(@Param("type") Integer type, @Param("porcID") Integer porcID);
 }

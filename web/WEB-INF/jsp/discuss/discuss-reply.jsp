@@ -12,13 +12,13 @@
 <head>
     <title>discuss</title>
 
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 
-    <script src="plugin/ckeditor/ckeditor.js"></script>
+    <script src="/plugin/ckeditor/ckeditor.js"></script>
 
     <script>
         function problemCheck() {
@@ -68,26 +68,27 @@
     </div>
 
     <br>
-
-    <div class="card">
-        <div class="card-header"><h5><a data-toggle="collapse" href="#collapseReply">点此发表您的评论</a></h5></div>
+    <a class="btn btn-primary" href="/discuss-list">返回列表</a>
+    <button class="btn btn-success" data-toggle="collapse" href="#collapseReply">发表回复</button>
+    <br>
         <div class="collapse" id="collapseReply">
+            <div class="card">
             <div class="card-body">
                 <form class="form-group" action="/post-discuss" method="post">
-                    <input name="inputRootID" value="${discuss.postID}">
-                    <input name="inputDirectFID" value="${discuss.postID}">
-                    <input name="inputPorcID" value="${discuss.porcID}">
-                    <input name="inputType" value="${discuss.type}">
-                    <textarea name="inputContent" id="inputComment" class="form-control"
+                    <input hidden name="inputRootID" value="${discuss.postID}">
+                    <input hidden name="inputDirectFID" value="${discuss.postID}">
+                    <input hidden name="inputPorcID" value="${discuss.porcID}">
+                    <input hidden name="inputType" value="${discuss.type}">
+                    <textarea name="inputContent" id="inputComment" class="form-control" placeholder="在此输入您的回复内容"
                               style="height:150px; font-family: Consolas"></textarea>
                     <%-- <script>
                          CKEDITOR.replace('inputComment'); // 这里的 'editor1' 等于 textarea 的 id 'editor1'
                      </script>--%>
-                    <br><input class="btn btn-success" type="submit" value="发布评论">
+                    <br><input class="btn btn-success" type="submit" value="发布回复">
                 </form>
             </div>
+            </div>
         </div>
-    </div>
 
     <br>
     <div class="list-group">

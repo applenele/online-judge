@@ -24,7 +24,7 @@
         <if test="problemID != null">
             AND `problem_id`=#{problemID}
         </if>
-        ORDER BY `submit_time` DESC limit #{start}, #{count}
+        ORDER BY submit_id DESC limit #{start}, #{count}
     </select>
 
     <select id="getSubmitRecordListOrderedByDate" resultMap="submitRecordMap"
@@ -34,7 +34,7 @@
         <if test="contestID != null">
             AND `contest_id` = #{contestID}
         </if>
-        ORDER BY `submit_time` DESC limit #{start}, #{count}
+        ORDER BY submit_id DESC limit #{start}, #{count}
     </select>
 
 
@@ -58,7 +58,7 @@
             AND `problem_id`=#{problemID}
         </if>
         <if test="start != null and count != null">
-            ORDER BY submit_time DESC limit #{start}, #{count}
+            ORDER BY submit_id DESC limit #{start}, #{count}
         </if>
     </select>
 

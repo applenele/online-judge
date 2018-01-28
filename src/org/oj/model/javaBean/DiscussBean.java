@@ -17,12 +17,12 @@ public class DiscussBean {
     private String userName;
     private int reply;
     private int watch;
-    private boolean first;
+    private short first;
 
     public DiscussBean() {
     }
 
-    public DiscussBean(int postID, int directFID, int rootID, int type, int porcID, String theme, String title, String content, long postTime, int userID, String userName, int reply, int watch, boolean first) {
+    public DiscussBean(int postID, int directFID, int rootID, int type, int porcID, String theme, String title, String content, long postTime, int userID, String userName, int reply, int watch, short first) {
         this.postID = postID;
         this.directFID = directFID;
         this.rootID = rootID;
@@ -143,11 +143,11 @@ public class DiscussBean {
         this.watch = watch;
     }
 
-    public boolean isFirst() {
+    public short getFirst() {
         return first;
     }
 
-    public void setFirst(boolean first) {
+    public void setFirst(short first) {
         this.first = first;
     }
 

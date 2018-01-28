@@ -206,7 +206,7 @@
             <div class="row">
                 <div class="col-6 offset-3">
                     <div class="text-center">
-                        <a href="/discuss?type=1&porcID=${contest.contestID}" class="btn btn-primary">讨论</a>
+                        <a href="/discuss-list?type=1&porcID=${contest.contestID}" class="btn btn-primary">讨论</a>
                         <a href="/contest-record-list?contestID=${contest.contestID}" class="btn btn-primary">全部提交</a>
                         <a href="/contest-rank?contestID=${contest.contestID}" class="btn btn-primary">查看排名</a>
                         <a href="/contest-user-list?contestID=${contest.contestID}" class="btn btn-primary">查看用户</a>

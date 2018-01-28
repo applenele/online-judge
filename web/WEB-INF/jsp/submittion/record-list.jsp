@@ -14,14 +14,14 @@
 <html>
 <head>
     <title>提交记录</title>
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <br>
     <form action="/record-list" method="get">
@@ -60,18 +60,19 @@
 
     <div class="card">
 
-        <table class="table table-striped">
+        <table class="table table-striped text-center">
             <thead>
             <tr>
                 <th>提交ID</th>
-                <th class="text-center">用户</th>
-                <th class="text-center">题号</th>
-                <th class="text-center">耗时(ms)</th>
-                <th class="text-center">内存(KB)</th>
-                <th class="text-center">语言</th>
-                <th class="text-center">代码长度(字节)</th>
-                <th class="text-center">提交时间</th>
-                <th class="text-center">结果</th>
+                <th>用户</th>
+                <th>题号</th>
+                <th>耗时(ms)</th>
+                <th>内存(KB)</th>
+                <th>语言</th>
+                <th>代码长度(字节)</th>
+                <th>提交时间</th>
+                <th>结果</th>
+                <th>重测</th>
             </tr>
             </thead>
             <tbody>
@@ -79,16 +80,16 @@
             <c:forEach items="${recordList}" var="record">
                 <tr>
                     <td>${record.submitID}</td>
-                    <td class="text-center"><a href="/user?userID=${record.userID}"> ${record.userName} </a></td>
-                    <td class="text-center"><a href="/problem?problemID=${record.problemID}"> p${1000 + record.problemID} </a></td>
-                    <td class="text-center">${record.timeConsume}</td>
-                    <td class="text-center">${record.memConsume}</td>
-                    <td class="text-center"><span class="badge badge-secondary">${record.language}</span></td>
-                    <td class="text-center">${record.codeLength}</td>
+                    <td><a href="/user?userID=${record.userID}"> ${record.userName} </a></td>
+                    <td><a href="/problem?problemID=${record.problemID}">${1000 + record.problemID} </a></td>
+                    <td>${record.timeConsume}</td>
+                    <td>${record.memConsume}</td>
+                    <td><span class="badge badge-secondary">${record.language}</span></td>
+                    <td>${record.codeLength}</td>
 
                     <c:set target="${submitTime}" property="time" value="${record.submitTime}"/>
-                    <td class="text-center"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${submitTime}"/></td>
-                    <td class="text-center">
+                    <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${submitTime}"/></td>
+                    <td>
                         <a href="/judge-detail?submitID=${record.submitID}">
                             <c:choose>
                                 <c:when test="${record.result == 'Queuing'}"><span
@@ -140,6 +141,7 @@
                             </c:choose>
                         </a>
                     </td>
+                    <td><a class="badge badge-primary" href="/rejudge?submitID=${record.submitID}">重测</a></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -149,6 +151,6 @@
     <c:if test="${not empty pageInfo}">
         <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
     </c:if>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="/footer.jsp"/>
 </body>
 </html>

@@ -13,11 +13,12 @@
 <head>
     <title>讨论</title>
 
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -31,57 +32,28 @@
         </c:choose>
     </c:if>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#discussModal">创建新讨论</button>
+
     <br>
-    <div class="text-center">
-        <c:choose>
-            <c:when test="${!empty param.type}"><h3>${discussList[0].theme}</h3></c:when>
-            <c:otherwise><h3>全部讨论</h3></c:otherwise>
-        </c:choose>
-    </div>
-    <div class="modal fade" id="discussModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">发布新的讨论</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/post-original-discuss" method="post">
-                        <c:choose>
-                            <c:when test="${!empty param.type}"><input id="inputType" name="inputType" value="${param.type}" hidden></c:when>
-                            <c:otherwise><input id="inputType" name="inputType" value="2" hidden></c:otherwise>
-                        </c:choose>
-                        <input id="inputPorcID" name="inputPorcID" value="${param.porcID}" hidden>
-                        <div class="form-group">
-                            <label>标题</label>
-                            <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="标题">
-                        </div>
-                        <div class="form-group">
-                            <label>内容</label>
-                            <textarea class="form-control" id="inputContent" name="inputContent" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="发布" class="btn btn-success">
-                        </div>
-                    </form>
-            </div>
-            </div>
-        </div>
-    </div>
+    <ul class="list-inline">
+        <li class="list-inline-item"><h4>${tableTitle}</h4></li>
+        <li class="list-inline-item"><button class="btn btn-primary" data-toggle="modal" data-target="#discussModal">创建新讨论</button></li>
+    </ul>
 
     <div class="list-group">
         <c:forEach items="${discussList}" var="discuss">
         <div class="list-group-item list-group-item-action flex-column align-items-start ">
             <div class="media">
                 <div class="align-self-center text-center mr-4">
-                   <h3 style="width: 50px">${discuss.reply}</h3>
+                    <h3 style="width: 50px;">${discuss.reply}</h3>
                 </div>
                 <div class="media-body">
                     <div class="d-flex w-100 justify-content-between">
                         <a href="discuss-detail?postID=${discuss.postID}"><h5 class="mb-1">${discuss.title}</h5></a>
                     </div>
                     <ul class="mb-1 list-inline">
+                        <c:if test="${discuss.first > 0}">
+                            <span class="badge badge-danger"><i class="fa fa-arrow-up"></i></span>
+                        </c:if>
                         <li class="list-inline-item">
                             <c:choose>
                                 <c:when test="${discuss.type == 0}">
@@ -106,14 +78,53 @@
                     </ul>
                 </div>
                 <div class="align-self-center ml-4">
-                    <a href="/discuss-set-first?postID=${discuss.postID}" class="btn-sm btn-primary">置顶</a>
+                    <c:choose>
+                        <c:when test="${discuss.first == 0}"><a href="/discuss-set-first?postID=${discuss.postID}&val=1" class="btn-sm btn-primary">置顶</a></c:when>
+                        <c:otherwise><a href="/discuss-set-first?postID=${discuss.postID}&val=0" class="btn-sm btn-primary">取消置顶</a></c:otherwise>
+                    </c:choose>
                     <a href="/discuss-delete?postID=${discuss.postID}" class="btn-sm btn-danger">删除</a>
                 </div>
             </div>
         </div>
         </c:forEach>
     </div>
+    <br>
+    <c:if test="${not empty pageInfo}">
+        <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
+    </c:if>
 </div>
+
+<div class="modal fade" id="discussModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">发布新的讨论</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action="/post-original-discuss" method="post">
+                    <c:choose>
+                        <c:when test="${!empty param.type}"><input id="inputType" name="inputType" value="${param.type}" hidden></c:when>
+                        <c:otherwise><input id="inputType" name="inputType" value="2" hidden></c:otherwise>
+                    </c:choose>
+                    <input id="inputPorcID" name="inputPorcID" value="${param.porcID}" hidden>
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="标题">
+                    </div>
+                    <div class="form-group">
+                        <label>内容</label>
+                        <textarea class="form-control" id="inputContent" name="inputContent" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="发布" class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <jsp:include page="/footer.jsp"/>
 </body>
 </html>

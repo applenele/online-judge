@@ -7,7 +7,6 @@
     <insert id="addSubmitRecord" keyProperty="submitRecord.submitID" keyColumn="submit_id" useGeneratedKeys="true">
       INSERT INTO t_submit_record
       (
-      `submit_id`,
       `user_id`,
         `problem_id`,
       `contest_id`,
@@ -22,7 +21,6 @@
       )
       VALUES
         (
-      #{submitRecord.submitID},
       #{submitRecord.userID},
       #{submitRecord.problemID},
       #{submitRecord.contestID},
@@ -73,17 +71,17 @@
 
     <select id="getSubmitRecordListByUserID" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.SubmitRecordBean">
-      SELECT * FROM t_submit_record WHERE user_id = #{userID} ORDER BY submit_time limit #{start}, #{count}
+      SELECT * FROM t_submit_record WHERE user_id = #{userID} ORDER BY submit_id DESC limit #{start}, #{count}
     </select>
 
     <select id="getSubmitRecordListByProblemUser" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.SubmitRecordBean">
-      SELECT * FROM t_submit_record WHERE user_id = #{userID} AND problem_id = #{problemID} ORDER BY submit_time limit #{start}, #{count}
+      SELECT * FROM t_submit_record WHERE user_id = #{userID} AND problem_id = #{problemID} ORDER BY submit_id DESC limit #{start}, #{count}
     </select>
 
     <select id="getSubmitRecordListOrderedByDate" resultMap="submitRecordMap"
             resultType="org.oj.model.javaBean.SubmitRecordBean">
-      SELECT * FROM t_submit_record ORDER BY `submit_time` DESC limit #{start}, #{count}
+      SELECT * FROM t_submit_record ORDER BY submit_id DESC limit #{start}, #{count}
     </select>
 
     <select id="getSubmitRecordList" resultMap="submitRecordMap"

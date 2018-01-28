@@ -111,10 +111,14 @@
         <div class="card-body">
             <ul class="pagination justify-content-center">
                 <c:forEach items="${problemList}" var="contestProblem">
-                    <li class="page-item <c:if test="${problem.problemID == contestProblem.problemID}">disabled</c:if>">
-                        <a class="page-link"
-                           href="/contest-detail?contestID=${contest.contestID}&curProblem=${contestProblem.innerID}"
-                           tabindex="-1">${contestProblem.innerID}</a></li>
+                    <c:choose>
+                        <c:when test="${contestProblem.problemID==problem.problemID}">
+                            <li class="page-item active"><span class="page-link">${contestProblem.innerID}</span></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="/contest-detail?contestID=${contest.contestID}&curProblem=${contestProblem.innerID}">${contestProblem.innerID}</a></li>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </ul>
 
@@ -134,7 +138,7 @@
                     <c:choose>
                         <c:when test="${current.time <= contest.endTime and current.time >= contest.startTime}">
                             <a class="btn" href="#" data-toggle="modal" data-target="#submitModeal">提交</a>
-                            <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a>
+                            <a class="btn" href="/discuss-list?type=1&porcID=${contest.contestID}">讨论</a>
                         </c:when>
                         <c:otherwise>
                             <span class="btn">提交</span>

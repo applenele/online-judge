@@ -69,36 +69,37 @@
 
             <div class="card">
 
-                <table class="table table-striped">
+                <table class="table table-striped text-center">
                     <thead>
                     <tr>
-                        <th class="text-center">用户</th>
-                        <th class="text-center">题目ID</th>
-                        <th class="text-center">题目</th>
-                        <th class="text-center">耗时(ms)</th>
-                        <th class="text-center">内存(KB)</th>
-                        <th class="text-center">语言</th>
-                        <th class="text-center">代码长度(字节)</th>
-                        <th class="text-center">提交时间</th>
-                        <th class="text-center">结果</th>
+                        <th>用户</th>
+                        <th>题目ID</th>
+                        <th>题目</th>
+                        <th>耗时(ms)</th>
+                        <th>内存(KB)</th>
+                        <th>语言</th>
+                        <th>代码长度(字节)</th>
+                        <th>提交时间</th>
+                        <th>结果</th>
+                        <th>重测</th>
                     </tr>
                     </thead>
                     <tbody>
                     <jsp:useBean id="submitTime" class="java.util.Date"/>
                     <c:forEach items="${recordList}" var="record">
                         <tr>
-                            <td class="text-center"><a href="/user?userID=${record.userID}"> ${record.userName} </a></td>
-                            <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problemIDMaper.get(record.problemID)}">${problemIDMaper.get(record.problemID)}</a></td>
-                            <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problemIDMaper.get(record.problemID)}">${record.problemTitle} </a></td>
-                            <td class="text-center">${record.timeConsume}</td>
-                            <td class="text-center">${record.memConsume}</td>
-                            <td class="text-center"><span class="badge badge-secondary">${record.language}</span></td>
-                            <td class="text-center">${record.codeLength}</td>
+                            <td><a href="/user?userID=${record.userID}"> ${record.userName} </a></td>
+                            <td><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problemIDMaper.get(record.problemID)}">${problemIDMaper.get(record.problemID)}</a></td>
+                            <td><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problemIDMaper.get(record.problemID)}">${record.problemTitle} </a></td>
+                            <td>${record.timeConsume}</td>
+                            <td>${record.memConsume}</td>
+                            <td><span class="badge badge-secondary">${record.language}</span></td>
+                            <td>${record.codeLength}</td>
 
                             <c:set target="${submitTime}" property="time" value="${record.submitTime}"/>
-                            <td class="text-center"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
+                            <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
                                                                     value="${submitTime}"/></td>
-                            <td class="text-center">
+                            <td>
                                 <a href="/judge-detail?submitID=${record.submitID}">
                                     <c:choose>
                                         <c:when test="${record.result == 'Queuing'}"><span
@@ -150,6 +151,7 @@
                                     </c:choose>
                                 </a>
                             </td>
+                            <td><a class="badge badge-primary" href="/rejudge?submitID=${record.submitID}">重测</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>

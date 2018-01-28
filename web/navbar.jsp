@@ -107,7 +107,6 @@
                 <li class="nav-item"><span class="nav-link"></span></li>
                 <form class="form-inline my-2 my-lg-0" action="/problem-search" method="get">
                     <input class="form-control mr-sm-2" type="search" name="inputProblemKeyword" placeholder="模糊搜索题目编号,标题" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
                 </form>
             </ul>
 

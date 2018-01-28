@@ -20,7 +20,7 @@
     <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="../../../navbar.jsp"/>
 
 <%--
         request.setAttribute("problem", problemBean);
@@ -148,6 +148,6 @@
     </div>
 </div>
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>

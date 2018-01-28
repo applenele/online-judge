@@ -13,14 +13,14 @@
 <head>
     <title>提交记录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/bootstrap/bootstrap.min.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../js/bootstrap/popper.min.js"></script>
+    <script src="../../../js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="navbar.jsp"/>
+<jsp:include page="../../../navbar.jsp"/>
 <div class="container" style="margin-top: 70px">
     <div class="card">
         <h5 class="card-header">详细评测结果</h5>
@@ -100,7 +100,7 @@
     </div>
 
 
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="../../../footer.jsp"/>
 </body>
 </html>
 

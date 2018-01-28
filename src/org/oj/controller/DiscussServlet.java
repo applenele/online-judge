@@ -2,6 +2,7 @@ package org.oj.controller;
 
 import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.MessageBean;
+import org.oj.controller.beans.PageBean;
 import org.oj.database.DataSource;
 import org.oj.database.TableContest;
 import org.oj.database.TableDiscuss;
@@ -150,7 +151,7 @@ public class DiscussServlet extends HttpServlet {
         if (discussBean.getRootID() == discussBean.getDirectFID() && discussBean.getRootID() == 0) {
             tableDiscuss.setAsRoot(discussBean);
         } else {
-            tableDiscuss.addReply(discussBean.getRootID());//对于回复消息, 将楼主的回复数量增加1
+            tableDiscuss.updateReply(discussBean.getRootID());//对于回复消息, 将楼主的回复数量增加1
         }
 
 
@@ -171,14 +172,30 @@ public class DiscussServlet extends HttpServlet {
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
-        tableDiscuss.deleteDiscussByPostID(postID);
+        DiscussBean discussBean = tableDiscuss.getDiscussByPostID(postID);
+        if (discussBean.getPostID() == discussBean.getRootID() && discussBean.getRootID() == discussBean.getDirectFID()) {
+            /*这是一条发布的消息, 删除记录本身, 再删除该记录下的所有回复*/
+            tableDiscuss.deleteDiscussByPostID(postID);/*删除记录本身*/
+            tableDiscuss.deleteDiscussByRootID(postID);/*删除该记录下的所有回复*/
+            System.out.println("删除记录");
+        } else {
+            /*这是一条回复消息*/
+            tableDiscuss.deleteDiscussByPostID(postID);/*删除记录本身*/
+
+            tableDiscuss.updateReply(discussBean.getRootID());/*更新回复主题的回复数量*/
+            System.out.println("删除回复");
+        }
+
         sqlSession.commit();
         sqlSession.close();
 
-        response.sendRedirect("/discuss-list");
+        response.sendRedirect(request.getHeader("referer"));
     }
 
     private void discussListGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strPage = request.getParameter("page");
+        int page =  strPage != null ? Integer.parseInt(strPage) : 1;
+
         String strType = request.getParameter("type");
         Integer type = strType != null && strType.length() > 0 ? Integer.parseInt(strType) : null;
 
@@ -188,17 +205,40 @@ public class DiscussServlet extends HttpServlet {
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
-        List<DiscussBean> discussList = tableDiscuss.getDiscussListByPorcID(type, porcID);
+        List<DiscussBean> discussList = tableDiscuss.getDiscussTitleList(type, porcID, (page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        int recordCount = tableDiscuss.getCountOfTitleList(type, porcID);
+
         sqlSession.close();
 
+        //获取分页信息
+        PageBean pageBean = Utils.getPagination(recordCount, page, request);
 
+        request.setAttribute("pageInfo", pageBean);
+        request.setAttribute("tableTitle", "讨论(" + recordCount + ")");
         request.setAttribute("discussList", discussList);
         request.getRequestDispatcher("/WEB-INF/jsp/discuss/discuss-list.jsp").forward(request, response);
     }
 
 
     private void discussSetFirst(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strPostID = request.getParameter("postID");
+        Integer postID = strPostID != null && strPostID.length() > 0 ? Integer.parseInt(strPostID) : null;
 
+        String val = request.getParameter("val");
+
+        if (postID != null) {
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
+            if (val != null && val.equals("1")) {
+                tableDiscuss.setFirst(postID, 1);
+            } else {
+                tableDiscuss.setFirst(postID, 0);
+            }
+            sqlSession.commit();
+            sqlSession.close();
+        }
+
+        response.sendRedirect(request.getHeader("referer"));
     }
 
     private void getDiscussDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -218,8 +258,6 @@ public class DiscussServlet extends HttpServlet {
 
         request.setAttribute("discuss", discussBean);
         request.setAttribute("replyList", replyList);
-        System.out.println(discussBean);
-        System.out.println(replyList);
         request.getRequestDispatcher("/WEB-INF/jsp/discuss/discuss-reply.jsp").forward(request, response);
     }
 }

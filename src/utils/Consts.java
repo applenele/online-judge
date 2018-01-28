@@ -18,7 +18,7 @@ public class Consts {
     public static final Integer FOR_CONTEST = 1;
     public static final Integer FOR_MESSAGE = 2;
 
-    public static final int COUNT_PER_PAGE = 3;
+    public static final int COUNT_PER_PAGE = 20;
 
     public static final String[] result = {"Queuing", "Compiling", "Running", "Acepted", "Presentation Error", "Wrong Answer", "Runtime Error", "Time Limit Exceeded", "Memory Limit Exceede"};
 }

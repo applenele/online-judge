@@ -26,6 +26,7 @@ import java.util.List;
         name = "SubmitServlet",
         urlPatterns = {
                 "/submit",
+                "/rejudge",
                 "/record-list",
                 "/judge-detail"
         }
@@ -39,10 +40,13 @@ public class SubmitServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
+        String uri = request.getRequestURI();
 
-        if (request.getRequestURI().equals("/submit")) getSubmit(request, response);
-        if (request.getRequestURI().equals("/record-list")) getRecordList(request, response);
-        if (request.getRequestURI().equals("/judge-detail")) getRecordDetail(request, response);
+        if (uri.equals("/submit"))       getSubmit(request, response);
+        if (uri.equals("/record-list"))  getRecordList(request, response);
+        if (uri.equals("/judge-detail")) getRecordDetail(request, response);
+        if (uri.equals("/rejudge"))      rejudgeGet(request, response);
+
     }
 
 
@@ -67,12 +71,7 @@ public class SubmitServlet extends HttpServlet {
         }
         if (strUserID == null) {
             MessageBean messageBean = new MessageBean("提示", "提示", "请登录再提交代码", "/", "回到首页");
-            response.sendRedirect("/message?" +
-                    "title=" + URLEncoder.encode(messageBean.getTitle(), "utf8") +
-                    "&header=" + URLEncoder.encode(messageBean.getHeader(), "utf8") +
-                    "&message=" + URLEncoder.encode(messageBean.getMessage(), "utf8") +
-                    "&url=" + URLEncoder.encode(messageBean.getUrl(), "utf8") +
-                    "&linkText=" + URLEncoder.encode(messageBean.getLinkText(), "utf8"));
+            Utils.sendErrorMsg(response, messageBean);
             return;
         }
 
@@ -104,7 +103,7 @@ public class SubmitServlet extends HttpServlet {
         request.setAttribute("recordList", submitRecordBeans);
 
 
-        request.getRequestDispatcher("submit.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/submittion/submit.jsp").forward(request, response);
     }
 
 
@@ -155,7 +154,7 @@ public class SubmitServlet extends HttpServlet {
         ProblemBean problemBean = tableProblem.getProblemByID(problemID); //获取提交代码所属的题目
 
         //获取测试点路径
-        String testPointDataPath = getServletContext().getRealPath("/test-points") + "/p" + (1000 + problemID);
+        String testPointDataPath = getServletContext().getRealPath("/WEB-INF/test-point/") + (1000 + problemBean.getProblemID());
 
         //提交数据库
         TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
@@ -172,7 +171,7 @@ public class SubmitServlet extends HttpServlet {
         client.submit(submitRecordBean, problemBean, testPointDataPath);
         System.out.println("redirect to record list");
         if (contesetID != 0) {
-            response.sendRedirect("/record-list?contestID=" + contesetID);
+            response.sendRedirect("/contest-record-list?contestID=" + contesetID);
         } else {
             response.sendRedirect("/record-list");
         }
@@ -205,7 +204,7 @@ public class SubmitServlet extends HttpServlet {
 
         request.setAttribute("recordList", submitRecordBeans);
         request.setAttribute("pageInfo", pageBean);
-        request.getRequestDispatcher("/record-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/submittion/record-list.jsp").forward(request, response);
     }
 
 
@@ -236,6 +235,47 @@ public class SubmitServlet extends HttpServlet {
         request.setAttribute("detailList", judgeDetailList);
         request.setAttribute("record", submitRecordBean);
         request.setAttribute("compileInfo", compileInfoBean);
-        request.getRequestDispatcher("/judge-detail.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/submittion/judge-detail.jsp").forward(request, response);
+    }
+
+    private void rejudgeGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strSubmitID = request.getParameter("submitID");
+        int submitID = strSubmitID != null && strSubmitID.length() > 0 ? Integer.parseInt(strSubmitID) : -1;
+        if (submitID != -1) {
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            /*获取提交信息*/
+            TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
+            SubmitRecordBean submit = tableSubmitRecord.getSubmitRecordByID(submitID);
+            /*获取题目信息*/
+            TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+            ProblemBean problemBean = tableProblem.getProblemByID(submit.getProblemID()); //获取提交代码所属的题目
+
+            //获取测试点路径
+            String testPointDataPath = getServletContext().getRealPath("/WEB-INF/test-point/") + (1000 + problemBean.getProblemID());
+
+            /*删除当前记录在数据库中的信息, 触发器会删除相关的judge-detail, compile-info*/
+            tableSubmitRecord.deleteSubmitRecord(submitID);
+
+            System.out.println("old submitID: " + submitID);
+            /*重置提交中需要更新的信息*/
+            submit.setResult(Consts.result[0]);/*重置评测结果*/
+
+            //提交数据库
+            tableSubmitRecord.addSubmitRecord(submit);
+            sqlSession.commit();
+            sqlSession.close();
+
+            System.out.println("new submitID: " + submit.getSubmitID());
+            JudgeClient client = (JudgeClient) getServletContext().getAttribute("judgeClient");
+            //client.getState()
+            client.submit(submit, problemBean, testPointDataPath);
+            if (submit.getContestID() != 0) {
+                response.sendRedirect("/contest-record-list?contestID=" + submit.getContestID());
+            } else {
+                response.sendRedirect("/record-list");
+            }
+        } else {
+            Utils.sendErrorMsg(response, new MessageBean("错误", "错误", "不存在的提交ID", "/record-list", "返回提交记录"));
+        }
     }
 }
