@@ -9,15 +9,15 @@ import java.util.List;
 /*
 {
     "submitID":1,
-    "systemError":1,
-    "compileStatus":1,
-    "compileResult":"compile error",
+    "errorMessage":1,
+    "compileResult":1,
+    "compilerOutput":"compile error",
     "result":
     [
-        {"testPointID":1, "result":"accepted"},
-        {"testPointID":2, "result":"accepted"},
-        {"testPointID":3, "result":"accepted"},
-        {"testPointID":4, "result":"accepted"}
+        {"testPointID":1,"timeConsume":234,"memConsume":3421,"returnVal":0,"result":"accepted"},
+        {"testPointID":1,"timeConsume":234,"memConsume":3421,"returnVal":0,"result":"accepted"},
+        {"testPointID":1,"timeConsume":234,"memConsume":3421,"returnVal":0,"result":"accepted"},
+        {"testPointID":1,"timeConsume":234,"memConsume":3421,"returnVal":0,"result":"accepted"}
     ]
 }
 */
@@ -25,20 +25,20 @@ import java.util.List;
 
 public class ResultBean {
     private int submitID;
-    private int systemError;
-    private int compileStatus;
-    private String compileResult;
-    private List<TestPointResultBean> detail;
+    private String errorMessage;
+    private int    compileResult;
+    private String compilerOutput;
+    private List<TestPointResultBean> judgeDetail;
 
     public ResultBean() {
     }
 
-    public ResultBean(int submitID, int systemError, int compileStatus, String compileResult, List<TestPointResultBean> detail) {
+    public ResultBean(int submitID, String errorMessage, int compileResult, String compilerOutput, List<TestPointResultBean> judgeDetail) {
         this.submitID = submitID;
-        this.systemError = systemError;
-        this.compileStatus = compileStatus;
+        this.errorMessage = errorMessage;
         this.compileResult = compileResult;
-        this.detail = detail;
+        this.compilerOutput = compilerOutput;
+        this.judgeDetail = judgeDetail;
     }
 
     public int getSubmitID() {
@@ -49,46 +49,46 @@ public class ResultBean {
         this.submitID = submitID;
     }
 
-    public int getSystemError() {
-        return systemError;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setSystemError(int systemError) {
-        this.systemError = systemError;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
-    public int getCompileStatus() {
-        return compileStatus;
-    }
-
-    public void setCompileStatus(int compileStatus) {
-        this.compileStatus = compileStatus;
-    }
-
-    public String getCompileResult() {
+    public int getCompileResult() {
         return compileResult;
     }
 
-    public void setCompileResult(String compileResult) {
+    public void setCompileResult(int compileResult) {
         this.compileResult = compileResult;
     }
 
-    public List<TestPointResultBean> getDetail() {
-        return detail;
+    public String getCompilerOutput() {
+        return compilerOutput;
     }
 
-    public void setDetail(List<TestPointResultBean> detail) {
-        this.detail = detail;
+    public void setCompilerOutput(String compilerOutput) {
+        this.compilerOutput = compilerOutput;
+    }
+
+    public List<TestPointResultBean> getJudgeDetail() {
+        return judgeDetail;
+    }
+
+    public void setJudgeDetail(List<TestPointResultBean> judgeDetail) {
+        this.judgeDetail = judgeDetail;
     }
 
     @Override
     public String toString() {
         return "ResultBean{" +
                 "submitID=" + submitID +
-                ", systemError=" + systemError +
-                ", compileStatus=" + compileStatus +
-                ", compileResult='" + compileResult + '\'' +
-                ", detail=" + detail +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", compileResult=" + compileResult +
+                ", compilerOutput='" + compilerOutput + '\'' +
+                ", judgeDetail=" + judgeDetail +
                 '}';
     }
 }

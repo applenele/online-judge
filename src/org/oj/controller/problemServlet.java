@@ -1,6 +1,8 @@
 package org.oj.controller;
 
 import judge.JudgeClient;
+import judge.beans.ConfigurationBean;
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.MessageBean;
 import org.oj.controller.beans.PageBean;
@@ -9,12 +11,14 @@ import org.oj.database.TableProblem;
 import org.oj.model.javaBean.ProblemBean;
 import org.oj.model.javaBean.UserBean;
 import utils.Consts;
+import utils.Tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -144,6 +148,11 @@ public class problemServlet extends HttpServlet {
             SqlSession sqlSession = DataSource.getSqlSesion();
             TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
             tableProblem.deleteProblemByID(problemID);
+
+            String testPointSavePath = ((ConfigurationBean) getServletContext().getAttribute("configuration")).getTestPointBaseDir() + "/" + (1000 + problemID);
+            //删除测试点文件
+            FileUtils.deleteDirectory(new File(testPointSavePath));
+
             sqlSession.commit();
             sqlSession.close();
             MessageBean messageBean = new MessageBean("信息", "信息", "题目已经成功删除!", "/problem-list", "返回题目列表");

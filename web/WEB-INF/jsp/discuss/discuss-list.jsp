@@ -36,7 +36,9 @@
     <br>
     <ul class="list-inline">
         <li class="list-inline-item"><h4>${tableTitle}</h4></li>
-        <li class="list-inline-item"><button class="btn btn-primary" data-toggle="modal" data-target="#discussModal">创建新讨论</button></li>
+        <c:if test="${not empty cookie.get('userID').value}">
+            <li class="list-inline-item"><button class="btn btn-primary" data-toggle="modal" data-target="#discussModal">创建新讨论</button></li>
+        </c:if>
     </ul>
 
     <div class="list-group">

@@ -89,6 +89,15 @@ CREATE TABLE t_compile_info (
 
 
 
+DROP TABLE IF EXISTS t_system_error;
+CREATE TABLE t_system_error (
+  /*保持系统错误的信息*/
+  `submit_id` INT NOT NULL,       /*提交id*/
+  `error_message` VARCHAR(100),   /*系统返回的错误信息, 用于诊断系统故障*/
+  PRIMARY KEY(`submit_id`)
+) DEFAULT charset = "utf8"  ENGINE = InnoDB;
+
+
 DROP TABLE IF EXISTS t_judge_detail;
 CREATE TABLE t_judge_detail (
   /*保存每个测试点的详细信息*/
@@ -250,6 +259,8 @@ CREATE TABLE t_source_code (
 
 
 
+
+/*触发器*/
 /*删除用户后*/
 DROP TRIGGER IF EXISTS deleteUserTrigger;
 CREATE TRIGGER deleteUserTrigger AFTER DELETE ON t_user
@@ -275,6 +286,8 @@ CREATE TRIGGER deleteSubmitRecordTrigger AFTER DELETE ON t_submit_record
     DELETE FROM t_judge_detail WHERE t_judge_detail.submit_id=@submitID;
     /*删除该提交下的编译结果*/
     DELETE FROM t_compile_info WHERE t_compile_info.submit_id=@submitID;
+    /*删除该记录下的错误信息*/
+    DELETE FROM t_system_error WHERE t_system_error.submit_id=@submitID;
   END;
 
 
@@ -310,6 +323,32 @@ CREATE TRIGGER deleteContestTrgger AFTER DELETE ON t_contest
   END;
 
 
+/*有新的提交后更新提交次数*/
+DROP TRIGGER IF EXISTS insertSubmitRecordTrigger;
+CREATE TRIGGER insertSubmitRecordTrigger AFTER INSERT ON t_submit_record
+  FOR EACH ROW
+  BEGIN
+    /*更新题目和用户的提交次数*/
+    UPDATE t_problem SET submitted=submit_id+1 WHERE problem_id=NEW.problem_id;
+    UPDATE t_user SET submitted=submitted+1 WHERE user_id=NEW.user_id;
+  END;
+
+/*有正确的提交后更新提交的通过人数和用户的通过题数*/
+DROP TRIGGER IF EXISTS updateSubmitRecordTrigger;
+CREATE TRIGGER updateSubmitRecordTrigger AFTER UPDATE ON t_submit_record
+  FOR EACH ROW
+  BEGIN
+    IF NEW.result='Accepted' THEN
+      UPDATE t_user    SET accepted=(SELECT count(DISTINCT problem_id) FROM t_submit_record WHERE    user_id=NEW.user_id    AND result='Accepted');
+      UPDATE t_problem SET accepted=(SELECT count(DISTINCT user_id)    FROM t_submit_record WHERE problem_id=NEW.problem_id AND result='Accepted');
+    END IF;
+  END;
+
+
+
+
+
+/*存储过程*/
 /*更新评论的回复次数*/
 DROP PROCEDURE IF EXISTS updateReplyCount;
 CREATE PROCEDURE updateReplyCount(IN postID INT)

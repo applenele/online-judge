@@ -948,782 +948,809 @@
     <table id="241" parent="4" name="t_submit_record">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="242" parent="4" name="t_test_point">
+    <table id="242" parent="4" name="t_system_error">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="243" parent="4" name="t_user">
+    <table id="243" parent="4" name="t_test_point">
       <Engine>InnoDB</Engine>
     </table>
-    <view id="244" parent="4" name="v_submit_record">
+    <table id="244" parent="4" name="t_user">
+      <Engine>InnoDB</Engine>
+    </table>
+    <view id="245" parent="4" name="v_submit_record">
       <Comment>VIEW</Comment>
     </view>
-    <routine id="245" parent="4" name="updateReplyCount">
+    <routine id="246" parent="4" name="updateReplyCount">
       <RoutineKind>procedure</RoutineKind>
     </routine>
-    <column id="246" parent="231" name="submit_id">
+    <column id="247" parent="231" name="submit_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="247" parent="231" name="compile_result">
+    <column id="248" parent="231" name="compile_result">
       <Position>2</Position>
       <DataType>text|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="248" parent="231" name="PRIMARY">
+    <key id="249" parent="231" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>submit_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="249" parent="232" name="contest_id">
+    <column id="250" parent="232" name="contest_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="250" parent="232" name="title">
+    <column id="251" parent="232" name="title">
       <Position>2</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="232" name="desc">
+    <column id="252" parent="232" name="desc">
       <Position>3</Position>
       <DataType>varchar(400)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="252" parent="232" name="start_time">
+    <column id="253" parent="232" name="start_time">
       <Position>4</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="253" parent="232" name="end_time">
+    <column id="254" parent="232" name="end_time">
       <Position>5</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="254" parent="232" name="register_start_time">
+    <column id="255" parent="232" name="register_start_time">
       <Position>6</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="255" parent="232" name="register_end_time">
+    <column id="256" parent="232" name="register_end_time">
       <Position>7</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="256" parent="232" name="password">
+    <column id="257" parent="232" name="password">
       <Position>8</Position>
       <DataType>varchar(20)|0</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="232" name="sponsor">
+    <column id="258" parent="232" name="sponsor">
       <Position>9</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="258" parent="232" name="contest_type">
+    <column id="259" parent="232" name="contest_type">
       <Position>10</Position>
       <DataType>enum(&apos;OI&apos;, &apos;ACM&apos;)|0</DataType>
       <DefaultExpression>&apos;ACM&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="259" parent="232" name="create_time">
+    <column id="260" parent="232" name="create_time">
       <Position>11</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="260" parent="232" name="PRIMARY">
+    <key id="261" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>contest_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <trigger id="261" parent="232" name="deleteContestTrgger">
+    <trigger id="262" parent="232" name="deleteContestTrgger">
       <Turn>after-row</Turn>
       <Events>D</Events>
     </trigger>
-    <column id="262" parent="233" name="contest_id">
+    <column id="263" parent="233" name="contest_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="263" parent="233" name="problem_id">
+    <column id="264" parent="233" name="problem_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="264" parent="233" name="title">
+    <column id="265" parent="233" name="title">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="265" parent="233" name="inner_id">
+    <column id="266" parent="233" name="inner_id">
       <Position>4</Position>
       <DataType>varchar(2)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="266" parent="233" name="accepted">
+    <column id="267" parent="233" name="accepted">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="267" parent="233" name="submitted">
+    <column id="268" parent="233" name="submitted">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="268" parent="233" name="PRIMARY">
+    <key id="269" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>contest_id
 problem_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="269" parent="234" name="contest_id">
+    <column id="270" parent="234" name="contest_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="234" name="user_id">
+    <column id="271" parent="234" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="271" parent="234" name="user_name">
+    <column id="272" parent="234" name="user_name">
       <Position>3</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="272" parent="234" name="PRIMARY">
+    <key id="273" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>contest_id
 user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="273" parent="235" name="post_id">
+    <column id="274" parent="235" name="post_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="274" parent="235" name="direct_fid">
+    <column id="275" parent="235" name="direct_fid">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="275" parent="235" name="root_id">
+    <column id="276" parent="235" name="root_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="276" parent="235" name="type">
+    <column id="277" parent="235" name="type">
       <Position>4</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="277" parent="235" name="porc_id">
+    <column id="278" parent="235" name="porc_id">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="278" parent="235" name="theme">
+    <column id="279" parent="235" name="theme">
       <Position>6</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="279" parent="235" name="title">
+    <column id="280" parent="235" name="title">
       <Position>7</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="280" parent="235" name="content">
+    <column id="281" parent="235" name="content">
       <Position>8</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="235" name="post_time">
+    <column id="282" parent="235" name="post_time">
       <Position>9</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="282" parent="235" name="user_id">
+    <column id="283" parent="235" name="user_id">
       <Position>10</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="283" parent="235" name="user_name">
+    <column id="284" parent="235" name="user_name">
       <Position>11</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="284" parent="235" name="reply">
+    <column id="285" parent="235" name="reply">
       <Position>12</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="285" parent="235" name="watch">
+    <column id="286" parent="235" name="watch">
       <Position>13</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="286" parent="235" name="first">
+    <column id="287" parent="235" name="first">
       <Position>14</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="287" parent="235" name="PRIMARY">
+    <key id="288" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>post_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="288" parent="236" name="image_id">
+    <column id="289" parent="236" name="image_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="236" name="abs_path">
+    <column id="290" parent="236" name="abs_path">
       <Position>2</Position>
       <DataType>varchar(4096)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="236" name="rlt_path">
+    <column id="291" parent="236" name="rlt_path">
       <Position>3</Position>
       <DataType>varchar(4096)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="291" parent="236" name="PRIMARY">
+    <key id="292" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>image_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="292" parent="237" name="submit_id">
+    <column id="293" parent="237" name="submit_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="293" parent="237" name="test_point_id">
+    <column id="294" parent="237" name="test_point_id">
       <Position>2</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="294" parent="237" name="time_consume">
+    <column id="295" parent="237" name="time_consume">
       <Position>3</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="295" parent="237" name="mem_consume">
+    <column id="296" parent="237" name="mem_consume">
       <Position>4</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="296" parent="237" name="return_val">
+    <column id="297" parent="237" name="return_val">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="297" parent="237" name="result">
+    <column id="298" parent="237" name="result">
       <Position>6</Position>
       <DataType>varchar(32)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="298" parent="237" name="PRIMARY">
+    <key id="299" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>submit_id
 test_point_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="299" parent="238" name="language_id">
+    <column id="300" parent="238" name="language_id">
       <Position>1</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="300" parent="238" name="language">
+    <column id="301" parent="238" name="language">
       <Position>2</Position>
       <DataType>varchar(16)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="301" parent="238" name="PRIMARY">
+    <key id="302" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>language_id
 language</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="302" parent="239" name="problem_id">
+    <column id="303" parent="239" name="problem_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="303" parent="239" name="title">
+    <column id="304" parent="239" name="title">
       <Position>2</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="304" parent="239" name="desc">
+    <column id="305" parent="239" name="desc">
       <Position>3</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="305" parent="239" name="input_desc">
+    <column id="306" parent="239" name="input_desc">
       <Position>4</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="306" parent="239" name="output_desc">
+    <column id="307" parent="239" name="output_desc">
       <Position>5</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="307" parent="239" name="input_sample">
+    <column id="308" parent="239" name="input_sample">
       <Position>6</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="308" parent="239" name="output_sample">
+    <column id="309" parent="239" name="output_sample">
       <Position>7</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="309" parent="239" name="hint">
+    <column id="310" parent="239" name="hint">
       <Position>8</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="310" parent="239" name="source">
+    <column id="311" parent="239" name="source">
       <Position>9</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="311" parent="239" name="create_time">
+    <column id="312" parent="239" name="create_time">
       <Position>10</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="312" parent="239" name="static_lang_time_limit">
+    <column id="313" parent="239" name="static_lang_time_limit">
       <Position>11</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;1000&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="313" parent="239" name="static_lang_mem_limit">
+    <column id="314" parent="239" name="static_lang_mem_limit">
       <Position>12</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;65535&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="314" parent="239" name="dynamic_lang_time_limit">
+    <column id="315" parent="239" name="dynamic_lang_time_limit">
       <Position>13</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;2000&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="239" name="dynamic_lang_mem_limit">
+    <column id="316" parent="239" name="dynamic_lang_mem_limit">
       <Position>14</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;131070&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="316" parent="239" name="accepted">
+    <column id="317" parent="239" name="accepted">
       <Position>15</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="317" parent="239" name="submitted">
+    <column id="318" parent="239" name="submitted">
       <Position>16</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="318" parent="239" name="PRIMARY">
+    <key id="319" parent="239" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>problem_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <trigger id="319" parent="239" name="deleteProblemTrigger">
+    <trigger id="320" parent="239" name="deleteProblemTrigger">
       <Turn>after-row</Turn>
       <Events>D</Events>
     </trigger>
-    <column id="320" parent="240" name="submit_id">
+    <column id="321" parent="240" name="submit_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="321" parent="240" name="source_code">
+    <column id="322" parent="240" name="source_code">
       <Position>2</Position>
       <DataType>text|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="322" parent="240" name="source_code_length">
+    <column id="323" parent="240" name="source_code_length">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="323" parent="240" name="PRIMARY">
+    <key id="324" parent="240" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>submit_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="324" parent="241" name="submit_id">
+    <column id="325" parent="241" name="submit_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="325" parent="241" name="user_id">
+    <column id="326" parent="241" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="326" parent="241" name="problem_id">
+    <column id="327" parent="241" name="problem_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="327" parent="241" name="contest_id">
+    <column id="328" parent="241" name="contest_id">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="241" name="result">
+    <column id="329" parent="241" name="result">
       <Position>5</Position>
       <DataType>varchar(32)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="241" name="language">
+    <column id="330" parent="241" name="language">
       <Position>6</Position>
       <DataType>varchar(16)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="330" parent="241" name="source_code">
+    <column id="331" parent="241" name="source_code">
       <Position>7</Position>
       <DataType>text|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="331" parent="241" name="code_length">
+    <column id="332" parent="241" name="code_length">
       <Position>8</Position>
       <DataType>mediumint(9)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="332" parent="241" name="time_consume">
+    <column id="333" parent="241" name="time_consume">
       <Position>9</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="333" parent="241" name="mem_consume">
+    <column id="334" parent="241" name="mem_consume">
       <Position>10</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="334" parent="241" name="submit_time">
+    <column id="335" parent="241" name="submit_time">
       <Position>11</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="335" parent="241" name="judge_time">
+    <column id="336" parent="241" name="judge_time">
       <Position>12</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="336" parent="241" name="PRIMARY">
+    <key id="337" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>submit_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <trigger id="337" parent="241" name="deleteSubmitRecordTrigger">
+    <trigger id="338" parent="241" name="insertSubmitRecordTrigger">
+      <Turn>after-row</Turn>
+      <Events>I</Events>
+    </trigger>
+    <trigger id="339" parent="241" name="updateSubmitRecordTrigger">
+      <Turn>after-row</Turn>
+      <Events>U</Events>
+    </trigger>
+    <trigger id="340" parent="241" name="deleteSubmitRecordTrigger">
       <Turn>after-row</Turn>
       <Events>D</Events>
     </trigger>
-    <column id="338" parent="242" name="problem_id">
+    <column id="341" parent="242" name="submit_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="339" parent="242" name="test_point_id">
+    <column id="342" parent="242" name="error_message">
+      <Position>2</Position>
+      <DataType>varchar(128)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="343" parent="242" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>submit_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="344" parent="243" name="problem_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="345" parent="243" name="test_point_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="340" parent="242" name="input_text_path">
+    <column id="346" parent="243" name="input_text_path">
       <Position>3</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="341" parent="242" name="input_text_length">
+    <column id="347" parent="243" name="input_text_length">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="342" parent="242" name="output_text_path">
+    <column id="348" parent="243" name="output_text_path">
       <Position>5</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="242" name="output_text_length">
+    <column id="349" parent="243" name="output_text_length">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="344" parent="242" name="PRIMARY">
+    <key id="350" parent="243" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>problem_id
 test_point_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="345" parent="243" name="user_id">
+    <column id="351" parent="244" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="346" parent="243" name="email">
+    <column id="352" parent="244" name="email">
       <Position>2</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="347" parent="243" name="user_name">
+    <column id="353" parent="244" name="user_name">
       <Position>3</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="348" parent="243" name="password">
+    <column id="354" parent="244" name="password">
       <Position>4</Position>
       <DataType>varchar(40)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="349" parent="243" name="register_time">
+    <column id="355" parent="244" name="register_time">
       <Position>5</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="243" name="last_login_time">
+    <column id="356" parent="244" name="last_login_time">
       <Position>6</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="243" name="user_type">
+    <column id="357" parent="244" name="user_type">
       <Position>7</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="243" name="prefer_language">
+    <column id="358" parent="244" name="prefer_language">
       <Position>8</Position>
       <DataType>varchar(16)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;-1&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="243" name="accepted">
+    <column id="359" parent="244" name="accepted">
       <Position>9</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="243" name="submitted">
+    <column id="360" parent="244" name="submitted">
       <Position>10</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="355" parent="243" name="bio">
+    <column id="361" parent="244" name="bio">
       <Position>11</Position>
       <DataType>varchar(64)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="356" parent="243" name="send_code">
+    <column id="362" parent="244" name="send_code">
       <Position>12</Position>
       <DataType>tinyint(4)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="357" parent="243" name="PRIMARY">
+    <key id="363" parent="244" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <trigger id="358" parent="243" name="deleteUserTrigger">
+    <trigger id="364" parent="244" name="deleteUserTrigger">
       <Turn>after-row</Turn>
       <Events>D</Events>
     </trigger>
-    <column id="359" parent="244" name="submit_id">
+    <column id="365" parent="245" name="submit_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="360" parent="244" name="contest_id">
+    <column id="366" parent="245" name="contest_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="361" parent="244" name="contest_title">
+    <column id="367" parent="245" name="contest_title">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="362" parent="244" name="problem_id">
+    <column id="368" parent="245" name="problem_id">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="363" parent="244" name="problem_title">
+    <column id="369" parent="245" name="problem_title">
       <Position>5</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="364" parent="244" name="user_id">
+    <column id="370" parent="245" name="user_id">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="365" parent="244" name="user_name">
+    <column id="371" parent="245" name="user_name">
       <Position>7</Position>
       <DataType>varchar(64)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="366" parent="244" name="compile_result">
+    <column id="372" parent="245" name="compile_result">
       <Position>8</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="367" parent="244" name="result">
+    <column id="373" parent="245" name="result">
       <Position>9</Position>
       <DataType>varchar(32)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="368" parent="244" name="time_consume">
+    <column id="374" parent="245" name="time_consume">
       <Position>10</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="369" parent="244" name="mem_consume">
+    <column id="375" parent="245" name="mem_consume">
       <Position>11</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="370" parent="244" name="language">
+    <column id="376" parent="245" name="language">
       <Position>12</Position>
       <DataType>varchar(16)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="371" parent="244" name="source_code">
+    <column id="377" parent="245" name="source_code">
       <Position>13</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="372" parent="244" name="code_length">
+    <column id="378" parent="245" name="code_length">
       <Position>14</Position>
       <DataType>mediumint(9)|0</DataType>
     </column>
-    <column id="373" parent="244" name="submit_time">
+    <column id="379" parent="245" name="submit_time">
       <Position>15</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="374" parent="244" name="judge_time">
+    <column id="380" parent="245" name="judge_time">
       <Position>16</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <argument id="375" parent="245" name="postID">
+    <argument id="381" parent="246" name="postID">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
     </argument>

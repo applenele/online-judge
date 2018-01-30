@@ -1,5 +1,6 @@
 package org.oj.controller;
 
+import judge.beans.ConfigurationBean;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.database.DataSource;
 import org.oj.database.TableProblem;
@@ -30,28 +31,28 @@ import java.util.List;
 )
 public class TestPointServlet extends HttpServlet {
     private String testPointDirRealPath;
-    private String testPointDirContestPath;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        //初始化测试点保存的绝对路径和相对网站根目录的路径
-        testPointDirRealPath    = getServletContext().getRealPath("/WEB-INF/test-point/");
-        testPointDirContestPath = getServletContext().getContextPath() + "/WEB-INF/test-point/";
-
+        //初始化测试点保存根目录的绝对路径
+        testPointDirRealPath    = ((ConfigurationBean) getServletContext().getAttribute("configuration")).getTestPointBaseDir();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("post: " + request.getRequestURL());
-        if (request.getRequestURI().equals("/add-test-point")) addTestPoint(request, response);
+        String uri = request.getRequestURI();
+        if (uri.equals("/add-test-point")) addTestPoint(request, response);
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("get: " + request.getRequestURL());
-        if (request.getRequestURI().equals("/test-point-list")) getTestPointList(request, response);
-        if (request.getRequestURI().equals("/show-test-point")) getTestPoint(request, response);
-        if (request.getRequestURI().equals("/delete-test-point")) deleteTestPoint(request, response);
+        String uri = request.getRequestURI();
+
+        if (uri.equals("/test-point-list")) getTestPointList(request, response);
+        if (uri.equals("/show-test-point")) getTestPoint(request, response);
+        if (uri.equals("/delete-test-point")) deleteTestPoint(request, response);
 
     }
 
@@ -80,11 +81,11 @@ public class TestPointServlet extends HttpServlet {
         //设置测试点编号
         testPointBean.setTestPointID(testPointID);
         //设置输入文本路径
-        testPointBean.setInputTextPath(testPointDirContestPath + "/" + (1000 + problemID) + "/" + testPointID + ".in");
+        testPointBean.setInputTextPath((1000 + problemID) + "/" + testPointID + ".in");
         //设置输入文本长度
         testPointBean.setInputTextLength(inputData.length());
         //设置输出文本路径
-        testPointBean.setOutputTextPath(testPointDirContestPath + "/" + (1000 + problemID) + "/" + testPointID + ".out");
+        testPointBean.setOutputTextPath((1000 + problemID) + "/" + testPointID + ".out");
         //设置输出文本长度
         testPointBean.setOutputTextLength(outputData.length());
 
@@ -164,8 +165,8 @@ public class TestPointServlet extends HttpServlet {
         System.out.println("input_text_path: " + testPointBean.getInputTextPath());
 
 
-        String inputText = Tools.readFileToString(getServletContext().getRealPath(testPointBean.getInputTextPath()));
-        String outputText = Tools.readFileToString(getServletContext().getRealPath(testPointBean.getOutputTextPath()));
+        String inputText = Tools.readFileToString(testPointDirRealPath + "/" + testPointBean.getInputTextPath());
+        String outputText = Tools.readFileToString(testPointDirRealPath + "/" + testPointBean.getOutputTextPath());
 
         request.setAttribute("testPoint", testPointBean);
         request.setAttribute("problem", problemBean);

@@ -1,13 +1,13 @@
 package test;
 
-import utils.Tools;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import judge.beans.ConfigurationBean;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Comparator;
+import java.io.FileReader;
 
 /**
  * Created by xanarry on 18-1-2.
@@ -35,8 +35,23 @@ public class Test {
         }
         return newUrl + "&";
     }
+
+
     public static void main(String[] argv) throws FileNotFoundException {
-        String t = "http://localhost:8080/record-list?inputUserName=&inputProblemID=&inputResult=Accepted&inputLanguage=";
-        System.out.println(urlWithoutPageInfo(t) + "page=34");
+        File f = new File("./src");
+        for (File c: f.listFiles()) {
+            System.out.println(c.getName());
+        }
+
+
+        String configFilePath = "./src/config.json";
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        ConfigurationBean configuration = null;
+        try {
+            configuration = gson.fromJson(new FileReader(configFilePath), ConfigurationBean.class);
+            System.out.println(configuration);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
