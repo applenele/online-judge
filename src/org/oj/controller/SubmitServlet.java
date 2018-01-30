@@ -33,13 +33,10 @@ import java.util.List;
 )
 public class SubmitServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("post: " + request.getRequestURL());
-
         if (request.getRequestURI().equals("/submit")) postSubmit(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("get: " + request.getRequestURL());
         String uri = request.getRequestURI();
 
         if (uri.equals("/submit"))       getSubmit(request, response);

@@ -23,10 +23,14 @@ public class AccessFilter implements Filter {
         servletResponse.setCharacterEncoding("utf8");
         filterChain.doFilter(servletRequest, servletResponse);
 
-        /*HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String uri = request.getRequestURI();
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String url = request.getRequestURL().toString();
+        request.getMethod();
+        System.out.println(request.getMethod() + ": " + url);
+
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        /*
         if (uri.contains(".")) { //非地址请求, 如资源文件请求.css .js .jpg ....
             if (uri.endsWith(".jsp")) { //直接请求jsp文件, 重定向到jsp文件名对应的uri
                 response.sendRedirect(uri.replace(".jsp", ""));

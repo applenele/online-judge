@@ -26,7 +26,6 @@ import java.util.List;
 @WebServlet(name = "registerServlet", urlPatterns = {"/register", "/ajax-check-register-info"})
 public class registerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("post: " + request.getRequestURL());
         String uri = request.getRequestURI();
 
         if (uri.equals("/ajax-check-register-info")) ajaxCheckRegisterInfo(request, response);
@@ -35,8 +34,6 @@ public class registerServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("get: " + request.getRequestURL());
-
         TableLanguage tableLanguage = DataSource.getSqlSesion().getMapper(TableLanguage.class);
         List<LanguageBean> languageList = tableLanguage.getLanguageList();
         request.setAttribute("languageList", languageList);

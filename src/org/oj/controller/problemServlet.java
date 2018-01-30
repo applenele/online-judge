@@ -41,14 +41,12 @@ import java.util.List;
 
 public class problemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("post: " + request.getRequestURL());
         String uri = request.getRequestURI();
         if (uri.equals("/problem-add")) addProblem(request, response);
         if (uri.equals("/ajax-check-problem-exist")) checkProblemExist(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("get: " + request.getRequestURL());
         String uri = request.getRequestURI();
         if (uri.equals("/problem-add")) request.getRequestDispatcher("/WEB-INF/jsp/problem/problem-edit.jsp").forward(request, response);
 

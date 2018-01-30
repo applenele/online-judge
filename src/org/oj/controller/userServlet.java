@@ -42,8 +42,6 @@ import static org.apache.commons.codec.digest.DigestUtils.sha1Hex;
 
 public class userServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("post " + request.getRequestURL());
-
         String uri = request.getRequestURI();
         if (uri.equals("/user-edit"))                  editUserPost(request, response);
         if (uri.equals("/send-retrieve-password-email"))    sendRetrievePasswordEmailPost(request, response);
@@ -52,7 +50,6 @@ public class userServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("get " + request.getRequestURL());
         String uri = request.getRequestURI();
 
         if (uri.equals("/user"))         showUserGet(request, response);

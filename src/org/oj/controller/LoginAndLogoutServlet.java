@@ -23,7 +23,14 @@ import java.util.Date;
 /**
  * Created by xanarry on 18-1-2.
  */
-@WebServlet(name = "LoginAndLogoutServlet", urlPatterns = {"/ajaxGetValidateCode", "/login", "/logout"})
+@WebServlet(name = "LoginAndLogoutServlet",
+        urlPatterns = {
+                "/ajaxGetValidateCode",
+                "/login",
+                "/logout"
+        }
+    )
+
 public class LoginAndLogoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getRequestURI().endsWith("login")) login(request, response);

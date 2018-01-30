@@ -46,7 +46,6 @@ import java.util.*;
 public class ContestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        System.out.println("post: " + request.getRequestURL());
 
         if (uri.equals("/contest-add")) addContest(request, response, false);
         if (uri.equals("/contest-edit")) editContestPost(request, response);
@@ -59,7 +58,6 @@ public class ContestServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        System.out.println("get: " + request.getRequestURL());
 
         if (uri.equals("/contest-add"))             request.getRequestDispatcher("/WEB-INF/jsp/contest/contest-edit.jsp").forward(request, response);
         if (uri.equals("/contest-problem-edit"))    editContestProblemGet(request, response);

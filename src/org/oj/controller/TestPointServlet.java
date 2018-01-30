@@ -40,14 +40,12 @@ public class TestPointServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("post: " + request.getRequestURL());
         String uri = request.getRequestURI();
         if (uri.equals("/add-test-point")) addTestPoint(request, response);
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("get: " + request.getRequestURL());
         String uri = request.getRequestURI();
 
         if (uri.equals("/test-point-list")) getTestPointList(request, response);

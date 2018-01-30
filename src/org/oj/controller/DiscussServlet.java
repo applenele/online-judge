@@ -34,7 +34,6 @@ import java.util.List;
 public class DiscussServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        System.out.println("get: " + request.getRequestURI());
 
         if (uri.equals("/post-discuss"))            postDiscuss(request, response, false);
         if (uri.equals("/post-original-discuss"))   postDiscuss(request, response, true);
@@ -42,7 +41,6 @@ public class DiscussServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        System.out.println("get: " + request.getRequestURI());
 
         if (uri.equals("/discuss-delete")) deleteDiscuss(request, response);
         if (uri.equals("/discuss-list"))    discussListGet(request, response);

@@ -28,15 +28,11 @@ import java.util.List;
 public class AdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        System.out.println("get: " + request.getRequestURL());
-
-
         if (uri.equals("/send-email")) sendMailPost(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        System.out.println("get: " + request.getRequestURL());
 
         if (uri.equals("/send-email")) sendMailGet(request, response);
         if (uri.equals("/admin")) request.getRequestDispatcher("/WEB-INF/jsp/admin/admin.jsp").forward(request, response);
