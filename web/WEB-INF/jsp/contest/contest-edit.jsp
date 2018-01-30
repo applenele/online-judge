@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/plugin/datetimepicker/css/tempusdominus-bootstrap-4.min.css"/>
     <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
@@ -116,7 +117,7 @@
 <body>
 <jsp:include page="/navbar.jsp"/>
 
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
     <div class="card">
         <div class="card-header"><h4>添加比赛</h4></div>
         <div class="card-body">

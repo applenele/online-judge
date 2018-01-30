@@ -14,6 +14,7 @@
   <title>首页</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/bootstrap/popper.min.js"></script>
@@ -22,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
-<div class="container" style="margin-top:70px">
+<div class="container custom-container">
     <div class="jumbotron" style="background-size: cover; background-image: url('/img/b.gif');">
         <br><br><br><br><br><br><br>
         <div class="text-center">

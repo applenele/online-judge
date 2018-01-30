@@ -10,15 +10,16 @@
 <head>
     <title>编辑讨论内容</title>
 
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
 <jsp:include page="/navbar.jsp"/>
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
     <div class="card">
         <div class="card-header">发布新的消息</div>
         <div class="card-body">

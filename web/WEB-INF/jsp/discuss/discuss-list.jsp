@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
@@ -23,7 +24,7 @@
 
 <body>
 <jsp:include page="/navbar.jsp"/>
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
     <c:if test="${discussList == null || fnt:length(discussList) == 0}">
         <c:choose>
             <c:when test="${!empty param.type && param.type == 0}"><h3>该题目下还没有讨论, 点下面创建新的讨论!</h3></c:when>

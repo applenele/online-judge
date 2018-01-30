@@ -14,13 +14,14 @@
     <title>提交代码</title>
 
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="../../../navbar.jsp"/>
+<jsp:include page="/navbar.jsp"/>
 
 <%--
         request.setAttribute("problem", problemBean);
@@ -30,7 +31,7 @@
 
 --%>
 
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
     <a href="/problem?problemID=${problem.problemID}"><h3 class="text-center">${problem.title}</h3></a>
     <div class="card">
         <h5 class="card-header">本题最近提交记录</h5>
@@ -148,6 +149,6 @@
     </div>
 </div>
 
-<jsp:include page="../../../footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
 </body>
 </html>

@@ -12,6 +12,7 @@
     <title>参赛用户</title>
 
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
@@ -19,7 +20,7 @@
 </head>
 <body>
 <jsp:include page="/navbar.jsp"/>
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
     <h2 align="center"><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></h2>
 
     <%--在此出获取当前时间--%>
