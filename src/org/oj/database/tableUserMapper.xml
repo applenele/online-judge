@@ -59,20 +59,6 @@
         WHERE user_id = #{user.userID}
     </update>
 
-    <update id="updateSubmittedTimes">
-        UPDATE t_user
-        SET submitted = t_user.submitted+1
-        WHERE user_id=#{userID}
-    </update>
-
-
-    <update id="updateAcceptedTimes">
-        UPDATE t_user
-        SET accepted = accepted+1
-        WHERE user_id=#{userID}
-    </update>
-
-
 
     <select id="getCount" resultType="java.lang.Integer">
         select count(*) from t_user
@@ -90,7 +76,18 @@
 
 
     <select id="getUserList" resultMap="userMap" resultType="org.oj.model.javaBean.UserBean">
-        SELECT * from t_user limit #{start}, #{count};
+        SELECT * from t_user WHERE user_name LIKE '%${keyword}%'
+        <if test="start != null and count != null">
+            limit #{start}, #{count}
+        </if>
+    </select>
+
+    <select id="getcountOfSearch" resultType="java.lang.Integer">
+        SELECT COUNT(user_id) from t_user WHERE user_name LIKE '%${keyword}%'
+    </select>
+
+    <select id="getUserEmailList"  resultType="java.lang.String">
+        SELECT email from t_user
     </select>
 
     <select id="checkEmailExist" resultType="java.lang.Boolean">

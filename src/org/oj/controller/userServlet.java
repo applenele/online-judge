@@ -63,20 +63,25 @@ public class userServlet extends HttpServlet {
     }
 
     private void userListGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+        if (keyword == null) {
+            keyword = "";
+        }
+
         String strPage = request.getParameter("page");
         int page =  strPage != null ? Integer.parseInt(strPage) : 1;
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableUser tableUser = sqlSession.getMapper(TableUser.class);
 
-        List<UserBean> userList = tableUser.getUserList((page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
-        int recordCount = tableUser.getCount();
+        List<UserBean> userList = tableUser.getUserList(keyword, (page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        int recordCount = tableUser.getcountOfSearch(keyword);
 
         //获取分页信息
         PageBean pageBean = Utils.getPagination(recordCount, page, request);
 
         sqlSession.close();
-
+        request.setAttribute("tableTitle","用户列表(" + recordCount + ")");
         request.setAttribute("userList", userList);
         request.setAttribute("pageInfo", pageBean);
         request.getRequestDispatcher("/WEB-INF/jsp/user/user-list.jsp").forward(request, response);
@@ -96,6 +101,7 @@ public class userServlet extends HttpServlet {
 
         sqlSession.close();
 
+        request.setAttribute("tableTitle", "排行榜");
         request.setAttribute("userList", userList);
         request.setAttribute("pageInfo", pageBean);
         request.getRequestDispatcher("/WEB-INF/jsp/user/user-chart.jsp").forward(request, response);
@@ -115,7 +121,7 @@ public class userServlet extends HttpServlet {
         if (userBean != null && userBean.getUserName().equals(userName)) {
             String code = Tools.saltBase64Encode(new Date().getTime() + "#" + email);
             String url = new String(request.getRequestURL()).replace(new String(request.getRequestURI()), "") + "/retrieve-password?pattern=" + code;
-            SendMail.sendMail(email,"oj系统邮件-找回密码", "请点击以下链接找回密码, 30分钟以内有效!<br>" + url);
+            SendMail.sendMail(new String[]{email},"oj系统邮件-找回密码", "请点击以下链接找回密码, 30分钟以内有效!<br>" + url);
             json = String.format(jsonPattern, true, true, true);
         } else {
             json = String.format(jsonPattern, false, false, true);
@@ -169,7 +175,7 @@ public class userServlet extends HttpServlet {
             sqlSession.commit();
             sqlSession.close();
 
-            MessageBean messageBean = new MessageBean("提示", "提示", userName + " 已经被删除!", "/", "回到首页");
+            MessageBean messageBean = new MessageBean("提示", "提示", userName + " 已经被删除!", request.getHeader("referer"), "返回");
             Utils.sendErrorMsg(response, messageBean);
         }
 

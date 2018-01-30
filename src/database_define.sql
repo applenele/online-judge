@@ -329,8 +329,8 @@ CREATE TRIGGER insertSubmitRecordTrigger AFTER INSERT ON t_submit_record
   FOR EACH ROW
   BEGIN
     /*更新题目和用户的提交次数*/
-    UPDATE t_problem SET submitted=submit_id+1 WHERE problem_id=NEW.problem_id;
-    UPDATE t_user SET submitted=submitted+1 WHERE user_id=NEW.user_id;
+    UPDATE t_problem SET submitted=(SELECT count(submit_id) FROM t_submit_record WHERE t_submit_record.problem_id=NEW.problem_id) WHERE problem_id=NEW.problem_id;
+    UPDATE t_user    SET submitted=(SELECT count(submit_id) FROM t_submit_record WHERE    t_submit_record.user_id=NEW.user_id)    WHERE    user_id=NEW.user_id;
   END;
 
 /*有正确的提交后更新提交的通过人数和用户的通过题数*/
@@ -339,8 +339,8 @@ CREATE TRIGGER updateSubmitRecordTrigger AFTER UPDATE ON t_submit_record
   FOR EACH ROW
   BEGIN
     IF NEW.result='Accepted' THEN
-      UPDATE t_user    SET accepted=(SELECT count(DISTINCT problem_id) FROM t_submit_record WHERE    user_id=NEW.user_id    AND result='Accepted');
-      UPDATE t_problem SET accepted=(SELECT count(DISTINCT user_id)    FROM t_submit_record WHERE problem_id=NEW.problem_id AND result='Accepted');
+      UPDATE t_user    SET accepted=(SELECT count(DISTINCT problem_id) FROM t_submit_record WHERE    user_id=NEW.user_id    AND result='Accepted') WHERE user_id=NEW.user_id;
+      UPDATE t_problem SET accepted=(SELECT count(DISTINCT user_id)    FROM t_submit_record WHERE problem_id=NEW.problem_id AND result='Accepted') WHERE problem_id=NEW.problem_id;
     END IF;
   END;
 

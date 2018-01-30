@@ -12,6 +12,7 @@
 <head>
     <title>用户列表</title>
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
@@ -27,7 +28,17 @@
 </head>
 <body>
 <jsp:include page="/navbar.jsp"/>
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
+
+        <div class="row">
+            <h4 class="col-2 align-self-end">${tableTitle}</h4>
+            <div class="col-3 offset-7">
+                <form style="margin-bottom: .5rem" action="/user-list" method="get">
+                    <input type="text" name="keyword" class="form-control" placeholder="搜索用户">
+                </form>
+            </div>
+        </div>
+
     <div class="card">
         <table class="table table-striped">
             <thead>
@@ -37,7 +48,7 @@
                 <th class="text-center">个性签名</th>
                 <th class="text-center">注册日期</th>
                 <th class="text-center">语言偏好</th>
-                <th class="text-center">通过/提交</th>
+                <th class="text-center">通过(题)/提交(次)</th>
                 <th class="text-center">操作</th>
             </tr>
             </thead>
@@ -85,7 +96,6 @@
         </div>
     </div>
 
-    <p>pageinfo: ${pageInfo}</p>
     <c:if test="${not empty pageInfo}">
         <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
     </c:if>

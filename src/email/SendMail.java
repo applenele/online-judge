@@ -9,7 +9,7 @@ import javax.mail.internet.*;
 
 public class SendMail
 {
-    public static boolean sendMail(String address, String subject, String msg) {
+    public static boolean sendMail(String[] address, String subject, String msg) {
         Properties props = new Properties();
 
         // 开启debug调试
@@ -39,7 +39,13 @@ public class SendMail
             Transport transport = session.getTransport();
             transport.connect("smtp.qq.com", "xiong-yang@qq.com", "xy58316992");
 
-            transport.sendMessage(message, new Address[]{new InternetAddress(address)});
+            Address[] addresses = new Address[address.length];
+            for (int i = 0; i < address.length; i++) {
+                System.out.println("==>" + address[i].trim());
+                addresses[i] = new InternetAddress(address[i].trim());
+            }
+
+            transport.sendMessage(message, addresses);
             transport.close();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();

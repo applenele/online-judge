@@ -29,7 +29,7 @@
         <div class="card-body">
             <form action="/contest-record-list" method="get">
                 <input hidden name="contestID" value="${contest.contestID}">
-                <div class="input-group" style="padding-bottom:15px;">
+                <div class="input-group">
                     <span class="input-group-addon">用户名:</span>
                     <input name="userName" type="text" value="" class="form-control">
                     <span class="input-group-addon">题号:</span>

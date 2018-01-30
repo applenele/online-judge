@@ -13,6 +13,7 @@
 <head>
     <title>${user.userName}</title>
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
@@ -102,11 +103,10 @@
 <body>
 <jsp:include page="/navbar.jsp"/>
 
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
     <div class="card">
         <div class="card-header">个人信息</div>
         <div class="card-body">
-
             <div class="row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">

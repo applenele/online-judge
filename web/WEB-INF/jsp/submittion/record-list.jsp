@@ -25,7 +25,7 @@
 <div class="container" style="margin-top: 70px">
     <br>
     <form action="/record-list" method="get">
-        <div class="input-group" style="padding-bottom:15px;">
+        <div class="input-group">
             <span class="input-group-addon">用户名:</span>
             <input name="userName" type="text" value="" class="form-control">
             <span class="input-group-addon">题号:</span>

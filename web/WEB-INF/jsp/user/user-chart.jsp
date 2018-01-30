@@ -12,6 +12,7 @@
 <head>
     <title>排行榜</title>
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
@@ -19,7 +20,8 @@
 </head>
 <body>
 <jsp:include page="/navbar.jsp"/>
-<div class="container" style="margin-top: 70px">
+<div class="container custom-container">
+    <h4>${tableTitle}</h4>
     <div class="card">
         <table class="table table-striped">
             <thead>

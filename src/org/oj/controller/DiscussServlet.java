@@ -47,7 +47,7 @@ public class DiscussServlet extends HttpServlet {
         if (uri.equals("/discuss-delete")) deleteDiscuss(request, response);
         if (uri.equals("/discuss-list"))    discussListGet(request, response);
         if (uri.equals("/discuss-set-first")) discussSetFirst(request, response);
-        if (uri.equals("/post-original-discuss")) request.getRequestDispatcher("/discuss-edit.jsp").forward(request, response);
+        if (uri.equals("/post-original-discuss")) request.getRequestDispatcher("/WEB-INF/jsp/discuss/discuss-edit.jsp").forward(request, response);
         if (uri.equals("/discuss-detail")) getDiscussDetail(request, response);
     }
 
