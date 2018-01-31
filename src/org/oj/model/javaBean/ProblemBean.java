@@ -13,7 +13,7 @@ public class ProblemBean {
     private String outputSample;
     private String hint;
     private String source;
-    private int createTime;
+    private Long createTime;
     private int staticLangTimeLimit;
     private int staticLangMemLimit;
     private int dynamicLangTimeLimit;
@@ -24,7 +24,7 @@ public class ProblemBean {
 
     public ProblemBean() {}
 
-    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, int createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submitted, String result) {
+    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, Long createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submitted, String result) {
         this.problemID = problemID;
         this.title = title;
         this.desc = desc;
@@ -116,11 +116,11 @@ public class ProblemBean {
         this.source = source;
     }
 
-    public int getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(int createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 

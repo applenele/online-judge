@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -120,6 +121,7 @@ public class problemServlet extends HttpServlet {
         problemBean.setStaticLangMemLimit(Integer.parseInt(staticLangMemLimit));
         problemBean.setDynamicLangTimeLimit(Integer.parseInt(dynamicLangTimeLimit));
         problemBean.setDynamicLangMemLimit(Integer.parseInt(dynamicLangMemLimit));
+        problemBean.setCreateTime(new Date().getTime());
 
         System.out.println("new tableProblem: " + problemBean);
 
