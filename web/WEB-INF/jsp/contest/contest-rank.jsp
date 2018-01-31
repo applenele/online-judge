@@ -43,14 +43,31 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <c:if test="${fn:length(rankList) > 0}">
+                        <c:set var="lastRank" value="1"/>
+                        <c:set var="lastAc" value="${rankList[0].AC_Count}"/>
+                        <c:set var="lastTime" value="${rankList[0].totalTimeConsume}"/>
+                    </c:if>
+
                     <c:forEach items="${rankList}" var="rankBean" varStatus="pos">
                         <tr>
-                            <td style="vertical-align: middle">${pos.count}</td>
+                            <%--输出排名, 传递过来的列表已经是有序的, 这里只处理相同排名的情况--%>
+                            <c:choose>
+                                <c:when test="${rankBean.AC_Count == lastAc and rankBean.totalTimeConsume == lastTime}">
+                                    <td style="vertical-align: middle">${lastRank}</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td style="vertical-align: middle">${pos.count}</td>
+                                    <c:set var="lastRank" value="${pos.count}"/>
+                                    <c:set var="lastAc" value="${rankBean.AC_Count}"/>
+                                    <c:set var="lastTime" value="${rankBean.totalTimeConsume}"/>
+                                </c:otherwise>
+                            </c:choose>
+
                             <td style="vertical-align: middle"><a href="/user?userID=${rankBean.userID}"
                                    class="myuser-base myuser-violet">${rankBean.userName}</a></td>
                             <td style="vertical-align: middle">${rankBean.AC_Count}</td>
-                            <td style="vertical-align: middle"><fmt:formatNumber type="number" value="${rankBean.totalTimeConsume / 1000}"
-                                                  maxFractionDigits="0" groupingUsed="false"/></td>
+                            <td style="vertical-align: middle">${rankBean.totalTimeConsume}</td>
                             <c:forEach items="${problemOverview}" var="problem">
                                 <c:choose>
                                     <%--如果当前题目有当前用户的提交信息,那么显示数据--%>
