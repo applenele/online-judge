@@ -109,7 +109,7 @@
 </head>
 
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
     <div class="card-body">
         <div class="text-center">
@@ -183,6 +183,6 @@
     </div>
 </div>
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>

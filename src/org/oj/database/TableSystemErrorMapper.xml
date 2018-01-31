@@ -22,7 +22,7 @@
     </select>
 
 
-    <resultMap id="systemErrorMap" type="org.oj.model.javaBean.TestPointBean">
+    <resultMap id="systemErrorMap" type="org.oj.model.javaBean.SystemErrorBean">
         <id property="submitID" column="submit_id"/>
         <result property="errorMessage" column="error_message"/>
     </resultMap>

@@ -28,13 +28,10 @@ public class DatabaseTest {
 
 
         try {
-            ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
-                                 System.out.println(submitRecord.getCountOnCondition(19, null, null, null, null));
-            List<ViewSubmitRecordBean> recordList = submitRecord.getSubmitRecordList(19, null, null, null, null, null, null);
-            //获取分页信息null, null);
-            for (ViewSubmitRecordBean p : recordList) {
-                System.out.println(p + "\n\n");
-            }
+            TableSystemError tableSystemError = sqlSession.getMapper(TableSystemError.class);
+            tableSystemError.addErrorMessage(new SystemErrorBean(19, "error"));
+            SystemErrorBean s = tableSystemError.getSystemErrorMessage(19);
+            System.out.println(s);
         } finally {
             sqlSession.close();
         }

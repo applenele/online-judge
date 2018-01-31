@@ -30,7 +30,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
 
     <h4>${tableTitle}</h4>
@@ -105,6 +105,6 @@
     <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
     </c:if>
 
-    <jsp:include page="/footer.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>

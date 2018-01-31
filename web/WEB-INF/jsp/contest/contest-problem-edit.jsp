@@ -82,7 +82,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
 <div class="container custom-container">
     <a href="/contest-overview?contestID=${contest.contestID}"><h3 class="text-center">${contest.title}</h3></a>
@@ -185,7 +185,7 @@
 </div>
 
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>
 

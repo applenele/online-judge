@@ -39,7 +39,7 @@
                 非常抱歉, 无法提供您请求的页面<br>
             </div>
             <div class="error-actions">
-                <a href="/" class="btn btn-primary"><i class="icon-home icon-white"></i> 点此回首页 </a>
+                <a href="/index" class="btn btn-primary"><i class="icon-home icon-white"></i> 点此回首页 </a>
             </div>
         </div>
     </div>

@@ -33,7 +33,7 @@
 
 
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
     <div class="card">
         <div class="card-header"><h5>${discuss.title}</h5></div>
@@ -130,7 +130,7 @@
         </c:forEach>
     </div>
 </div>
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>
 </html>

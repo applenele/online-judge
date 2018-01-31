@@ -23,7 +23,7 @@
 </head>
 
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
     <c:if test="${discussList == null || fnt:length(discussList) == 0}">
         <c:choose>
@@ -128,6 +128,6 @@
     </div>
 </div>
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>

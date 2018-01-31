@@ -70,7 +70,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
     <h2 align="center"><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></h2>
 
@@ -269,6 +269,6 @@
 
 
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>

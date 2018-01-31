@@ -24,7 +24,7 @@
 </head>
 
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
 <div class="container custom-container">
     <h1 class="text-center">${problem.title}</h1>
@@ -103,6 +103,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>

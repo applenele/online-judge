@@ -30,7 +30,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
 <div class="container custom-container">
     <h3 class="text-center"><a href="/problem?problemID=${problem.problemID}">${problem.title}</a></h3>
@@ -122,7 +122,7 @@
         </div>
     </div>
 </div>
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>
 

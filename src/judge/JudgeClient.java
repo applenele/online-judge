@@ -96,12 +96,11 @@ public class JudgeClient extends Thread {
 
 
     /*submit仅仅将数据提交到等待队里*/
-    public void submit(SubmitRecordBean submitRecordBean, ProblemBean problemBean, String testPointDataPath) {
+    public void submit(SubmitRecordBean submitRecordBean, ProblemBean problemBean) {
         /*复制必要的文件到运行目录, 包括代码文件, 测试点文件*/
-        String runningDir = prepareFiles(submitRecordBean, testPointDataPath);
+        String runningDir = prepareFiles(submitRecordBean);
         if (runningDir == null) {
             //在准备文件的过程中产生了错误, 尝试删除文件
-            onStateChange(submitRecordBean, JudgeClient.SYSTEM_ERROR, "复制运行文件错误!");
             return;
         }
 
@@ -125,7 +124,7 @@ public class JudgeClient extends Thread {
 
 
         submitBean.setRunningFolder(runningDir);
-        submitBean.setTestPointDataFolder(testPointDataPath);
+        submitBean.setTestPointDataFolder(testPointBaseDir + "/" + (1000 + submitRecordBean.getProblemID()));
 
         try {
             //提交队列中
@@ -374,12 +373,13 @@ public class JudgeClient extends Thread {
 
 
     //准备运行所需要的文件
-    private String prepareFiles(SubmitRecordBean submitRecordBean, String testPointDataPath) {
+    private String prepareFiles(SubmitRecordBean submitRecordBean) {
         //创建运行目录根目录
         File file = new File(runningBaseDir);
         if (!file.exists()) { //不存在则创建目录
             if (!file.mkdir()) {
                 //创建运行根目录失败
+                System.out.println("创建运行根目录失败");
                 onStateChange(submitRecordBean, JudgeClient.SYSTEM_ERROR, "创建运行根目录失败!");
                 return null;
             }
@@ -390,17 +390,24 @@ public class JudgeClient extends Thread {
         File f = new File(runningFolder);
         if (!f.mkdir()) {
             //创建题目运行文件夹失败
-            onStateChange(submitRecordBean, JudgeClient.SYSTEM_ERROR, "创建题目(" + submitRecordBean.getProblemID() + ")的运行根目录失败!");
+            System.out.println("创建题目(" + (1000+submitRecordBean.getProblemID()) + ")的运行根目录失败!");
+            onStateChange(submitRecordBean, JudgeClient.SYSTEM_ERROR, "创建题目(" + (1000 + submitRecordBean.getProblemID()) + ")的运行根目录失败!");
             return null;
         }
 
         //将源代码写入到运行目录: runningBaseDir/submit(problemID)/Main.*
         if (writeCodeToFile(submitRecordBean, runningFolder)) {
             //源代码写入成功之后, 复制测试点文件到运行目录
-            if (copyTestPointFile(testPointDataPath, runningFolder)) {
+            if (copyTestPointFile(testPointBaseDir + "/" + (1000 + submitRecordBean.getProblemID()), runningFolder)) {
                 //文件准备就绪
                 return runningFolder;//返回运行的文件夹
+            } else {
+                onStateChange(submitRecordBean, JudgeClient.SYSTEM_ERROR, "复制测试点文件失败!");
+                System.out.println("复制测试点文件失败");
             }
+        } else {
+            onStateChange(submitRecordBean, JudgeClient.SYSTEM_ERROR, "写入源代码到文件失败!");
+            System.out.println("写入源代码到文件失败");
         }
 
         //如果在复制文件的过程中发生了错误, 删除文件夹
@@ -436,7 +443,7 @@ public class JudgeClient extends Thread {
             inPrintWriter.flush();
             inPrintWriter.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -444,6 +451,7 @@ public class JudgeClient extends Thread {
 
     /*复制测试点文件*/
     private boolean copyTestPointFile(String testPointDataPath, String runningFolder) {
+        System.out.println(testPointDataPath + " to " + runningFolder);
         File[] files = new File(testPointDataPath).listFiles();
         File desc = new File(runningFolder);
         if (files == null) {

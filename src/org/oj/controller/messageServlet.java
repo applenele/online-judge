@@ -28,6 +28,6 @@ public class messageServlet extends HttpServlet {
         MessageBean messageBean = new MessageBean(title, header, message, url, linkText);
         System.out.println(messageBean.toString());
         request.setAttribute("msg", messageBean);
-        request.getRequestDispatcher("information.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/jsp/information.jsp").forward(request, response);
     }
 }

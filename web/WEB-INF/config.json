@@ -1,8 +1,0 @@
-{
-  "serverAddress":"127.0.0.1",
-  "serverPort":2345,
-  "testPointBaseDir":"/WEB-INF/test-point", //网站目录相对路径
-  "runningBaseDir":"/home/xanarry/Desktop/running-dir/",//用户程序运行根目录
-  "timeout":10,
-  "countPerPage":20
-}

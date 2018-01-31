@@ -33,5 +33,6 @@
         <mapper resource="org/oj/database/tableLanguageMapper.xml"/>
         <mapper resource="org/oj/database/tableTestPointMapper.xml"/>
         <mapper resource="org/oj/database/viewSubmitRecordMapper.xml"/>
+        <mapper resource="org/oj/database/TableSystemErrorMapper.xml"/>
     </mappers>
 </configuration>

@@ -20,7 +20,7 @@
     <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
     <div class="card">
         <h5 class="card-header">详细评测结果</h5>
@@ -106,6 +106,10 @@
     <h4>编译信息</h4>
     <pre class="form-control pre-scrollable" style="font-family: Consolas">${compileInfo.compileResult}</pre>
 
+    <br>
+    <h4>错误信息</h4>
+    <pre class="form-control pre-scrollable" style="font-family: Consolas">${systemError.errorMessage}</pre>
+
 
     <div class="text-center">
         <c:choose>
@@ -119,7 +123,7 @@
     </div>
 
 
-    <jsp:include page="/footer.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>
 

@@ -27,7 +27,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
 
         <div class="row">
@@ -99,6 +99,6 @@
     <c:if test="${not empty pageInfo}">
         <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
     </c:if>
-    <jsp:include page="/footer.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>

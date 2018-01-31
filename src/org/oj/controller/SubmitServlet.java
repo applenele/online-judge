@@ -151,7 +151,6 @@ public class SubmitServlet extends HttpServlet {
         ProblemBean problemBean = tableProblem.getProblemByID(problemID); //获取提交代码所属的题目
 
         //获取测试点路径
-        String testPointDataPath = getServletContext().getRealPath("/WEB-INF/test-point/") + (1000 + problemBean.getProblemID());
 
         //提交数据库
         TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
@@ -162,11 +161,9 @@ public class SubmitServlet extends HttpServlet {
 
         //提交代码, 任何与提交代码到评测机的相关的代码都必须在记录写入数据库之后, 后续状态与结果的更新由,judge client完成
         //网页需要手动刷新才能看到更新
-        System.out.println("submit to judge client");
         JudgeClient client = (JudgeClient) getServletContext().getAttribute("judgeClient");
         //client.getState()
-        client.submit(submitRecordBean, problemBean, testPointDataPath);
-        System.out.println("redirect to record list");
+        client.submit(submitRecordBean, problemBean);
         if (contesetID != 0) {
             response.sendRedirect("/contest-record-list?contestID=" + contesetID);
         } else {
@@ -224,12 +221,15 @@ public class SubmitServlet extends HttpServlet {
         TableCompileInfo tableCompileInfo = sqlSession.getMapper(TableCompileInfo.class);
         CompileInfoBean compileInfoBean = tableCompileInfo.getCompileResult(submitID);
         if (compileInfoBean == null) {
-            compileInfoBean = new CompileInfoBean(submitID, "编译通过");
+            compileInfoBean = new CompileInfoBean(submitID, "");
         }
 
+        TableSystemError tableSystemError = sqlSession.getMapper(TableSystemError.class);
+        SystemErrorBean systemErrorBean = tableSystemError.getSystemErrorMessage(submitID);
         sqlSession.close();
 
         request.setAttribute("detailList", judgeDetailList);
+        request.setAttribute("systemError", systemErrorBean);
         request.setAttribute("record", submitRecordBean);
         request.setAttribute("compileInfo", compileInfoBean);
         request.getRequestDispatcher("/WEB-INF/jsp/submittion/judge-detail.jsp").forward(request, response);
@@ -247,13 +247,10 @@ public class SubmitServlet extends HttpServlet {
             TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
             ProblemBean problemBean = tableProblem.getProblemByID(submit.getProblemID()); //获取提交代码所属的题目
 
-            //获取测试点路径
-            String testPointDataPath = getServletContext().getRealPath("/WEB-INF/test-point/") + (1000 + problemBean.getProblemID());
 
             /*删除当前记录在数据库中的信息, 触发器会删除相关的judge-detail, compile-info*/
             tableSubmitRecord.deleteSubmitRecord(submitID);
 
-            System.out.println("old submitID: " + submitID);
             /*重置提交中需要更新的信息*/
             submit.setResult(Consts.result[0]);/*重置评测结果*/
 
@@ -262,17 +259,16 @@ public class SubmitServlet extends HttpServlet {
             sqlSession.commit();
             sqlSession.close();
 
-            System.out.println("new submitID: " + submit.getSubmitID());
             JudgeClient client = (JudgeClient) getServletContext().getAttribute("judgeClient");
             //client.getState()
-            client.submit(submit, problemBean, testPointDataPath);
+            client.submit(submit, problemBean);
             if (submit.getContestID() != 0) {
                 response.sendRedirect("/contest-record-list?contestID=" + submit.getContestID());
             } else {
                 response.sendRedirect("/record-list");
             }
         } else {
-            Utils.sendErrorMsg(response, new MessageBean("错误", "错误", "不存在的提交ID", "/record-list", "返回提交记录"));
+            Utils.sendErrorMsg(response, new MessageBean("错误", "错误", "不存在的提交ID", request.getHeader("referer"), "返回提交记录"));
         }
     }
 }

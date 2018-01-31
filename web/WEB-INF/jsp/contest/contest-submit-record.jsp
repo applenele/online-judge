@@ -21,7 +21,7 @@
     <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="/navbar.jsp"/>
+<jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
     <div class="text-center"><a href="contest-overview?contestID=${contest.contestID}"><h4>${contest.title}</h4></a>
     </div>
@@ -163,6 +163,6 @@
             <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
         </c:if>
     </div>
-    <jsp:include page="/footer.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>
 </html>
