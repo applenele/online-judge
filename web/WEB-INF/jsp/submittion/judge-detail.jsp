@@ -121,8 +121,9 @@
             </c:when>
             <c:otherwise><a class="btn btn-primary" href="/record-list">返回列表</a></c:otherwise>
         </c:choose>
-
-        <a class="btn btn-warning" href="/rejudge?submitID=${record.submitID}">重新评测</a>
+        <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+            <a class="btn btn-warning" href="/rejudge?submitID=${record.submitID}">重新评测</a>
+        </c:if>
     </div>
 
 

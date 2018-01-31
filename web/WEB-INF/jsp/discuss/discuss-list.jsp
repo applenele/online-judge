@@ -33,8 +33,6 @@
     </c:choose>
     </c:if>
 
-
-    <br>
     <ul class="list-inline">
         <li class="list-inline-item"><h4>${tableTitle}</h4></li>
         <c:if test="${not empty cookie.get('userID').value}">
@@ -103,8 +101,8 @@
                     </div>
                 </c:if>
             </div>
-            </c:forEach>
         </div>
+        </c:forEach>
         <br>
         <c:if test="${not empty pageInfo}">
             <jsp:include page="/WEB-INF/jsp/pagination.jsp"/>
@@ -116,8 +114,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">发布新的讨论</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form action="/post-original-discuss" method="post">

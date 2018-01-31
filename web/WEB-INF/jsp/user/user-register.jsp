@@ -37,6 +37,9 @@
                 userNameTip.html("用户名不能为空");
                 userNameTip.show();
                 isOk++;
+            } else if (userName.toString().indexOf(">") != -1 || userName.toString().indexOf("<") != -1){
+                userNameTip.html("用户名含有非法字符");
+                userNameTip.show();
             } else {
                 userNameTip.hide();
             }

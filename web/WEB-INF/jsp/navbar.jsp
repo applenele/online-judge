@@ -115,10 +115,12 @@
                 <c:when test="${cookie.containsKey('userID')}">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="/user?userID=${cookie.get('userID').value}" class="nav-link"><span class=""></span>${cookie.get("userName").value}</a>
+                    <a href="/user?userID=${cookie.get('userID').value}" class="nav-link"><span class=""></span><c:out value="${cookie.get('userName').value}" escapeXml="true"></c:out></a>
                         </li>
+                        <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
                         <li class="nav-item"><span class="nav-link"></span></li>
                         <li class="nav-item"><a href="/admin" class="nav-link"><span class=""></span>管理</a></li>
+                        </c:if>
                         <li class="nav-item"><span class="nav-link"></span></li>
                         <li class="nav-item"><a href="/logout" class="nav-link"><span class=""></span>退出</a></li>
                     </ul>

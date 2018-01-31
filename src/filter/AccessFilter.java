@@ -55,7 +55,6 @@ public class AccessFilter implements Filter {
         forAdvancedUser.add("/contest-add");
         forAdvancedUser.add("/contest-edit");
         forAdvancedUser.add("/contest-problem-edit");
-        forAdvancedUser.add("/post-original-discuss");
         forAdvancedUser.add("/discuss-set-first");
         forAdvancedUser.add("/problem-add");
         forAdvancedUser.add("/problem-edit");
