@@ -39,28 +39,38 @@
     </table>
     <div class="card-body">
         <div class="text-center">
-            <div class="btn-group" role="group" aria-label="...">
-                <a class="btn" href="/submit?problemID=${problem.problemID}">提交</a>
-                <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a></button>
+            <div class="btn-group" role="group">
+                <c:choose>
+                    <c:when test="${not empty cookie.get('userType')}">
+                        <a class="btn" href="/submit?problemID=${problem.problemID}">提交</a>
+                        <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a></button>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="btn">提交</span>
+                        <span class="btn">讨论</span>
+                    </c:otherwise>
+                </c:choose>
                 <a class="btn" href="/record-list?problemID=${problem.problemID}">状态</a></button>
-                <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
-                <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
+                <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+                    <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
+                    <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
+                </c:if>
             </div>
         </div>
     </div>
 
 
-    <h3>题目描述</h3>
+    <h4>题目描述</h4>
     <blockquote class="card modal-body">
         ${problem.desc}
     </blockquote>
 
-    <h3>输入</h3>
+    <h4>输入</h4>
     <blockquote class="card modal-body">
         ${problem.inputDesc}
     </blockquote>
 
-    <h3>输出</h3>
+    <h4>输出</h4>
     <blockquote class="card modal-body">
         ${problem.outputDesc}
     </blockquote>
@@ -68,40 +78,51 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <h3>输入样例</h3>
+            <h4>输入样例</h4>
             <blockquote class="card">
                 <pre class="pre-scrollable" style="height: 180px">${problem.inputSample}</pre>
             </blockquote>
         </div>
 
         <div class="col-sm-6">
-            <h3>输出样例</h3>
+            <h4>输出样例</h4>
             <blockquote class="card">
                 <pre class="pre-scrollable" style="height: 180px">${problem.outputSample}</pre>
             </blockquote>
         </div>
     </div>
 
-    <h3>提示</h3>
+    <h4>提示</h4>
     <blockquote class="card modal-body">
         ${problem.hint != null && fnt:length(problem.hint) > 0 ? problem.hint : '无'}
     </blockquote>
 
-    <h3>来源</h3>
+    <h4>来源</h4>
     <blockquote class="card modal-body">
         ${problem.source != null && fnt:length(problem.source) > 0 ? problem.source : '无'}
     </blockquote>
     <br/>
 
     <div class="text-center">
-        <div class="btn-group" role="group" aria-label="...">
-            <a class="btn" href="/submit?problemID=${problem.problemID}">提交</a>
-            <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a></button>
+        <div class="btn-group" role="group">
+            <c:choose>
+                <c:when test="${not empty cookie.get('userType')}">
+                    <a class="btn" href="/submit?problemID=${problem.problemID}">提交</a>
+                    <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a></button>
+                </c:when>
+                <c:otherwise>
+                    <span class="btn">提交</span>
+                    <span class="btn">讨论</span>
+                </c:otherwise>
+            </c:choose>
             <a class="btn" href="/record-list?problemID=${problem.problemID}">状态</a></button>
-            <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
-            <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
+            <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+                <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
+                <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
+            </c:if>
         </div>
     </div>
+
 </div>
 <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>

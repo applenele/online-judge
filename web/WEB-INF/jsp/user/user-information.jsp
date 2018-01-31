@@ -178,11 +178,21 @@
                         </tr>
                         </tbody>
                     </table>
+
                     <div class="text-center">
-                        <a class="btn btn-success" href="/send-email?userID=${user.userID}">发送邮件</a>
+                        <%--系统管理员和用户自己可以修改信息--%>
+                        <c:if test="${cookie.get('userName').value == user.userName or cookie.get('userType').value > 0}">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">修改信息</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUserTypeModal">修改权限</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                        </c:if>
+                            <%--如果是管理员或者高级用户, 可以看到以下信息--%>
+                        <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+                            <a class="btn btn-success" href="/send-email?userID=${user.userID}">发送邮件</a>
+                            <%--只有最高级管理员可以修该用户权限--%>
+                            <c:if test="${cookie.get('userType').value == 2}">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUserTypeModal">修改权限</button>
+                            </c:if>
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                        </c:if>
                     </div>
                     <div class="col-sm-2"></div>
                 </div>

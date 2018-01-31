@@ -52,8 +52,8 @@
                 <option value="C">C</option>
                 <option value="C++">C++</option>
                 <option value="Java">Java</option>
-                <option value="Python2">Python2.7</option>
-                <option value="Python3">go</option>
+                <option value="Python2">Python2</option>
+                <option value="Python3">Python3</option>
             </select>
             <span class="input-group-btn"><button class="btn btn-default">查询</button></span>
         </div>
@@ -73,7 +73,9 @@
                 <th>代码长度(字节)</th>
                 <th>提交时间</th>
                 <th>结果</th>
-                <th>重测</th>
+                <c:if test="${not empty cookie.get('userType') && cookie.get('userType').value > 0}">
+                    <th>重测</th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
@@ -142,7 +144,11 @@
                             </c:choose>
                         </a>
                     </td>
-                    <td><a class="badge badge-primary" href="/rejudge?submitID=${record.submitID}">重测</a></td>
+
+                    <c:if test="${not empty cookie.get('userType') && cookie.get('userType').value > 0}">
+                        <td><a class="badge badge-primary" href="/rejudge?submitID=${record.submitID}">重测</a></td>
+                    </c:if>
+
                 </tr>
             </c:forEach>
             </tbody>

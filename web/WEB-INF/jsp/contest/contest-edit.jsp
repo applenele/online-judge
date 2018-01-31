@@ -260,8 +260,8 @@
                             <tbody>
                             <c:forEach items="${problemList}" var="problem">
                                 <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problem.innerID}">${problem.innerID}</a></td>
-                                <td class="text-center">题目名</td>
-                                <td class="text-center"><a href="/problem?problemID=${1000+problem.problemID}">${1000 + problem.problemID}</a></td>
+                                <td class="text-center"><a href="/problem?problemID=${problem.problemID}">${problem.title}</a></td>
+                                <td class="text-center"><a href="/problem?problemID=${problem.problemID}">${1000 + problem.problemID}</a></td>
                                 <td class="text-center">${problem.accepted}/${problem.submitted}</td>
                                 </tr>
                             </c:forEach>

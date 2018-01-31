@@ -66,7 +66,6 @@
         }
 
         function submitContestCode() {
-            console.log("asdfasdfasdf");
             var contestID = $("#inputContestID").val();
             $.ajax({
                 type: 'POST',
@@ -97,9 +96,7 @@
     <%--在此出获取当前时间--%>
     <jsp:useBean id="current" class="java.util.Date"/>
     <div class="card">
-        <div class="card-header">
-            <h5><a href="/contest-rank?contestID=${contest.contestID}">排名</a></h5>
-        </div>
+        <div class="card-header"><h5>Detail</h5></div>
         <c:if test="${current.time <= contest.endTime and current.time >= contest.startTime}">
             <div class="progress" style="height: 10px;">
                 <div id="processBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;"
@@ -137,7 +134,7 @@
             <div class="text-center">
                 <div class="btn-group" role="group">
                     <c:choose>
-                        <c:when test="${current.time <= contest.endTime and current.time >= contest.startTime}">
+                        <c:when test="${current.time <= contest.endTime and current.time >= contest.startTime and isRegistered == true}">
                             <a class="btn" href="#" data-toggle="modal" data-target="#submitModeal">提交</a>
                             <a class="btn" href="/discuss-list?type=1&porcID=${contest.contestID}">讨论</a>
                         </c:when>
@@ -146,23 +143,23 @@
                             <span class="btn">讨论</span>
                         </c:otherwise>
                     </c:choose>
-                    <a class="btn"
-                       href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">状态</a></button>
+                    <a class="btn" href="/contest-rank?contestID=${contest.contestID}">排名</a>
+                    <a class="btn" href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">记录</a></button>
                 </div>
             </div>
 
 
-            <h3>题目描述</h3>
+            <h4>题目描述</h4>
             <blockquote class="card modal-body">
                 ${problem.desc}
             </blockquote>
 
-            <h3>输入</h3>
+            <h4>输入</h4>
             <blockquote class="card modal-body">
                 ${problem.inputDesc}
             </blockquote>
 
-            <h3>输出</h3>
+            <h4>输出</h4>
             <blockquote class="card modal-body">
                 ${problem.outputDesc}
             </blockquote>
@@ -170,26 +167,26 @@
 
             <div class="row">
                 <div class="col-sm-6">
-                    <h3>输入样例</h3>
+                    <h4>输入样例</h4>
                     <blockquote class="card">
                         <pre class="pre-scrollable" style="height: 180px">${problem.inputSample}</pre>
                     </blockquote>
                 </div>
 
                 <div class="col-sm-6">
-                    <h3>输出样例</h3>
+                    <h4>输出样例</h4>
                     <blockquote class="card">
                         <pre class="pre-scrollable" style="height: 180px">${problem.outputSample}</pre>
                     </blockquote>
                 </div>
             </div>
 
-            <h3>提示</h3>
+            <h4>提示</h4>
             <blockquote class="card modal-body">
                 ${problem.hint != null && fnt:length(problem.hint) > 0 ? problem.hint : '无'}
             </blockquote>
 
-            <h3>来源</h3>
+            <h4>来源</h4>
             <blockquote class="card modal-body">
                 ${problem.source != null && fnt:length(problem.source) > 0 ? problem.source : '无'}
             </blockquote>
@@ -197,17 +194,17 @@
             <div class="text-center">
                 <div class="btn-group" role="group">
                     <c:choose>
-                        <c:when test="${current.time <= contest.endTime and current.time >= contest.startTime}">
+                        <c:when test="${current.time <= contest.endTime and current.time >= contest.startTime and isRegistered == true}">
                             <a class="btn" href="#" data-toggle="modal" data-target="#submitModeal">提交</a>
-                            <a class="btn" href="/discuss-list?type=0&porcID=${problem.problemID}">讨论</a>
+                            <a class="btn" href="/discuss-list?type=1&porcID=${contest.contestID}">讨论</a>
                         </c:when>
                         <c:otherwise>
                             <span class="btn">提交</span>
                             <span class="btn">讨论</span>
                         </c:otherwise>
                     </c:choose>
-                    <a class="btn"
-                       href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">状态</a></button>
+                    <a class="btn" href="/contest-rank?contestID=${contest.contestID}">排名</a>
+                    <a class="btn" href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">记录</a></button>
                 </div>
             </div>
 

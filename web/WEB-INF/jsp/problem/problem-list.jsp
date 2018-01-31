@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <html>
@@ -26,14 +27,17 @@
 <div class="container custom-container">
     <h4>${tableTitle}</h4>
     <div class="card">
-        <table class="table table-striped">
+        <table class="table table-striped text-center">
             <thead>
             <tr>
-                <c:if test="${not empty cookie.get('userID')}"><th class="text-center">状态</th></c:if>
-                <th class="text-center">题号</th>
-                <th class="text-center">题目名称</th>
-                <th class="text-center">通过(人)/提交(次)</th>
-                <th class="text-center">操作</th>
+                <c:if test="${not empty cookie.get('userID')}"><th>状态</th></c:if>
+                <th>题号</th>
+                <th>题目名称</th>
+                <th>通过(人)/提交(次)</th>
+                <th>日期</th>
+<c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+                <th>操作</th>
+</c:if>
             </tr>
             </thead>
             <tbody>
@@ -42,21 +46,26 @@
                     <c:if test="${not empty cookie.get('userID')}">
                         <c:choose>
                             <c:when test="${problem.result == 'Accepted'}">
-                                <td class="text-center"><span class="badge badge-success"><i class="fa fa-check"></i></span></td>
+                                <td><span class="badge badge-success"><i class="fa fa-check"></i></span></td>
                             </c:when>
                             <c:otherwise>
-                                <td class="text-center"><span class="badge badge-secondary"></span></td>
+                                <td><span class="badge badge-secondary"></span></td>
                             </c:otherwise>
                         </c:choose>
                     </c:if>
-                    <td class="text-center"><a href="problem?problemID=${problem.problemID}">${1000 + problem.problemID}</a></td>
-                    <td class="text-center"><a href="problem?problemID=${problem.problemID}">${problem.title}</td>
-                    <td class="text-center">${problem.accepted}/${problem.submitted}</td>
-                    <td class="text-center">
+                    <td><a href="problem?problemID=${problem.problemID}">${1000 + problem.problemID}</a></td>
+                    <td><a href="problem?problemID=${problem.problemID}">${problem.title}</td>
+                    <td>${problem.accepted}/${problem.submitted}</td>
+                    <jsp:useBean id="createTime" class="java.util.Date"/>
+                    <c:set target="${createTime}" property="time" value="${problem.createTime}"/>
+                    <td><fmt:formatDate pattern="yyyy/MM/dd" value="${createTime}"/></td>
+                    <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+                    <td>
                         <a href="/record-list?problemID=${problem.problemID}"><span class="badge badge-light">记录</span></a>
                         <a href="/test-point-list?problemID=${problem.problemID}"><span class="badge badge-secondary">数据</span></a>
                         <a href="/problem-edit?problemID=${problem.problemID}"><span class="badge badge-primary">编辑</span></a>
                     </td>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>

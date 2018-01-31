@@ -90,7 +90,7 @@ public class SubmitServlet extends HttpServlet {
 
         //获取用户在之前对本题目的提交记录
         TableSubmitRecord tableSubmitRecord = sqlSession.getMapper(TableSubmitRecord.class);
-        List<SubmitRecordBean> submitRecordBeans = tableSubmitRecord.getSubmitRecordList(userID, contestID, problemID, null, null, 0, 3);
+        List<SubmitRecordBean> submitRecordBeans = tableSubmitRecord.getSubmitRecordList(0, problemID, userID, null, null, 0, 3);
 
         sqlSession.close();
 

@@ -98,10 +98,13 @@ public class LoginAndLogoutServlet extends HttpServlet {
                     //设置cookie
                     Cookie userIDCookie = new Cookie("userID", userBean.getUserID() + "");
                     Cookie userNameCookie = new Cookie("userName", userBean.getUserName());
+                    Cookie userTypeCookie = new Cookie("userType", userBean.getUserType() + "");
 
                     if (rememberMe) {
-                        userIDCookie.setMaxAge(7 * 24 * 60 * 60);//有效期一周
-                        userNameCookie.setMaxAge(7 * 24 * 60 * 60);
+                        int age = 7 * 24 * 60 * 60;
+                        userIDCookie.setMaxAge(age);//有效期一周
+                        userNameCookie.setMaxAge(age);
+                        userTypeCookie.setMaxAge(age);
                     }
 
                     //set new login time
@@ -110,6 +113,7 @@ public class LoginAndLogoutServlet extends HttpServlet {
 
                     response.addCookie(userIDCookie);
                     response.addCookie(userNameCookie);
+                    response.addCookie(userTypeCookie);
                 } else {
                     //验证码错误
                     correctValidateCode = false;

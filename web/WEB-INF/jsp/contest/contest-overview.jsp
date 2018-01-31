@@ -77,7 +77,7 @@
     <%--在此出获取当前时间--%>
     <jsp:useBean id="current" class="java.util.Date" />
     <div class="card">
-        <div class="card-header"><h5>overview</h5></div>
+        <div class="card-header"><h5>Overview</h5></div>
         <c:if test="${current.time <= contest.endTime and current.time >= contest.startTime}">
             <div class="progress" style="height: 10px;">
                 <div id="processBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="${contest.startTime}" aria-valuemin="${contest.startTime}" aria-valuemax="${contest.endTime}" ></div>
@@ -195,8 +195,16 @@
                     <c:forEach items="${problemList}" var="problem">
                         <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problem.innerID}">${problem.innerID}</a></td>
                         <td class="text-center"><a href="/contest-detail?contestID=${contest.contestID}&curProblem=${problem.innerID}">${problem.title}</a></td>
-                            <td class="text-center">${1000 + problem.problemID}</td>
-                            <td class="text-center">${problem.accepted}/${problem.submitted}</td>
+                        <c:choose>
+                            <c:when test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+                                <td class="text-center"><a href="/problem?problemID=${problem.problemID}">${1000 + problem.problemID}</a></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="text-center">${1000 + problem.problemID}</td>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <td class="text-center">${problem.accepted}/${problem.submitted}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -208,10 +216,12 @@
                 <div class="col-6 offset-3">
                     <div class="text-center">
                         <a href="/discuss-list?type=1&porcID=${contest.contestID}" class="btn btn-primary">讨论</a>
-                        <a href="/contest-record-list?contestID=${contest.contestID}" class="btn btn-primary">全部提交</a>
-                        <a href="/contest-rank?contestID=${contest.contestID}" class="btn btn-primary">查看排名</a>
-                        <a href="/contest-user-list?contestID=${contest.contestID}" class="btn btn-primary">查看用户</a>
-                        <a href="/contest-edit?contestID=${contest.contestID}"><span class="btn btn-success">编辑比赛</span></a>
+                        <a href="/contest-record-list?contestID=${contest.contestID}" class="btn btn-primary">记录</a>
+                        <a href="/contest-rank?contestID=${contest.contestID}" class="btn btn-primary">排名</a>
+                        <c:if test="${not empty cookie.get('userType') && cookie.get('userType').value > 0}">
+                            <a href="/contest-user-list?contestID=${contest.contestID}" class="btn btn-primary">用户</a>
+                            <a href="/contest-edit?contestID=${contest.contestID}"><span class="btn btn-success">编辑</span></a>
+                        </c:if>
                     </div>
                 </div>
             </div>

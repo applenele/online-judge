@@ -46,7 +46,9 @@
                 <th>赛制</th>
                 <th>是否公开</th>
                 <th>举办人</th>
-                <th>操作</th>
+                <c:if test="${not empty cookie.get('userType') && cookie.get('userType').value > 0}">
+                    <th>操作</th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
@@ -92,9 +94,9 @@
                         </c:otherwise>
                     </c:choose>
                     <td>${contest.sponsor}</td>
-                    <td>
-                        <a href="/contest-edit?contestID=${contest.contestID}"><span class="badge badge-secondary">编辑</span></a>
-                    </td>
+                    <c:if test="${not empty cookie.get('userType') && cookie.get('userType').value > 0}">
+                        <td><a href="/contest-edit?contestID=${contest.contestID}"><span class="badge badge-secondary">编辑</span></a></td>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>

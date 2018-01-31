@@ -75,9 +75,11 @@ public class Utils {
 
     public static HashMap<String, String> getCookieMap(HttpServletRequest request) {
         HashMap<String, String> cookieMap = new HashMap<>(4);
-        for (Cookie c : request.getCookies()) {
-            if (c.getName().equals("userID") || c.getName().equals("userName")) {
-                cookieMap.put(c.getName(), c.getValue());
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("userID") || c.getName().equals("userName") || c.getName().equals("userType")) {
+                    cookieMap.put(c.getName(), c.getValue());
+                }
             }
         }
         return cookieMap;

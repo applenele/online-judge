@@ -44,7 +44,6 @@
             <th>结束时间</th>
             <th>比赛赛制</th>
             <th>比赛类型</th>
-            <th>操作</th>
         </tr>
         </thead>
         <tbody>
@@ -85,9 +84,6 @@
                         <td><span class="badge badge-secondary">加密</span></td>
                     </c:otherwise>
                 </c:choose>
-                <td>
-                    <a href="/contest-edit?contestID=${contest.contestID}"><span class="badge badge-secondary">编辑</span></a>
-                </td>
             </tr>
         </c:forEach>
         </tbody>

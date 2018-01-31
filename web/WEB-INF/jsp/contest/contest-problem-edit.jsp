@@ -90,32 +90,32 @@
     <%--在此出获取当前时间--%>
     <jsp:useBean id="current" class="java.util.Date" />
     <div class="card">
-        <div class="card-header">题目列表</div>
+        <div class="card-header"><h5>题目列表</h5></div>
         <div class="card-body">
             <c:choose>
                 <c:when test="${fn:length(problemList) > 0}">
                     <div class="card">
-                        <table class="table table-sm table-striped">
+                        <table class="table table-sm table-striped text-center">
                             <thead>
                             <tr>
-                                <th class="text-center">比赛题号</th>
-                                <th class="text-center">题库题号</th>
-                                <th class="text-center">题目名称</th>
-                                <th class="text-center">操作</th>
+                                <th>比赛题号</th>
+                                <th>题库题号</th>
+                                <th>题目名称</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody id="contestProblemTable">
                             <c:forEach items="${problemList}" var="contestProblem">
                                 <tr>
-                                    <td class="text-center"><a>${contestProblem.innerID}</td>
-                                    <td class="text-center">${1000+contestProblem.problemID}</td>
-                                    <td class="text-center"><a href="/problem?problemID=${contestProblem.problemID}">${contestProblem.title}</a></td>
+                                    <td><a>${contestProblem.innerID}</td>
+                                    <td>${1000+contestProblem.problemID}</td>
+                                    <td><a href="/problem?problemID=${contestProblem.problemID}">${contestProblem.title}</a></td>
                                     <c:choose>
                                         <c:when test="${current.time < contest.startTime - 10*60*1000}"><%--比赛前10分钟之前允许删除用户--%>
-                                            <td class="text-center"><a href="/delete-contest-problem?contestID=${contest.contestID}&innerID=${contestProblem.innerID}">删除</a></td>
+                                            <td><a href="/delete-contest-problem?contestID=${contest.contestID}&innerID=${contestProblem.innerID}">删除</a></td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td><span>删除</span></td>
+                                            <td><span>比赛已经开始</span></td>
                                         </c:otherwise>
                                     </c:choose>
                                 </tr>

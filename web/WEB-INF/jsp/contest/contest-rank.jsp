@@ -27,10 +27,10 @@
     <h2 align="center"><a href="/contest-overview?contestID=${contest.contestID}">${contest.title}</a></h2>
 
     <div class="card">
-        <div class="card-header">比赛排名</div>
+        <div class="card-header"><h5>比赛排名</h5></div>
         <div class="card-body">
             <div class="card">
-                <table class="table table-sm table-striped text-center">
+                <table class="table table-striped text-center">
                     <thead>
                     <tr>
                         <th>排名</th>

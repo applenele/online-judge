@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fnt" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -98,17 +99,19 @@
     </div>
 
     <br>
-    <h4>源代码[${record.language}]</h4>
-    <pre class="form-control pre-scrollable" style="font-family: Consolas"><c:out value="${record.sourceCode}"
-                                                                                  escapeXml="true"></c:out> </pre>
+    <h4>源代码<small class="text-muted">${record.language}</small></h4>
+    <pre class="form-control pre-scrollable" style="font-family: Consolas"><c:out value="${record.sourceCode}" escapeXml="true"></c:out> </pre>
 
-    <br>
+    <c:if test="${fnt:length(compileInfo.compileResult) > 0}">
     <h4>编译信息</h4>
     <pre class="form-control pre-scrollable" style="font-family: Consolas">${compileInfo.compileResult}</pre>
+    </c:if>
 
-    <br>
+    <%--如果错误信息不为空, 并且登录用户不是普通用户, 显示错误信息--%>
+    <c:if test="${fnt:length(systemError.errorMessage) > 0 && not empty cookie.get('userType') && cookie.get('userType').value > 0}">
     <h4>错误信息</h4>
     <pre class="form-control pre-scrollable" style="font-family: Consolas">${systemError.errorMessage}</pre>
+    </c:if>
 
 
     <div class="text-center">

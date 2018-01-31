@@ -40,36 +40,40 @@
         </div>
 
     <div class="card">
-        <table class="table table-striped">
+        <table class="table table-striped text-center">
             <thead>
             <tr>
-                <th class="text-center">用户名</th>
-                <th class="text-center">用户类型</th>
-                <th class="text-center">个性签名</th>
-                <th class="text-center">注册日期</th>
-                <th class="text-center">语言偏好</th>
-                <th class="text-center">通过(题)/提交(次)</th>
-                <th class="text-center">操作</th>
+                <th>用户名</th>
+                <th>用户类型</th>
+                <th>个性签名</th>
+                <th>注册日期</th>
+                <th>语言偏好</th>
+                <th>通过(题)/提交(次)</th>
+                <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value == 2}">
+                    <th>操作</th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
             <jsp:useBean id="registerTime" class="java.util.Date"/>
             <c:forEach items="${userList}" var="user" varStatus="pos">
             <tr>
-                <td class="text-center"><a href="/user?userID=${user.userID}">${user.userName}</a></td>
-                <td class="text-center">
+                <td><a href="/user?userID=${user.userID}">${user.userName}</a></td>
+                <td>
                     <c:choose>
                         <c:when test="${user.userType == 2}">管理员</c:when>
                         <c:when test="${user.userType == 1}">高级用户</c:when>
                         <c:otherwise>普通用户</c:otherwise>
                     </c:choose>
                 </td>
-                <td class="text-center">${user.bio}</td>
+                <td>${user.bio}</td>
                     <c:set target="${registerTime}" property="time" value="${user.registerTime}"/>
-                <td class="text-center"><fmt:formatDate pattern="yyyy/MM/dd" value="${registerTime}"/></td>
-                <td class="text-center">${user.preferLanguage}</td>
-                <td class="text-center">${user.accepted}/${user.submitted}</td>
-                <td class="text-center"><a href="#" onclick="confirmDeleteUser('${user.userID}', '${user.userName}')" class="badge badge-danger">删除</a href="#"></td>
+                <td><fmt:formatDate pattern="yyyy/MM/dd" value="${registerTime}"/></td>
+                <td>${user.preferLanguage}</td>
+                <td>${user.accepted}/${user.submitted}</td>
+                <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value == 2}">
+                <td><a href="#" onclick="confirmDeleteUser('${user.userID}', '${user.userName}')" class="badge badge-danger">删除</a></td>
+                </c:if>
                 </c:forEach>
             </tbody>
         </table>

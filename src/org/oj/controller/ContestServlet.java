@@ -380,12 +380,22 @@ public class ContestServlet extends HttpServlet {
                 }
                 List<LanguageBean> languages = tableLanguage.getLanguageList();
 
+                boolean isRegistered = false;
+
+                HashMap<String, String> cookieMap = Utils.getCookieMap(request);
+                TableContestUser tableContestUser = sqlSession.getMapper(TableContestUser.class);
+                if (cookieMap.containsKey("userID")) {
+                    int loginedUserID = Integer.parseInt(cookieMap.get("userID"));
+                    isRegistered = tableContestUser.checkUserRegistered(contestID, loginedUserID);
+                }
+
                 sqlSession.close();
 
                 request.setAttribute("contest", contestBean);
                 request.setAttribute("problemList", problemList);
                 request.setAttribute("problem", problemBean);
                 request.setAttribute("languages", languages);
+                request.setAttribute("isRegistered", isRegistered);
                 request.getRequestDispatcher("/WEB-INF/jsp/contest/contest-detail.jsp").forward(request, response);
                 return;
         }

@@ -215,27 +215,27 @@
 
                 <br>
 
-                <h3>题目描述</h3>
+                <h4>题目描述</h4>
                 <textarea name="inputDesc" id="inputDesc" class="ckeditor">${problem.desc}</textarea>
 
                 <br>
-                <h3>输入格式</h3>
+                <h4>输入格式</h4>
                 <textarea name="inputInputDesc" id="inputInputDesc" class="ckeditor">${problem.inputDesc}</textarea>
 
                 <br>
-                <h3>输出格式</h3>
+                <h4>输出格式</h4>
                 <textarea name="inputOutputDesc" id="inputOutputDesc" class="ckeditor">${problem.outputDesc}</textarea>
 
                 <br>
                 <div class="form-row">
                     <div class="col-sm-6">
-                        <h3>样例输入</h3>
+                        <h4>样例输入</h4>
                         <textarea name="inputInputSample" id="inputInputSample" class="form-control"
                                   style="height:200px; font-family: Consolas"><c:out value="${problem.inputSample}"
                                                                                      escapeXml="true"></c:out></textarea>
                     </div>
                     <div class="col-sm-6">
-                        <h3>样例输出</h3>
+                        <h4>样例输出</h4>
                         <textarea name="inputOutputSample" id="inputOutputSample" class="form-control"
                                   style="height:200px; font-family: Consolas"><c:out value="${problem.outputSample}"
                                                                                      escapeXml="true"></c:out></textarea>
@@ -243,15 +243,16 @@
                 </div>
 
                 <br>
-                <h3>提示</h3>
+                <h4>提示</h4>
                 <textarea name="inputHint" id="inputHint" class="ckeditor">${problem.hint}</textarea>
 
                 <br>
-                <h3>来源</h3>
+                <h4>来源</h4>
                 <textarea name="inputSource" id="inputSource" class="ckeditor">${problem.source}</textarea>
                 <br>
 
                 <div class="text-center">
+                    <a class="btn btn-primary" href="/test-point-list?problemID=${problem.problemID}">测试数据</a>
                     <c:choose>
                         <c:when test="${problem == null}">
                             <input class="btn btn-success" type="submit" value="添加题目">

@@ -26,7 +26,7 @@
     <%--在此出获取当前时间--%>
     <jsp:useBean id="current" class="java.util.Date" />
     <div class="card">
-        <div class="card-header"><h5>overview</h5></div>
+        <div class="card-header"><h5>参赛用户</h5></div>
         <div class="card-body">
             <div class="card">
                 <table class="table table-sm table-striped text-center">
@@ -47,7 +47,7 @@
                                     <td><a href="/contest-user-delete?contestID=${contest.contestID}&userID=${user.userID}">移除比赛</a></td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td><span>移除比赛</span></td>
+                                    <td><span>比赛已经开始</span></td>
                                 </c:otherwise>
                             </c:choose>
                         </tr>

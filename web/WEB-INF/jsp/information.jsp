@@ -24,10 +24,10 @@
 <div class="container custom-container">
     <div class="card">
         <div class="card-header">
-            <h4>${msg.header}</h4>
+            <h3>${msg.header}</h3>
         </div>
         <div class="card-body text-center">
-            <h3>${msg.message}</h3>
+            <h4>${msg.message}</h4>
             <br>
             <br>
             <c:if test="${msg.linkText != null && fnt:length(msg.linkText) > 0}">

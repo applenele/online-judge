@@ -37,33 +37,31 @@
         <h5 class="card-header">本题最近提交记录</h5>
         <c:choose>
             <c:when test="${recordList != null && fnt:length(recordList) > 0}">
-                <table class="table table-sm table-striped">
+                <table class="table table-striped text-center">
                     <thead>
                     <tr>
-                        <th class="text-center">提交ID</th>
-                        <th class="text-center">题号</th>
-                        <th class="text-center">耗时(ms)</th>
-                        <th class="text-center">内存(KB)</th>
-                        <th class="text-center">语言</th>
-                        <th class="text-center">代码长度(字节)</th>
-                        <th class="text-center">提交时间</th>
-                        <th class="text-center">结果</th>
+                        <th>提交ID</th>
+                        <th>耗时(ms)</th>
+                        <th>内存(KB)</th>
+                        <th>语言</th>
+                        <th>代码长度(字节)</th>
+                        <th>提交时间</th>
+                        <th>结果</th>
                     </tr>
                     </thead>
                     <tbody>
                     <jsp:useBean id="submitTime" class="java.util.Date"/>
                     <c:forEach items="${recordList}" var="record">
                         <tr>
-                            <td class="text-center">${record.submitID}</td>
-                            <td class="text-center">p${1000 + record.problemID}</td>
-                            <td class="text-center">${record.timeConsume}</td>
-                            <td class="text-center">${record.memConsume}</td>
-                            <td class="text-center"><span class="badge badge-secondary">${record.language}</span></td>
-                            <td class="text-center">${record.codeLength}</td>
+                            <td>${record.submitID}</td>
+                            <td>${record.timeConsume}</td>
+                            <td>${record.memConsume}</td>
+                            <td><span class="badge badge-secondary">${record.language}</span></td>
+                            <td>${record.codeLength}</td>
                             <c:set target="${submitTime}" property="time" value="${record.submitTime}"/>
-                            <td class="text-center"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
+                            <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
                                                                   value="${submitTime}"/></td>
-                            <td class="text-center">
+                            <td>
                                 <c:choose>
                                     <c:when test="${record.result == 'Queuing'}"><span class="badge badge-secondary">${record.result}</span></c:when>
                                 </c:choose>
@@ -108,7 +106,7 @@
             </c:when>
             <c:otherwise>
                 <div class="modal-body">
-                    <h4 class="text-center">此题目没有提交记录</h4>
+                    <h4>此题目没有提交记录</h4>
                 </div>
             </c:otherwise>
         </c:choose>
