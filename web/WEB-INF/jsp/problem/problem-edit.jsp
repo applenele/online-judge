@@ -251,6 +251,12 @@
                 <textarea name="inputSource" id="inputSource" class="ckeditor">${problem.source}</textarea>
                 <br>
 
+                <br>
+                <h4>来源</h4>
+                <textarea name="inputBackground" id="inputBackground" class="ckeditor">${problem.background}</textarea>
+                <br>
+
+
                 <div class="text-center">
                     <a class="btn btn-primary" href="/test-point-list?problemID=${problem.problemID}">测试数据</a>
                     <c:choose>

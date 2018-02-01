@@ -103,6 +103,12 @@
     </blockquote>
     <br/>
 
+    <h4>背景</h4>
+    <blockquote class="card modal-body">
+        ${problem.source != null && fnt:length(problem.background) > 0 ? problem.background : '无'}
+    </blockquote>
+    <br/>
+
     <div class="text-center">
         <div class="btn-group" role="group">
             <c:choose>

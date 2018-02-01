@@ -16,7 +16,9 @@
         output_desc,
         input_sample,
         output_sample,
-        hint,source,
+        hint,
+        source,
+        background,
         create_time,
         static_lang_time_limit,
         static_lang_mem_limit,
@@ -35,6 +37,7 @@
         #{problem.outputSample},
         #{problem.hint},
         #{problem.source},
+        #{problem.background},
         #{problem.createTime},
         #{problem.staticLangTimeLimit},
         #{problem.staticLangMemLimit},
@@ -61,6 +64,7 @@
         output_sample = #{problem.outputSample},
         hint = #{problem.hint},
         source = #{problem.source},
+        background=#{problem.background},
         create_time = #{problem.createTime},
         static_lang_time_limit = #{problem.staticLangTimeLimit},
         static_lang_mem_limit = #{problem.staticLangMemLimit},
@@ -150,6 +154,7 @@
         <result property="outputSample" column="output_sample"/>
         <result property="hint" column="hint"/>
         <result property="source" column="source"/>
+        <result property="background" column="background"/>
         <result property="createTime" column="create_time"/>
         <result property="staticLangTimeLimit" column="static_lang_time_limit"/>
         <result property="staticLangMemLimit" column="static_lang_mem_limit"/>

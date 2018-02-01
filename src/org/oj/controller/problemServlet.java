@@ -102,6 +102,7 @@ public class problemServlet extends HttpServlet {
         String outputSample = request.getParameter("inputOutputSample");
         String hint = request.getParameter("inputHint");
         String source = request.getParameter("inputSource");
+        String background = request.getParameter("inputBackground");
         String staticLangTimeLimit = request.getParameter("inputStaticLangTimeLimit");
         String staticLangMemLimit = request.getParameter("inputStaticLangMemLimit");
         String dynamicLangTimeLimit = request.getParameter("inputDynamicLangTimeLimit");
@@ -117,6 +118,7 @@ public class problemServlet extends HttpServlet {
         problemBean.setOutputSample(outputSample);
         problemBean.setHint(hint);
         problemBean.setSource(source);
+        problemBean.setBackground(background);
         problemBean.setStaticLangTimeLimit(Integer.parseInt(staticLangTimeLimit));
         problemBean.setStaticLangMemLimit(Integer.parseInt(staticLangMemLimit));
         problemBean.setDynamicLangTimeLimit(Integer.parseInt(dynamicLangTimeLimit));

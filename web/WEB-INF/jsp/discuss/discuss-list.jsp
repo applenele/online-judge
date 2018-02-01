@@ -119,9 +119,12 @@
                 <div class="modal-body">
                     <form action="/post-original-discuss" method="post">
                         <c:choose>
-                            <c:when test="${!empty param.type}"><input id="inputType" name="inputType"
-                                                                       value="${param.type}" hidden></c:when>
-                            <c:otherwise><input id="inputType" name="inputType" value="2" hidden></c:otherwise>
+                            <c:when test="${!empty param.type}">
+                                <input id="inputType" name="inputType" value="${param.type}" hidden>
+                            </c:when>
+                            <c:otherwise>
+                                <input id="inputType" name="inputType" value="2" hidden>
+                            </c:otherwise>
                         </c:choose>
                         <input id="inputPorcID" name="inputPorcID" value="${param.porcID}" hidden>
                         <div class="form-group">

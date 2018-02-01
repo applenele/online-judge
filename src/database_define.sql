@@ -14,6 +14,7 @@ CREATE TABLE t_problem (
   `output_sample` text NOT NULL,  /*输出样例*/
   `hint`          text NOT NULL,  /*提示*/
   `source`        text NOT NULL,  /*来源*/
+  `background`    TEXT not null,
   `create_time`   bigint NOT NULL DEFAULT 0,     /*创建时间*/
   `static_lang_time_limit` mediumint NOT NULL default 1000,  /*静态语言时间限制*/
   `static_lang_mem_limit` mediumint NOT NULL default 65535,  /*静态语言内存限制*/

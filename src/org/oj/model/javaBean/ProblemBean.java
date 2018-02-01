@@ -13,6 +13,7 @@ public class ProblemBean {
     private String outputSample;
     private String hint;
     private String source;
+    private String background;
     private Long createTime;
     private int staticLangTimeLimit;
     private int staticLangMemLimit;
@@ -24,7 +25,7 @@ public class ProblemBean {
 
     public ProblemBean() {}
 
-    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, Long createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submitted, String result) {
+    public ProblemBean(int problemID, String title, String desc, String inputDesc, String outputDesc, String inputSample, String outputSample, String hint, String source, String background, Long createTime, int staticLangTimeLimit, int staticLangMemLimit, int dynamicLangTimeLimit, int dynamicLangMemLimit, int accepted, int submitted, String result) {
         this.problemID = problemID;
         this.title = title;
         this.desc = desc;
@@ -34,6 +35,7 @@ public class ProblemBean {
         this.outputSample = outputSample;
         this.hint = hint;
         this.source = source;
+        this.background = background;
         this.createTime = createTime;
         this.staticLangTimeLimit = staticLangTimeLimit;
         this.staticLangMemLimit = staticLangMemLimit;
@@ -116,6 +118,14 @@ public class ProblemBean {
         this.source = source;
     }
 
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
     public Long getCreateTime() {
         return createTime;
     }
@@ -192,6 +202,7 @@ public class ProblemBean {
                 ", outputSample='" + outputSample + '\'' +
                 ", hint='" + hint + '\'' +
                 ", source='" + source + '\'' +
+                ", background='" + background + '\'' +
                 ", createTime=" + createTime +
                 ", staticLangTimeLimit=" + staticLangTimeLimit +
                 ", staticLangMemLimit=" + staticLangMemLimit +
