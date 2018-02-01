@@ -96,7 +96,6 @@ public class DiscussServlet extends HttpServlet {
             }
         } else {
             String theme = request.getParameter("inputTheme");
-            theme = null;//theme由系统自动设置
             if (theme == null || theme.length() == 0) {
                 discussBean.setTheme("oj");
             } else {

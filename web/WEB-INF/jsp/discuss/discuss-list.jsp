@@ -44,64 +44,65 @@
 
     <div class="list-group">
         <c:forEach items="${discussList}" var="discuss">
-        <div class="list-group-item list-group-item-action flex-column align-items-start ">
-            <div class="media">
-                <div class="align-self-center text-center mr-4">
-                    <h3 style="width: 50px;">${discuss.reply}</h3>
-                </div>
-                <div class="media-body">
-                    <div class="d-flex w-100 justify-content-between">
-                        <a href="discuss-detail?postID=${discuss.postID}"><h5 class="mb-1">${discuss.title}</h5></a>
+            <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                <div class="media">
+                    <div class="align-self-center text-center mr-4">
+                        <h3 style="width: 50px;">${discuss.reply}</h3>
                     </div>
-                    <ul class="mb-1 list-inline">
-                        <c:if test="${discuss.first > 0}">
-                            <span class="badge badge-danger"><i class="fa fa-arrow-up"></i></span>
-                        </c:if>
-                        <li class="list-inline-item">
+                    <div class="media-body">
+                        <div class="d-flex w-100 justify-content-between">
+                            <a href="discuss-detail?postID=${discuss.postID}"><h5 class="mb-1">${discuss.title}</h5></a>
+                        </div>
+                        <ul class="mb-1 list-inline">
+                            <c:if test="${discuss.first > 0}">
+                                <span class="badge badge-danger"><i class="fa fa-arrow-up"></i></span>
+                            </c:if>
+                            <li class="list-inline-item">
+                                <c:choose>
+                                    <c:when test="${discuss.type == 0}">
+                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
+                                            <small class="badge badge-primary">${discuss.theme}</small>
+                                        </a>
+                                    </c:when>
+                                    <c:when test="${discuss.type == 1}">
+                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
+                                            <small class="badge badge-success">${discuss.theme}</small>
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
+                                            <small class="badge badge-secondary">${discuss.theme}</small>
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/user?userID=${discuss.userID}">
+                                    <small class="card alert-secondary">${discuss.userName}</small>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <jsp:useBean id="postTime" class="java.util.Date"/>
+                                <c:set target="${postTime}" property="time" value="${discuss.postTime}"/>
+                                <small class="text-muted"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
+                                                                          value="${postTime}"/></small>
+                            </li>
+                        </ul>
+                    </div>
+                    <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
+                        <div class="align-self-center ml-4">
                             <c:choose>
-                                <c:when test="${discuss.type == 0}">
-                                    <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
-                                        <small class="badge badge-primary">${discuss.theme}</small>
-                                    </a>
-                                </c:when>
-                                <c:when test="${discuss.type == 1}">
-                                    <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
-                                        <small class="badge badge-success">${discuss.theme}</small>
-                                    </a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
-                                        <small class="badge badge-secondary">${discuss.theme}</small>
-                                    </a>
-                                </c:otherwise>
+                                <c:when test="${discuss.first == 0}"><a
+                                        href="/discuss-set-first?postID=${discuss.postID}&val=1"
+                                        class="btn-sm btn-primary">置顶</a></c:when>
+                                <c:otherwise><a href="/discuss-set-first?postID=${discuss.postID}&val=0"
+                                                class="btn-sm btn-primary">取消置顶</a></c:otherwise>
                             </c:choose>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="/user?userID=${discuss.userID}">
-                                <small class="card alert-secondary">${discuss.userName}</small>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <jsp:useBean id="postTime" class="java.util.Date"/>
-                            <c:set target="${postTime}" property="time" value="${discuss.postTime}"/>
-                            <small class="text-muted"><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
-                                                                      value="${postTime}"/></small>
-                        </li>
-                    </ul>
+                            <a href="/discuss-delete?postID=${discuss.postID}" class="btn-sm btn-danger">删除</a>
+                        </div>
+                    </c:if>
                 </div>
-                <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
-                    <div class="align-self-center ml-4">
-                        <c:choose>
-                            <c:when test="${discuss.first == 0}"><a
-                                    href="/discuss-set-first?postID=${discuss.postID}&val=1" class="btn-sm btn-primary">置顶</a></c:when>
-                            <c:otherwise><a href="/discuss-set-first?postID=${discuss.postID}&val=0"
-                                            class="btn-sm btn-primary">取消置顶</a></c:otherwise>
-                        </c:choose>
-                        <a href="/discuss-delete?postID=${discuss.postID}" class="btn-sm btn-danger">删除</a>
-                    </div>
-                </c:if>
             </div>
-        </div>
         </c:forEach>
         <br>
         <c:if test="${not empty pageInfo}">
@@ -114,7 +115,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">发布新的讨论</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form action="/post-original-discuss" method="post">
@@ -135,9 +137,26 @@
                             <label>内容</label>
                             <textarea class="form-control" id="inputContent" name="inputContent" rows="5"></textarea>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" value="发布" class="btn btn-success">
+
+                        <div class="form-row align-items-center">
+                            <c:if test="${!empty param.type and param.type == 2}">
+                                <div class="col-sm-5">
+                                    <div class="input-group mb-2 mb-sm-0">
+                                        <div class="input-group-addon">theme:</div>
+                                        <select class="form-control" name="inputTheme">
+                                            <option value="建议">建议</option>
+                                            <option value="题解">题解</option>
+                                            <option selected value="问答">问答</option>
+                                            <option value="分享">分享</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <div class="col-auto">
+                                <input type="submit" value="发布" class="btn btn-success">
+                            </div>
                         </div>
+
                     </form>
                 </div>
             </div>

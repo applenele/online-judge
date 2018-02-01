@@ -1,35 +1,29 @@
-<!DOCTYPE HTML>
+<%--
+  Created by IntelliJ IDEA.
+  User: xanarry
+  Date: 17-12-28
+  Time: 上午10:43
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <!-- ... -->
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="plugin/datetimepicker/css/tempusdominus-bootstrap-4.min.css" />
-    <link rel="stylesheet" href="css/font-awesome.css">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/oj.css">
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap/popper.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <script src="plugin/datetimepicker/js/moment-with-locales.min.js"></script>
-    <script src="plugin/datetimepicker/js/tempusdominus-bootstrap-4.min.js"></script>
-
-
-
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-            <input type="text" class="form-control datetimepicker-input" id="datetimepicker5" data-toggle="datetimepicker" data-target="#datetimepicker5"/>
+<div class="container custom-container">
+    <div class="card">
+        <div class="card-title"><h5>FAQ</h5></div>
+        <div class="card-body">
+            alsdfasdf
         </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker5').datetimepicker({
-                    locale: 'zh-cn',
-                    format: "YYYY/MM/DD HH:mm"
-                });
-            });
-        </script>
     </div>
 </div>
 </body>
-<html>
+</html>

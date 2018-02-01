@@ -11,8 +11,8 @@
 <footer class="footer">
     <div class="container text-center" style="margin-top: 70px">
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="/judges">评测机</a></li>
-            <li class="list-inline-item"><a href="/WEB-INF/jsp/contact-me.jsp">联系我</a></li>
+            <li class="list-inline-item"><a href="/judge-server">评测机</a></li>
+            <li class="list-inline-item"><a href="/contact-me">联系我</a></li>
             <li class="list-inline-item"><a href="/about">关于</a></li>
             <li class="list-inline-item"><a href="/faq">FAQ</a></li>
         </ul>
