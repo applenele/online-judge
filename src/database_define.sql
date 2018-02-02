@@ -39,6 +39,10 @@ CREATE TABLE t_test_point (
 ) DEFAULT CHARSET = "utf8" ENGINE = InnoDB;
 
 
+
+
+
+
 DROP TABLE IF EXISTS t_user;
 CREATE TABLE t_user (
   /*用户信息*/
@@ -56,6 +60,12 @@ CREATE TABLE t_user (
   `send_code`    TINYINT,                       /*是否发送通过的代码到邮箱*/
     PRIMARY KEY(`user_id`)
 ) DEFAULT charset = "utf8" auto_increment = 1 ENGINE=InnoDB;
+
+
+
+
+
+
 
 
 DROP TABLE IF EXISTS t_submit_record;
@@ -77,7 +87,6 @@ CREATE TABLE t_submit_record (
 ) DEFAULT charset = "utf8" auto_increment = 1 ENGINE = InnoDB;
 
 
-
 DROP TABLE IF EXISTS t_compile_info;
 CREATE TABLE t_compile_info (
   /*提交代码编译结果*/
@@ -85,7 +94,6 @@ CREATE TABLE t_compile_info (
   `compile_result` text,   /*编译结果,成功为空,失败保存错误信息*/
   PRIMARY KEY(`submit_id`)
 ) DEFAULT charset = "utf8"  ENGINE = InnoDB;
-
 
 
 DROP TABLE IF EXISTS t_system_error;
@@ -112,6 +120,10 @@ CREATE TABLE t_judge_detail (
 
 
 
+
+
+
+
 DROP TABLE IF EXISTS t_contest;
 CREATE TABLE t_contest (
   /*比赛信息*/
@@ -130,7 +142,6 @@ CREATE TABLE t_contest (
 ) DEFAULT charset = "utf8" auto_increment=1  ENGINE = InnoDB;
 
 
-
 DROP TABLE IF EXISTS t_contest_problem;
 CREATE TABLE t_contest_problem (
   /*比赛题目*/
@@ -144,7 +155,6 @@ CREATE TABLE t_contest_problem (
 ) DEFAULT charset = "utf8"  ENGINE = InnoDB;
 
 
-
 DROP TABLE IF EXISTS t_contest_user;
 CREATE TABLE t_contest_user (
   /*参与比赛的用户*/
@@ -153,6 +163,12 @@ CREATE TABLE t_contest_user (
   `user_name` VARCHAR(64) NOT NULL, /*冗余字段*/
   PRIMARY KEY(`contest_id`, `user_id`)
 ) DEFAULT charset = "utf8"  ENGINE = InnoDB;
+
+
+
+
+
+
 
 
 DROP TABLE IF EXISTS t_discuss;
@@ -184,14 +200,9 @@ CREATE TABLE t_discuss (
 
 
 
-DROP TABLE IF EXISTS t_image_path;
-CREATE TABLE t_image_path (
-  /*保存照片路径*/
-  `image_id` INT auto_increment NOT NULL,  /*照片id*/
-  `abs_path` VARCHAR(4096), /*绝对路径*/
-  `rlt_path` VARCHAR(4096), /*相对路径*/
-  PRIMARY KEY(`image_id`)
-) DEFAULT charset = "utf8" auto_increment=1 ENGINE = InnoDB;
+
+
+
 
 
 DROP TABLE t_language;
@@ -232,29 +243,6 @@ CREATE VIEW v_submit_record AS
     judge_time
   FROM ((t_submit_record submit LEFT JOIN t_compile_info compile USING(`submit_id`)) JOIN t_user USING (`user_id`)) JOIN t_problem USING (`problem_id`) LEFT JOIN t_contest USING (`contest_id`);
 
-
-
-
-
-
-SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT JOIN t_problem USING (`problem_id`);
-
-
-/*查询一个题目通过的人数*/
-SELECT count(t.user_id) as passed from (SELECT DISTINCT user_id FROM v_submit_record WHERE contest_id=19 AND problem_id=7 AND result='Accepted') AS t;
-
-
-
-
-/*没使用的表*/
-DROP TABLE IF EXISTS t_source_code;
-CREATE TABLE t_source_code (
-  /*提交的源代码*/
-  `submit_id`          INT NOT NULL,
-  `source_code`        text,
-  `source_code_length` INT,
-  PRIMARY KEY(`submit_id`)
-) DEFAULT charset = "utf8"  ENGINE = InnoDB;
 
 
 
@@ -356,3 +344,15 @@ CREATE PROCEDURE updateReplyCount(IN postID INT)
     SELECT count(post_id) INTO cnt FROM t_discuss WHERE post_id!=root_id AND post_id!=direct_fid AND root_id=postID;
     UPDATE t_discuss SET reply=cnt WHERE post_id=postID;
   END;
+
+
+
+
+
+
+SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT JOIN t_problem USING (`problem_id`);
+
+
+/*查询一个题目通过的人数*/
+SELECT count(t.user_id) as passed from (SELECT DISTINCT user_id FROM v_submit_record WHERE contest_id=19 AND problem_id=7 AND result='Accepted') AS t;
+
