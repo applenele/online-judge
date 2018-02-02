@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fnt" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: xanarry
@@ -181,21 +182,20 @@
                 </div>
             </div>
 
-            <h4>提示</h4>
-            <blockquote class="card modal-body">
-                ${problem.hint != null && fnt:length(problem.hint) > 0 ? problem.hint : '无'}
-            </blockquote>
+            <c:if test="${problem.hint != null && fn:length(problem.hint) > 0}">
+                <h4>提示</h4>
+                <blockquote class="card modal-body">${problem.hint}</blockquote>
+            </c:if>
 
-            <h4>来源</h4>
-            <blockquote class="card modal-body">
-                ${problem.source != null && fnt:length(problem.source) > 0 ? problem.source : '无'}
-            </blockquote>
+            <c:if test="${problem.hint != null && fn:length(problem.source) > 0}">
+                <h4>来源</h4>
+                <blockquote class="card modal-body">${problem.source}</blockquote>
+            </c:if>
 
-            <h4>背景</h4>
-            <blockquote class="card modal-body">
-                ${problem.source != null && fnt:length(problem.background) > 0 ? problem.background : '无'}
-            </blockquote>
-            <br/>
+            <c:if test="${problem.hint != null && fn:length(problem.background) > 0}">
+                <h4>背景</h4>
+                <blockquote class="card modal-body">${problem.background}</blockquote>
+            </c:if>
 
             <div class="text-center">
                 <div class="btn-group" role="group">
