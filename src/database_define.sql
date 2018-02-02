@@ -36,9 +36,7 @@ CREATE TABLE t_test_point (
   `output_text_path`   VARCHAR(256) NOT NULL, /*输出文件路径*/
   `output_text_length` INT          NOT NULL, /*输出文件长度*/
   PRIMARY KEY (`problem_id`, `test_point_id`)
-)
-  DEFAULT CHARSET = "utf8"
-  ENGINE = InnoDB;
+) DEFAULT CHARSET = "utf8" ENGINE = InnoDB;
 
 
 DROP TABLE IF EXISTS t_user;

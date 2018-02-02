@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Created by xanarry on 18-1-2.
@@ -37,21 +38,7 @@ public class Test {
     }
 
 
-    public static void main(String[] argv) throws FileNotFoundException {
-        File f = new File("./src");
-        for (File c: f.listFiles()) {
-            System.out.println(c.getName());
-        }
-
-
-        String configFilePath = "./src/config.json";
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        ConfigurationBean configuration = null;
-        try {
-            configuration = gson.fromJson(new FileReader(configFilePath), ConfigurationBean.class);
-            System.out.println(configuration);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] argv) throws IOException {
+        FileUtils.forceMkdir(new File("/home/xanarry/Desktop/a/bbbbb/c"));
     }
 }

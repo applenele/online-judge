@@ -18,7 +18,6 @@ public class messageServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getRequestURL());
         String title = request.getParameter("title");
         String header = request.getParameter("header");
         String message = request.getParameter("message");
@@ -26,7 +25,6 @@ public class messageServlet extends HttpServlet {
         String linkText = request.getParameter("linkText");
 
         MessageBean messageBean = new MessageBean(title, header, message, url, linkText);
-        System.out.println(messageBean.toString());
         request.setAttribute("msg", messageBean);
         request.getRequestDispatcher("WEB-INF/jsp/information.jsp").forward(request, response);
     }

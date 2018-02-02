@@ -51,7 +51,7 @@
                     <tbody>
                     <c:forEach items="${testPointList}" var="testPointID">
                         <tr>
-                            <td class="text-center">${testPointID.testPointID}</td>
+                            <td class="text-center">#${testPointID.testPointID}</td>
                             <td class="text-center">${testPointID.inputTextLength}</td>
                             <td class="text-center"><a
                                     href="/show-test-point?problemID=${problem.problemID}&testPointID=${testPointID.testPointID}">想看看我</a>

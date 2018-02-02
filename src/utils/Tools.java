@@ -1,6 +1,7 @@
 package utils;
 
 import judge.JudgeClient;
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.oj.controller.beans.UserProblemStatisticBean;
 import org.oj.controller.beans.RankBean;
@@ -119,20 +120,26 @@ public class Tools {
     }
 
     public static synchronized int saveTestPoint(String testPointDir, String inputData, String outputData) {
-        System.out.println("testPointDir: " + testPointDir);
 
-        File file = new File(testPointDir);
-        if (!file.exists()) { //不存在则创建目录
-            if (file.mkdir()) {
-                file = new File(testPointDir); //重新打开目录
-            } else {
-                return -1;
+        File inputDataDir = new File(testPointDir + "/input");
+        File outputDataDir = new File(testPointDir + "/output");
+
+        //检查文件夹是否存在, 不存在则创建
+        try {
+            if (!inputDataDir.exists()) { //不存在则创建目录
+                FileUtils.forceMkdir(inputDataDir);
             }
-        } else if (file.isFile()) {//若存在且为文件, 则无法创建, 返回-1
-            return -1;
+
+            if (!outputDataDir.exists()) {
+                FileUtils.forceMkdir(outputDataDir);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
         }
 
-        File[] files = file.listFiles();
+        //计算新的测试点应该使用什么ID, 根据已有文件推算
+        File[] files = inputDataDir.listFiles();
         ArrayList<Integer> testPointIDs = new ArrayList<>(15);
         for (File f : files) {
             String name = f.getName();
@@ -161,34 +168,35 @@ public class Tools {
             }
         }
 
+
         //写入输入输出文件
-        String inputTextPath = testPointDir + "/" + newID + ".in";
-        String outputTextPath = testPointDir + "/" + newID + ".out";
+        String inputTextPath = inputDataDir + "/" + newID + ".in";
+        String outputTextPath = outputDataDir + "/" + newID + ".out";
 
         try {
-            System.out.println("inputTextFile: " + inputTextPath);
-            System.out.println("inputTextData: " + inputData);
+            /*System.out.println("inputTextFile: " + inputTextPath);
+            System.out.println("inputTextData: " + inputData);*/
             PrintWriter inPrintWriter = new PrintWriter(inputTextPath);
             inPrintWriter.write(inputData);
             inPrintWriter.flush();
             inPrintWriter.close();
 
-            System.out.println("outputTextFile: " + outputTextPath);
-            System.out.println("outputTextData: " + outputData);
+            /*System.out.println("outputTextFile: " + outputTextPath);
+            System.out.println("outputTextData: " + outputData);*/
             PrintWriter outPrintWriter = new PrintWriter(outputTextPath);
             outPrintWriter.write(outputData);
             outPrintWriter.flush();
             outPrintWriter.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return -1;
         }
         return newID;
     }
 
     public static synchronized boolean deleteTestPoint(String testPointDir, int testPointID) {
-        String inputTextPath = testPointDir + "/" + testPointID + ".in";
-        String outputTextPath = testPointDir + "/" + testPointID + ".out";
+        String inputTextPath = testPointDir + "/input/" + testPointID + ".in";
+        String outputTextPath = testPointDir + "/output/" + testPointID + ".out";
 
         System.out.println("delete inputText: " + inputTextPath);
         System.out.println("delete outputText: " + outputTextPath);
@@ -197,9 +205,13 @@ public class Tools {
         File outputText = new File(outputTextPath);
         if (inputText.delete() && outputText.delete()) {
             //检查文件夹是否为空, 为空的话删除文件夹
-            File f = new File(testPointDir);
-            if (f.listFiles().length == 0) {
-                f.delete();
+            File inputDataDir = new File(testPointDir + "/input");
+            if (inputDataDir.listFiles() != null && inputDataDir.listFiles().length == 0) {
+                try {
+                    FileUtils.deleteDirectory(new File(testPointDir));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             return true;
         }

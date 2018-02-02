@@ -1359,64 +1359,66 @@ language</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="312" parent="239" name="create_time">
+    <column id="312" parent="239" name="background">
       <Position>10</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="313" parent="239" name="create_time">
+      <Position>11</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="313" parent="239" name="static_lang_time_limit">
-      <Position>11</Position>
+    <column id="314" parent="239" name="static_lang_time_limit">
+      <Position>12</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;1000&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="314" parent="239" name="static_lang_mem_limit">
-      <Position>12</Position>
+    <column id="315" parent="239" name="static_lang_mem_limit">
+      <Position>13</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;65535&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="239" name="dynamic_lang_time_limit">
-      <Position>13</Position>
+    <column id="316" parent="239" name="dynamic_lang_time_limit">
+      <Position>14</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;2000&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="316" parent="239" name="dynamic_lang_mem_limit">
-      <Position>14</Position>
+    <column id="317" parent="239" name="dynamic_lang_mem_limit">
+      <Position>15</Position>
       <DataType>mediumint(9)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;131070&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="317" parent="239" name="accepted">
-      <Position>15</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="318" parent="239" name="submitted">
+    <column id="318" parent="239" name="accepted">
       <Position>16</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="319" parent="239" name="PRIMARY">
+    <column id="319" parent="239" name="submitted">
+      <Position>17</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="320" parent="239" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>problem_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <trigger id="320" parent="239" name="deleteProblemTrigger">
-      <Turn>after-row</Turn>
-      <Events>D</Events>
-    </trigger>
     <column id="321" parent="240" name="submit_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>

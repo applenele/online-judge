@@ -79,11 +79,11 @@ public class TestPointServlet extends HttpServlet {
         //设置测试点编号
         testPointBean.setTestPointID(testPointID);
         //设置输入文本路径
-        testPointBean.setInputTextPath((1000 + problemID) + "/" + testPointID + ".in");
+        testPointBean.setInputTextPath((1000 + problemID) + "/input/" + testPointID + ".in");
         //设置输入文本长度
         testPointBean.setInputTextLength(inputData.length());
         //设置输出文本路径
-        testPointBean.setOutputTextPath((1000 + problemID) + "/" + testPointID + ".out");
+        testPointBean.setOutputTextPath((1000 + problemID) + "/output/" + testPointID + ".out");
         //设置输出文本长度
         testPointBean.setOutputTextLength(outputData.length());
 
