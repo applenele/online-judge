@@ -45,8 +45,6 @@ public class OnlyForTestServlet extends HttpServlet {
 
 
     private void addProblem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String strProblemID = request.getParameter("inputProblemID");//如果ID不为null. 则是编辑该题目
-
         String title = request.getParameter("inputTitle");
         String desc = request.getParameter("inputDesc");
         String inputDesc = request.getParameter("inputInputDesc");
@@ -98,9 +96,6 @@ public class OnlyForTestServlet extends HttpServlet {
         String outputData = request.getParameter("inputOutputData");
 
         System.out.println("pid: " + strProblemID);
-
-
-        System.out.println(strProblemID);
 
         Integer problemID = Integer.parseInt(strProblemID);
 

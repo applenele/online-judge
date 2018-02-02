@@ -174,15 +174,15 @@ public class Tools {
         String outputTextPath = outputDataDir + "/" + newID + ".out";
 
         try {
-            /*System.out.println("inputTextFile: " + inputTextPath);
-            System.out.println("inputTextData: " + inputData);*/
+            System.out.println("inputTextFile: " + inputTextPath);
+            //System.out.println("inputTextData: " + inputData);
             PrintWriter inPrintWriter = new PrintWriter(inputTextPath);
             inPrintWriter.write(inputData);
             inPrintWriter.flush();
             inPrintWriter.close();
 
-            /*System.out.println("outputTextFile: " + outputTextPath);
-            System.out.println("outputTextData: " + outputData);*/
+            System.out.println("outputTextFile: " + outputTextPath);
+            //System.out.println("outputTextData: " + outputData);
             PrintWriter outPrintWriter = new PrintWriter(outputTextPath);
             outPrintWriter.write(outputData);
             outPrintWriter.flush();
