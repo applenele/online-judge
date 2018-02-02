@@ -69,7 +69,6 @@ public class Utils {
         pageBean.setRecordCount(recordCount);
         pageBean.setCountPerPage(Consts.COUNT_PER_PAGE);
         pageBean.setUrl(Utils.urlWithoutPageInfo(request));
-        System.out.println("after: " + pageBean.getUrl());
         return pageBean;
     }
 

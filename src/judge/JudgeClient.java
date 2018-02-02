@@ -452,6 +452,14 @@ public class JudgeClient extends Thread {
     /*复制测试点文件*/
     private boolean copyTestPointFile(String testPointDataPath, String runningFolder) {
         System.out.println(testPointDataPath + " to " + runningFolder);
+        try {
+            FileUtils.copyDirectory(new File(testPointDataPath), new File(runningFolder));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        /*
         File[] files = new File(testPointDataPath).listFiles();
         File desc = new File(runningFolder);
         if (files == null) {
@@ -467,7 +475,7 @@ public class JudgeClient extends Thread {
                     return false;
                 }
             }
-        }
+        }*/
         return true;
     }
 

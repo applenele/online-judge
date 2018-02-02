@@ -39,6 +39,7 @@ public class Test {
 
 
     public static void main(String[] argv) throws IOException {
-        FileUtils.forceMkdir(new File("/home/xanarry/Desktop/a/bbbbb/c"));
+        FileUtils.copyDirectory(new File("/home/xanarry/Workspace/oj-data/test-point/1001"), new File("/home/xanarry/Desktop/running-dir/submit5"));
+        //FileUtils.copyFileToDirectory();
     }
 }

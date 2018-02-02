@@ -222,18 +222,21 @@ public class problemServlet extends HttpServlet {
 
     private void showProblem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strProblemID = request.getParameter("problemID");
-        int problemID = 0;
-        if (strProblemID != null) {
-            problemID = Integer.parseInt(strProblemID);
+        int problemID = strProblemID != null && strProblemID.length() > 0 ? Integer.parseInt(strProblemID) : -1;
+        if (problemID > 0) {
+            SqlSession sqlSession = DataSource.getSqlSesion();
+            TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
+            ProblemBean problemBean = tableProblem.getProblemByID(problemID);
+
+            sqlSession.close();
+
+            request.setAttribute("problem", problemBean);
+            request.getRequestDispatcher("/WEB-INF/jsp/problem/problem.jsp").forward(request, response);
+        } else {
+            String referer = request.getHeader("referer");
+            MessageBean messageBean = new MessageBean("错误", "错误", "题目参数不正确!", referer != null ? referer : "/problem-list", "返回题目列表");
+            Utils.sendErrorMsg(response, messageBean);
         }
-        SqlSession sqlSession = DataSource.getSqlSesion();
-        TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
-        ProblemBean problemBean = tableProblem.getProblemByID(problemID);
-
-        sqlSession.close();
-
-        request.setAttribute("problem", problemBean);
-        request.getRequestDispatcher("/WEB-INF/jsp/problem/problem.jsp").forward(request, response);
     }
 
 }
