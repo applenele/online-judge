@@ -37,7 +37,7 @@ public class SendMail
             message.saveChanges();
 
             Transport transport = session.getTransport();
-            transport.connect("smtp.qq.com", "xiong-yang@qq.com", "xy58316992");
+            transport.connect("smtp.qq.com", "xiong-yang@qq.com", "aijjesawyrkijaia");
 
             Address[] addresses = new Address[address.length];
             for (int i = 0; i < address.length; i++) {
