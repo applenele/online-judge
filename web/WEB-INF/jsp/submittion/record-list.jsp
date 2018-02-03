@@ -93,56 +93,43 @@
                     <c:set target="${submitTime}" property="time" value="${record.submitTime}"/>
                     <td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${submitTime}"/></td>
                     <td>
-                        <a href="/judge-detail?submitID=${record.submitID}">
-                            <c:choose>
-                                <c:when test="${record.result == 'Queuing'}"><span
-                                        class="badge badge-secondary">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Compiling'}"><span
-                                        class="badge badge-secondary">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Running'}"><span
-                                        class="badge badge-primary">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Accepted'}"><span
-                                        class="badge badge-success">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Presentation Error'}"><span
-                                        class="badge badge-warning">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Wrong Answer'}"><span
-                                        class="badge badge-danger">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Time Limit Exceeded'}"><span
-                                        class="badge badge-warning">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Memory Limit Exceeded'}"><span
-                                        class="badge badge-warning">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Output Limit Exceeded'}"><span
-                                        class="badge badge-warning">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Runtime Error'}"><span
-                                        class="badge badge-danger">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'System Error'}"><span
-                                        class="badge badge-dark">${record.result}</span></c:when>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${record.result == 'Compilation Error'}"><span
-                                        class="badge badge-warning">${record.result}</span></c:when>
-                            </c:choose>
-                        </a>
+                        <c:choose>
+                            <c:when test="${record.result == 'Queuing'}">
+                                <span class="badge badge-secondary">${record.result}</span>
+                            </c:when>
+                            <c:when test="${record.result == 'Compiling'}">
+                                <span class="badge badge-secondary">${record.result}</span>
+                            </c:when>
+                            <c:when test="${record.result == 'Running'}"><span
+                                    class="badge badge-primary">${record.result}</span></c:when>
+                            <c:when test="${record.result == 'Accepted'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-success">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'Presentation Error'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-warning">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'Wrong Answer'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-danger">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'Time Limit Exceeded'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-warning">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'Memory Limit Exceeded'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-warning">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'Output Limit Exceeded'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-warning">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'Runtime Error'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-danger">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'System Error'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-dark">${record.result}</span></a>
+                            </c:when>
+                            <c:when test="${record.result == 'Compilation Error'}">
+                                <a href="/judge-detail?submitID=${record.submitID}"><span class="badge badge-warning">${record.result}</span></a>
+                            </c:when>
+                        </c:choose>
                     </td>
 
                     <c:if test="${not empty cookie.get('userType') && cookie.get('userType').value > 0}">

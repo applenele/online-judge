@@ -200,14 +200,23 @@ public class problemServlet extends HttpServlet {
 
     private void searchProblem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String problemKeyword = request.getParameter("inputProblemKeyword");
+        boolean isDigital = true;
+        for (char c : problemKeyword.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                isDigital = false;
+                break;
+            }
+        }
+
+        int problemID = isDigital ? Integer.parseInt(problemKeyword) : 0;
 
         String strPage = request.getParameter("page");
         int page =  strPage != null ? Integer.parseInt(strPage) : 1;
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableProblem tableProblem = sqlSession.getMapper(TableProblem.class);
-        List<ProblemBean> problemBeanList = tableProblem.searchProblem(problemKeyword, (page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
-        int recordCount = tableProblem.getSearchResultCount(problemKeyword);
+        List<ProblemBean> problemBeanList = tableProblem.searchProblem(problemID, problemKeyword, (page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        int recordCount = tableProblem.getSearchResultCount(problemID, problemKeyword);
         //获取分页信息
         PageBean pageBean = Utils.getPagination(recordCount, page, request);
 

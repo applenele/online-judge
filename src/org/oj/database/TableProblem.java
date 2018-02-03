@@ -39,7 +39,7 @@ public interface TableProblem extends BaseFunction {
     List<ProblemBean> getProblemsOrderByAcceptedRate(@Param("start") Integer start, @Param("count") Integer count);
 
     /*搜索题目*/
-    List<ProblemBean> searchProblem(@Param("problemKeyword") String problemKeyword, @Param("start") Integer start, @Param("count") Integer count);
-    int getSearchResultCount(@Param("problemKeyword") String problemKeyword);
+    List<ProblemBean> searchProblem(@Param("problemID") Integer problemID, @Param("problemKeyword") String problemKeyword, @Param("start") Integer start, @Param("count") Integer count);
+    int getSearchResultCount(@Param("problemID") Integer problemID, @Param("problemKeyword") String problemKeyword);
 
 }

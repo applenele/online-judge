@@ -135,13 +135,13 @@
 
     <select id="searchProblem" resultMap="problemMap" resultType="org.oj.model.javaBean.ProblemBean">
         SELECT * FROM t_problem
-        WHERE problem_id=#{problemKeyword} OR title LIKE '%${problemKeyword}%'
+        WHERE problem_id=${problemID-1000} OR title LIKE '%${problemKeyword}%'
         limit #{start}, #{count}
     </select>
 
     <select id="getSearchResultCount" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_problem
-        WHERE problem_id=#{problemKeyword} OR title LIKE '%${problemKeyword}%'
+        WHERE problem_id=${problemID-1000} OR title LIKE '%${problemKeyword}%'
     </select>
 
     <resultMap id="problemMap" type="org.oj.model.javaBean.ProblemBean">

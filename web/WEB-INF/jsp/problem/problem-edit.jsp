@@ -52,7 +52,7 @@
             $("textarea").each(function () {
                 console.log($(this).attr("id") + ": " + $(this).val());
                 if ($(this).val().length == 0) {
-                    if ($(this).attr("id") != "inputHint" && $(this).attr("id") != "inputSource") {
+                    if ($(this).attr("id") != "inputHint" && $(this).attr("id") != "inputBackground" && $(this).attr("id") != "inputSource") {
                         flag++;
                     }
                 }
@@ -252,7 +252,7 @@
                 <br>
 
                 <br>
-                <h4>来源</h4>
+                <h4>背景</h4>
                 <textarea name="inputBackground" id="inputBackground" class="ckeditor">${problem.background}</textarea>
                 <br>
 

@@ -349,7 +349,6 @@ CREATE PROCEDURE updateReplyCount(IN postID INT)
 
 
 
-
 SELECT * FROM (t_contest_problem LEFT JOIN t_contest USING(`contest_id`)) LEFT JOIN t_problem USING (`problem_id`);
 
 
