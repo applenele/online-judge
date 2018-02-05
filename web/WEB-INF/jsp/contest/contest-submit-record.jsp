@@ -70,7 +70,7 @@
 
             <div class="card">
 
-                <table class="table table-striped text-center">
+                <table class="table table-striped text-center" style="margin-bottom: 0rem;">
                     <thead>
                     <tr>
                         <th>用户</th>

@@ -95,7 +95,7 @@
             <c:choose>
                 <c:when test="${fn:length(problemList) > 0}">
                     <div class="card">
-                        <table class="table table-sm table-striped text-center">
+                        <table class="table table-sm table-striped text-center" style="margin-bottom: 0rem;">
                             <thead>
                             <tr>
                                 <th>比赛题号</th>

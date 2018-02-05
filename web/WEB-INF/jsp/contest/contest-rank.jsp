@@ -30,7 +30,7 @@
         <div class="card-header"><h5>比赛排名</h5></div>
         <div class="card-body">
             <div class="card">
-                <table class="table table-striped text-center">
+                <table class="table table-striped text-center" style="margin-bottom: 0rem;">
                     <thead>
                     <tr>
                         <th>排名</th>

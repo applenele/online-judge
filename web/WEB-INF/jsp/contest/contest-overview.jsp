@@ -182,7 +182,7 @@
             <p>${contest.desc}</p>
             <br>
             <div class="card">
-                <table class="table table-sm table-striped">
+                <table class="table table-sm table-striped" style="margin-bottom: 0rem;">
                     <thead>
                     <tr>
                         <th class="text-center">比赛题号</th>

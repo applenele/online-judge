@@ -34,7 +34,7 @@
 <div class="container custom-container">
     <div class="card">
         <h5 class="card-header">详细评测结果</h5>
-        <table class="table table-sm table-striped">
+        <table class="table table-sm table-striped" style="margin-bottom: 0rem;">
             <thead>
             <tr>
                 <th class="text-center">测试点</th>

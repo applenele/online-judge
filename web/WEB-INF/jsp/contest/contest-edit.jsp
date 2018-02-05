@@ -248,7 +248,7 @@
                     <br>
                     <a href="/contest-problem-edit?contestID=${contest.contestID}"><h4>题目列表</h4></a>
                     <div class="card">
-                        <table class="table table-sm table-striped">
+                        <table class="table table-sm table-striped" style="margin-bottom: 0rem;">
                             <thead>
                             <tr>
                                 <th class="text-center">比赛题号</th>

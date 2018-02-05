@@ -29,7 +29,7 @@
         <div class="card-header"><h5>参赛用户</h5></div>
         <div class="card-body">
             <div class="card">
-                <table class="table table-sm table-striped text-center">
+                <table class="table table-sm table-striped text-center" style="margin-bottom: 0rem;">
                     <thead>
                     <tr>
                         <th>用户ID</th>

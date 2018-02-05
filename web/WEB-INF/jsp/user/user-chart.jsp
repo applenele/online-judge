@@ -24,7 +24,7 @@
 <div class="container custom-container">
     <h4>${tableTitle}</h4>
     <div class="card">
-        <table class="table table-striped text-center">
+        <table class="table table-striped text-center" style="margin-bottom: 0rem;">
             <thead>
             <tr>
                 <th>排名</th>

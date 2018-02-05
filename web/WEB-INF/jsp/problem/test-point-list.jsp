@@ -37,7 +37,7 @@
         <h5 class="card-header">所有测试点</h5>
         <c:choose>
             <c:when test="${testPointList != null && fn:length(testPointList) > 0}">
-                <table class="table table-sm table-striped">
+                <table class="table table-sm table-striped" style="margin-bottom: 0rem;">
                     <thead>
                     <tr>
                         <th class="text-center">ID</th>
