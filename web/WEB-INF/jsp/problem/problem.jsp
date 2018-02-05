@@ -51,7 +51,7 @@
                         <span class="btn">讨论</span>
                     </c:otherwise>
                 </c:choose>
-                <a class="btn" href="/record-list?problemID=${problem.problemID}">状态</a></button>
+                <a class="btn" href="/record-list?problemID=${problem.problemID + 1000}">状态</a></button>
                 <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
                     <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
                     <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
@@ -120,7 +120,7 @@
                     <span class="btn">讨论</span>
                 </c:otherwise>
             </c:choose>
-            <a class="btn" href="/record-list?problemID=${problem.problemID}">状态</a></button>
+            <a class="btn" href="/record-list?problemID=${problem.problemID + 1000}">状态</a></button>
             <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
                 <a class="btn" href="/problem-edit?problemID=${problem.problemID}">编辑</a></button>
                 <a class="btn" href="/test-point-list?problemID=${problem.problemID}">数据</a></button>
