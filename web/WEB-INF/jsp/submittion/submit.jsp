@@ -19,6 +19,16 @@
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/plugin/highlight/css/default.css">
+    <script src="/plugin/highlight/js/highlight.pack.js"></script>
+
+    <link rel="stylesheet" href="/plugin/codemirror/css/codemirror.css">
+    <script src="/plugin/codemirror/js/codemirror.js"></script>
+    <script src="/plugin/codemirror/mode/clike.js"></script>
+    <script src="/plugin/codemirror/mode/python.js"></script>
+
+    <link rel="stylesheet" href="/plugin/codemirror/css/codemirror.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
@@ -115,37 +125,66 @@
 
     <br>
 
+    <form action="/submit" method="post">
     <div class="card">
         <h5 class="card-header">提交代码</h5>
-        <div class="card-body">
             <%--<h4 class="card-title">Special title treatment</h4>--%>
-            <form class="form-horizontal" action="/submit" method="post">
-                <input hidden name="inputProblemID" value="${problem.problemID}">
-                <div class="form-group">
-                    <label>源代码</label>
-                    <textarea class="form-control" name="inputCode" rows="10"></textarea>
-                </div>
-
-                <div class="form-row align-items-center">
-                    <div class="col-sm-3">
-                        <div class="input-group mb-2 mb-sm-0">
-                            <div class="input-group-addon">语言: </div>
-                            <select class="form-control" name="inputLanguage">
-                                <c:forEach items="${languages}" var="lang">
-                                    <option <c:if test="${lang.language == user.preferLanguage}"> selected </c:if>
-                                            value="${lang.language}">${lang.language}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">提交代码</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <input hidden name="inputProblemID" value="${problem.problemID}">
+        <textarea id="inputCode" name="inputCode"></textarea>
     </div>
+    <br>
+        <div class="form-row align-items-center">
+            <div class="col-sm-3">
+                <div class="input-group mb-2 mb-sm-0">
+                    <div class="input-group-addon">语言: </div>
+                    <select class="form-control" id="inputLanguage" name="inputLanguage" onchange="resetCodeMirror()">
+                        <c:forEach items="${languages}" var="lang">
+                            <option <c:if test="${lang.language == user.preferLanguage}"> selected </c:if>
+                                    value="${lang.language}">${lang.language}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">提交代码</button>
+            </div>
+        </div>
+
+    </form>
+
 </div>
+
+<script src="/plugin/codemirror/js/codemirror.js"></script>
+<script src="/plugin/codemirror/mode/clike.js"></script>
+<script src="/plugin/codemirror/mode/python.js"></script>
+<script>
+    var codeEditor = CodeMirror.fromTextArea(document.getElementById("inputCode"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        indentUnit: 4,
+        mode: "text/x-c++src"
+    });
+
+    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
+    function resetCodeMirror() {
+        var lang = $('#inputLanguage option:selected').val();
+        var lmode = "text/x-c++src";
+
+        if (lang.toLowerCase() == 'c') {
+            lmode = "text/x-csrc"
+        } else if (lang.toLowerCase() == 'java') {
+            lmode = "text/x-java";
+        } else if (lang.toLowerCase() == 'python2') {
+            lmode = {name: "python", version: 2, singleLineStringErrors: false}
+        } else if (lang.toLowerCase() == 'python3') {
+            lmode = {name: "python", version: 3, singleLineStringErrors: false}
+        }
+        codeEditor.setOption('mode', lmode);
+    }
+</script>
+
 
 <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 </body>

@@ -20,6 +20,8 @@
     <script src="/js/bootstrap/popper.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="/plugin/codemirror/css/codemirror.css">
+
     <script>
         var SecondsTohhmmss = function (totalSeconds) {
             var hours = Math.floor(totalSeconds / 3600);
@@ -115,7 +117,9 @@
                             <li class="page-item active"><span class="page-link">${contestProblem.innerID}</span></li>
                         </c:when>
                         <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="/contest-detail?contestID=${contest.contestID}&curProblem=${contestProblem.innerID}">${contestProblem.innerID}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                                     href="/contest-detail?contestID=${contest.contestID}&curProblem=${contestProblem.innerID}">${contestProblem.innerID}</a>
+                            </li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
@@ -145,7 +149,8 @@
                         </c:otherwise>
                     </c:choose>
                     <a class="btn" href="/contest-rank?contestID=${contest.contestID}">排名</a>
-                    <a class="btn" href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">记录</a></button>
+                    <a class="btn"
+                       href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">记录</a></button>
                 </div>
             </div>
 
@@ -210,19 +215,21 @@
                         </c:otherwise>
                     </c:choose>
                     <a class="btn" href="/contest-rank?contestID=${contest.contestID}">排名</a>
-                    <a class="btn" href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">记录</a></button>
+                    <a class="btn"
+                       href="/contest-record-list?contestID=${contest.contestID}&problemID=${problem.problemID}">记录</a></button>
                 </div>
             </div>
 
         </div>
     </div>
 
+
+
     <!-- Modal -->
     <div class="modal fade" id="submitModeal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">
         <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">提交代码</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -236,13 +243,13 @@
                         <input hidden name="inputContestID" id="inputContestID" value="${contest.contestID}">
                         <input hidden name="inputProblemID" id="inputProblemID" value="${problem.problemID}">
                         <div class="form-group">
-                            <textarea class="form-control" name="inputCode" rows="15"></textarea>
+                            <textarea id="inputCode" name="inputCode"></textarea>
                         </div>
                         <div class="form-row align-items-center">
                             <div class="col-sm-3">
                                 <div class="input-group mb-2 mb-sm-0">
                                     <div class="input-group-addon">语言:</div>
-                                    <select class="form-control" name="inputLanguage">
+                                    <select class="form-control" id="inputLanguage" name="inputLanguage" onchange="resetCodeMirror()">
                                         <c:forEach items="${languages}" var="lang">
                                             <option <c:if
                                                     test="${lang.language == user.preferLanguage}"> selected </c:if>
@@ -281,6 +288,44 @@
         </div>
     </div>
 
+
+    <script src="/plugin/codemirror/js/codemirror.js"></script>
+    <script src="/plugin/codemirror/mode/clike.js"></script>
+    <script src="/plugin/codemirror/mode/python.js"></script>
+    <script>
+        var codeEditor = null;
+        $('#submitModeal').on('shown.bs.modal', function () {
+            if(codeEditor == null) {
+                codeEditor = CodeMirror.fromTextArea(document.getElementById("inputCode"), {
+                    lineNumbers: true,
+                    matchBrackets: true,
+                    indentUnit: 4,
+                    mode: "text/x-c++src"
+                });
+            }
+        });
+
+        var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+        CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
+        function resetCodeMirror() {
+            var lang = $('#inputLanguage option:selected').val();
+            var lmode = "text/x-c++src";
+
+            if (lang.toLowerCase() == 'c') {
+                lmode = "text/x-csrc"
+            } else if (lang.toLowerCase() == 'java') {
+                lmode = "text/x-java";
+            } else if (lang.toLowerCase() == 'python2') {
+                lmode = {name: "python", version: 2, singleLineStringErrors: false}
+            } else if (lang.toLowerCase() == 'python3') {
+                lmode = {name: "python", version: 3, singleLineStringErrors: false}
+            }
+            console.log(codeEditor);
+            codeEditor.setOption('mode', lmode);
+        }
+    </script>
     <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
+</div>
 </body>
 </html>

@@ -19,6 +19,15 @@
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/plugin/highlight/css/default.css">
+    <script src="/plugin/highlight/js/highlight.pack.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            hljs.initHighlighting();
+        });
+    </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
@@ -99,20 +108,22 @@
     </div>
 
     <br>
-    <h4>源代码<small class="text-muted">${record.language}</small></h4>
-    <pre class="form-control pre-scrollable" style="font-family: Consolas"><c:out value="${record.sourceCode}" escapeXml="true"></c:out> </pre>
 
-    <c:if test="${fnt:length(compileInfo.compileResult) > 0}">
-    <h4>编译信息</h4>
-    <pre class="form-control pre-scrollable" style="font-family: Consolas">${compileInfo.compileResult}</pre>
+    <c:if test="${(not empty cookie.get('userID') and cookie.get('userID').value == record.userID) or cookie.get('userType').value > 0}">
+        <h4>源代码&nbsp;<small class="text-muted">${record.language}</small></h4>
+        <pre><code class="form-control"><c:out value="${record.sourceCode}" escapeXml="true"></c:out> </code></pre>
+
+        <c:if test="${fnt:length(compileInfo.compileResult) > 0}">
+            <h4>编译信息</h4>
+            <pre><code class="form-control"><c:out value="${compileInfo.compileResult}" escapeXml="true"></c:out></code></pre>
+        </c:if>
+
+        <%--如果错误信息不为空, 并且登录用户不是普通用户, 显示错误信息--%>
+        <c:if test="${fnt:length(systemError.errorMessage) > 0 && not empty cookie.get('userType') && cookie.get('userType').value > 0}">
+            <h4>错误信息</h4>
+            <pre><code class="form-control"><c:out value="${systemError.errorMessage}" escapeXml="true"></c:out></code></pre>
+        </c:if>
     </c:if>
-
-    <%--如果错误信息不为空, 并且登录用户不是普通用户, 显示错误信息--%>
-    <c:if test="${fnt:length(systemError.errorMessage) > 0 && not empty cookie.get('userType') && cookie.get('userType').value > 0}">
-    <h4>错误信息</h4>
-    <pre class="form-control pre-scrollable" style="font-family: Consolas">${systemError.errorMessage}</pre>
-    </c:if>
-
 
     <div class="text-center">
         <c:choose>
@@ -121,6 +132,7 @@
             </c:when>
             <c:otherwise><a class="btn btn-primary" href="/record-list">返回列表</a></c:otherwise>
         </c:choose>
+
         <c:if test="${not empty cookie.get('userType') and cookie.get('userType').value > 0}">
             <a class="btn btn-warning" href="/rejudge?submitID=${record.submitID}">重新评测</a>
         </c:if>
