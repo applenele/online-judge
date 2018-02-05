@@ -182,9 +182,13 @@ public class SubmitServlet extends HttpServlet {
         String language = request.getParameter("language");
 
         userName = userName != null && userName.length() > 0 ? userName : null;
-        Integer problemID = strProblemID != null && strProblemID.length() > 0 ? 1000 + Integer.parseInt(strProblemID) : null;
+        Integer problemID = strProblemID != null && strProblemID.length() > 0 ? Integer.parseInt(strProblemID) - 1000 : null;
         result = result != null && result.length() > 0 ? result : null;
         language = language != null && language.length() > 0 ? language : null;
+
+        System.out.println(problemID);
+
+
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         ViewSubmitRecord submitRecord = sqlSession.getMapper(ViewSubmitRecord.class);
