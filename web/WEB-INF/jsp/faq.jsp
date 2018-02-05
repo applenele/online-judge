@@ -32,9 +32,10 @@
             <p>
                 Question: <br><span class="text-muted">各语言的编译选项是怎样的?</span><br>
                 Answer:<br>
-                C:  gcc source.c -o main -ansi -fno-asm -O2 -Wall -lm --static -DONLINE_JUDGE<br>
-                C++: g++ source.cpp -o main -ansi -fno-asm -O2 -Wall -lm --static -DONLINE_JUDGE<br>
-                Java: javac Main.java
+                C:  gcc source.c -o Main -O2 -Wall -lm --static -std=c99<br>
+                C++: g++ source.cpp -o Main -O2 -Wall -lm --static<br>
+                Java: javac -J-Xms64m -J-Xmx256m Main.java<br>
+                PythonX: pythonX -m py_compile<br>
             </p>
 
             <p>

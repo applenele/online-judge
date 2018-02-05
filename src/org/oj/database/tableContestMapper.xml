@@ -7,7 +7,7 @@
     <insert id="addContest" keyProperty="contest.contestID" keyColumn="contest_id" useGeneratedKeys="true">
         INSERT INTO t_contest (
           title,
-          desc,
+          `desc`,
           start_time,
           end_time,
           register_start_time,

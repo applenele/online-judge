@@ -39,7 +39,8 @@ public class Test {
 
 
     public static void main(String[] argv) throws IOException {
-        FileUtils.copyDirectory(new File("/home/xanarry/Workspace/oj-data/test-point/1001"), new File("/home/xanarry/Desktop/running-dir/submit5"));
+        //FileUtils.copyDirectory(new File("/home/xanarry/Workspace/oj-data/test-point/1001"), new File("/home/xanarry/Desktop/running-dir/submit5"));
         //FileUtils.copyFileToDirectory();
+        System.out.println(10/0);
     }
 }
