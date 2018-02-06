@@ -387,6 +387,8 @@ public class Tools {
         for (ContestUserBean user : contestUserList) {
             System.out.println("\n\n\n处理: " + user.getUserID());
             RankBean rankBean = getOnesRank(contestBean, submitList, contestProblemList, user.getUserID());
+            rankBean.setUserName(user.getUserName());
+            rankBean.setUserID(user.getUserID());
             rankList.add(rankBean);
             System.out.println("最终结果:" + rankBean);
         }
