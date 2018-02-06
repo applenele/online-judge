@@ -1,4 +1,4 @@
-#开发环境
+## 开发环境
 ```
 Server version:   Apache Tomcat/9.0.4
 OS Name:   Linux, Ubuntu 16.04
@@ -8,22 +8,22 @@ Java Home:   jdk1.8.0_60/jre
 JVM Version:   1.8.0_60-b27
 JVM Vendor:   Oracle Corporation
 ```
-#评测支持语言
+## 评测支持语言
 1. __C__
 2. __C++__
 3. __Java__
 4. __Python2.x__
 5. __Python3.x__
 
-#安装方法
+## 安装方法
 
-##预备工作
+### 预备工作
 1. 运行环境要求Linux 64位系统, 内存1G以上, 可用磁盘空间5G以上.
 2. 安装运行时环境, gcc, g++, Java, Python, 并设置相关环境变量.
 3. 安装MySQL数据库.
 4. 将系统语言设置为英文, 在__/etc/default/locale__中添加__LANG=en.US__, 防止gcc标准错误中出现非ASCII字符导致web端显示乱码.
 
-##安装系统
+### 安装系统
 1. 设置judgeServer配置文件__oj.ini__, 默认配置文件如下, 其中java_policy与debug暂时未用到.
 ```
 #judge server系统配置文件
@@ -64,9 +64,9 @@ oj_home: /judgeServer/you/want/to/place
 ```
 5.启动tomcat服务器, 浏览器输入localhost打开
 
-#项目预览
-##[在线网站](http://oj.xy1234.cc/)
-##图片预览
+## 项目预览
+### [在线网站](http://oj.xy1234.cc/)
+### 图片预览
 ![](https://raw.githubusercontent.com/xanarry/oj/master/demo-pics/home.png)
 > 图为首页.
 
@@ -79,6 +79,6 @@ oj_home: /judgeServer/you/want/to/place
 ![](https://raw.githubusercontent.com/xanarry/oj/master/demo-pics/contest-overview.png)
 > 图为比赛.
 
-#参考
+## 参考
 1. [qdacm](https://qdacm.com/)
 2. [hustoj](https://github.com/zhblue/hustoj)
