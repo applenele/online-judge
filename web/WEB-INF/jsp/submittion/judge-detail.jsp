@@ -46,9 +46,7 @@
             <tbody>
             <c:forEach items="${detailList}" var="detail">
                 <tr>
-                    <td class="text-center"><a
-                            href="/show-test-point?problemID=${record.problemID}&testPointID=${detail.testPointID}">${detail.testPointID}</a>
-                    </td>
+                    <td class="text-center">#${detail.testPointID}</td>
                     <td class="text-center">${detail.timeConsume}</td>
                     <td class="text-center">${detail.memConsume}</td>
                     <td class="text-center">
