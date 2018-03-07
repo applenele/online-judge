@@ -6,8 +6,10 @@ OS Version:   4.4.0-112-generic
 Architecture:   amd64
 Java Home:   jdk1.8.0_60/jre
 JVM Version:   1.8.0_60-b27
-JVM Vendor:   Oracle Corporation
+JVM Vendor:   Oracle Corporation
+开发工具:   intellij idea
 ```
+
 ## 评测支持语言
 1. __C__
 2. __C++__
