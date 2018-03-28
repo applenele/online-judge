@@ -20,17 +20,29 @@
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap/popper.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
+
+    <script>
+        function checkDiscussContent() {
+            var inputTitle = $("#inputTitle").val();
+            var inputContent = $("#inputContent").val();
+            if (inputTitle == null || inputTitle.length == 0 || inputContent == null || inputContent.length == 0){
+                alert("不允许有空");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 
 <body>
 <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 <div class="container custom-container">
     <c:if test="${discussList == null || fnt:length(discussList) == 0}">
-    <c:choose>
-    <c:when test="${!empty param.type && param.type == 0}"><h3>该题目下还没有讨论, 点下面创建新的讨论!</h3></c:when>
-    <c:when test="${!empty param.type && param.type == 1}"><h3>该比赛下还没有讨论, 点下面创建新的讨论!</h3></c:when>
-    <c:otherwise><h3>该话题下还没有讨论!</h3></c:otherwise>
-    </c:choose>
+        <c:choose>
+            <c:when test="${!empty param.type && param.type == 0}"><h3>该题目下还没有讨论, 点下面创建新的讨论!</h3></c:when>
+            <c:when test="${!empty param.type && param.type == 1}"><h3>该比赛下还没有讨论, 点下面创建新的讨论!</h3></c:when>
+            <c:otherwise><h3>目前没有讨论!</h3></c:otherwise>
+        </c:choose>
     </c:if>
 
     <ul class="list-inline">
@@ -59,18 +71,18 @@
                             </c:if>
                             <li class="list-inline-item">
                                 <c:choose>
-                                    <c:when test="${discuss.type == 0}">
-                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
+                                    <c:when test="${discuss.type == 0}"><%--题目讨论--%>
+                                        <a href="/discuss-list?type=${discuss.type}&porcID=${discuss.porcID}">
                                             <small class="badge badge-primary">${discuss.theme}</small>
                                         </a>
                                     </c:when>
-                                    <c:when test="${discuss.type == 1}">
-                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
+                                    <c:when test="${discuss.type == 1}"><%--比赛讨论--%>
+                                        <a href="/discuss-list?type=${discuss.type}&porcID=${discuss.porcID}">
                                             <small class="badge badge-success">${discuss.theme}</small>
                                         </a>
                                     </c:when>
-                                    <c:otherwise>
-                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}">
+                                    <c:otherwise><%--消息发布--%>
+                                        <a href="/discuss-list?type=${discuss.type}&theme=${discuss.theme}">
                                             <small class="badge badge-secondary">${discuss.theme}</small>
                                         </a>
                                     </c:otherwise>
@@ -119,7 +131,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action="/post-original-discuss" method="post">
+                    <form action="/post-original-discuss" method="post" onsubmit="return checkDiscussContent()">
                         <c:choose>
                             <c:when test="${!empty param.type}">
                                 <input id="inputType" name="inputType" value="${param.type}" hidden>
@@ -139,7 +151,7 @@
                         </div>
 
                         <div class="form-row align-items-center">
-                            <c:if test="${!empty param.type and param.type == 2}">
+                            <c:if test="${(!empty param.type and param.type == 2) or empty param.type}">
                                 <div class="col-sm-5">
                                     <div class="input-group mb-2 mb-sm-0">
                                         <div class="input-group-addon">theme:</div>
@@ -148,6 +160,7 @@
                                             <option value="题解">题解</option>
                                             <option selected value="问答">问答</option>
                                             <option value="分享">分享</option>
+                                            <option value="其他">其他</option>
                                         </select>
                                     </div>
                                 </div>

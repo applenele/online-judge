@@ -156,7 +156,7 @@ public class DiscussServlet extends HttpServlet {
         sqlSession.close();
 
         if (isOriginal) {
-            response.sendRedirect("/discuss-list?type=" + discussBean.getType() + "&porcID=" + discussBean.getPorcID());
+            response.sendRedirect("/discuss-list");
         } else {
             response.sendRedirect("/discuss-detail?postID=" + discussBean.getRootID());
         }
@@ -199,11 +199,13 @@ public class DiscussServlet extends HttpServlet {
         String strPorcID = request.getParameter("porcID");
         Integer porcID = strPorcID != null && strPorcID.length() > 0 ? Integer.parseInt(strPorcID) : null;
 
+        String theme = request.getParameter("theme");
+
 
         SqlSession sqlSession = DataSource.getSqlSesion();
         TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
-        List<DiscussBean> discussList = tableDiscuss.getDiscussTitleList(type, porcID, (page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
-        int recordCount = tableDiscuss.getCountOfTitleList(type, porcID);
+        List<DiscussBean> discussList = tableDiscuss.getDiscussTitleList(type, porcID, theme,(page - 1) * Consts.COUNT_PER_PAGE, Consts.COUNT_PER_PAGE);
+        int recordCount = tableDiscuss.getCountOfTitleList(type, porcID, theme);
 
         sqlSession.close();
 

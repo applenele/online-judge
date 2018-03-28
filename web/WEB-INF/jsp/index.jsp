@@ -108,14 +108,20 @@
                             </c:if>
                             <li class="list-inline-item">
                                 <c:choose>
-                                    <c:when test="${discuss.type == 0}">
-                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}"><small class="badge badge-primary">${discuss.theme}</small></a>
+                                    <c:when test="${discuss.type == 0}"><%--题目讨论--%>
+                                        <a href="/discuss-list?type=${discuss.type}&porcID=${discuss.porcID}">
+                                            <small class="badge badge-primary">${discuss.theme}</small>
+                                        </a>
                                     </c:when>
-                                    <c:when test="${discuss.type == 1}">
-                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}"><small class="badge badge-success">${discuss.theme}</small></a>
+                                    <c:when test="${discuss.type == 1}"><%--比赛讨论--%>
+                                        <a href="/discuss-list?type=${discuss.type}&porcID=${discuss.porcID}">
+                                            <small class="badge badge-success">${discuss.theme}</small>
+                                        </a>
                                     </c:when>
-                                    <c:otherwise>
-                                        <a href="/discuss?type=${discuss.type}&porcID=${discuss.porcID}"><small class="badge badge-secondary">${discuss.theme}</small></a>
+                                    <c:otherwise><%--消息发布--%>
+                                        <a href="/discuss-list?type=${discuss.type}&theme=${discuss.theme}">
+                                            <small class="badge badge-secondary">${discuss.theme}</small>
+                                        </a>
                                     </c:otherwise>
                                 </c:choose>
                             </li>

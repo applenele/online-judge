@@ -164,7 +164,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><b>举办人:</b><a href="/user?userName=${contest.sponsor}">${contest.sponsor}</a></td>
+                    <td><b>举办人:</b>${contest.sponsor}</td>
                     <td></td>
                     <td><b>参赛人数:</b>${userCount}</td>
                     <td></td>

@@ -207,11 +207,11 @@
                             <select class="form-control" name="inputContestType">
                                 <c:choose>
                                     <c:when test="${contest.contestType == 'IO'}">
-                                        <option selected value="OI">OI</option>
+                                        <%--<option selected value="OI">OI</option>--%>
                                         <option value="ACM">ACM</option>
                                     </c:when>
                                     <c:otherwise>
-                                        <option value="OI">OI</option>
+                                        <%--<option value="OI">OI</option>--%>
                                         <option selected value="ACM">ACM</option>
                                     </c:otherwise>
                                 </c:choose>

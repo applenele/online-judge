@@ -94,6 +94,9 @@
         <if test="porcID != null">
             AND `porc_id`=#{porcID}
         </if>
+        <if test="theme != null">
+            AND `theme`=#{theme}
+        </if>
         ORDER BY first DESC, post_time DESC
         <if test="start!=null and count!=null">
             limit #{start}, #{count}

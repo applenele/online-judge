@@ -24,6 +24,7 @@
         <div class="card-header">联系我</div>
         <div class="card-body">
             <h4 class="card-title">邮箱: <a href="mailto:xanarry@163.com">xanarry@163.com</a></h4>
+            <h4 class="card-title">简历: <a href="/files/resume.pdf">点此查看</a></h4>
         </div>
     </div>
 </div>

@@ -27,7 +27,7 @@ public class IndexServlet extends HttpServlet {
         List<ContestBean> contestBeanList = tableContest.getContestList(0, 5);
 
         TableDiscuss tableDiscuss = sqlSession.getMapper(TableDiscuss.class);
-        List<DiscussBean> discussBeanList = tableDiscuss.getDiscussTitleList(null, null, 0, 5);
+        List<DiscussBean> discussBeanList = tableDiscuss.getDiscussTitleList(null, null, null,0, 5);
 
         sqlSession.close();
 

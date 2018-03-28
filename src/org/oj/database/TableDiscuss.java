@@ -26,6 +26,6 @@ public interface TableDiscuss extends BaseFunction {
     List<DiscussBean> getDiscussListByRootID(@Param("rootID") Integer rootID);
 
 
-    List<DiscussBean> getDiscussTitleList( @Param("type") Integer type, @Param("porcID") Integer porcID, @Param("start") Integer start, @Param("count") Integer count);
-    Integer getCountOfTitleList(@Param("type") Integer type, @Param("porcID") Integer porcID);
+    List<DiscussBean> getDiscussTitleList( @Param("type") Integer type, @Param("porcID") Integer porcID, @Param("theme") String theme, @Param("start") Integer start, @Param("count") Integer count);
+    Integer getCountOfTitleList(@Param("type") Integer type, @Param("porcID") Integer porcID, @Param("theme") String theme);
 }
