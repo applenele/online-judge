@@ -23,10 +23,10 @@ JVM Vendor:   Oracle Corporation
 1. 运行环境要求Linux 64位系统, 内存1G以上, 可用磁盘空间5G以上.
 2. 安装运行时环境, gcc, g++, Java, Python, 并设置相关环境变量.
 3. 安装MySQL数据库.
-4. 将系统语言设置为英文, 在__/etc/default/locale__中添加__LANG=en.US__, 防止gcc标准错误中出现非ASCII字符导致web端显示乱码.
+4. 将系统语言设置为英文, 在 __/etc/default/locale__ 中添加 __LANG=en.US__, 防止gcc标准错误中出现非ASCII字符导致web端显示乱码.
 
 ### 安装系统
-1. 设置judgeServer配置文件__oj.ini__, 默认配置文件如下, 其中java_policy与debug暂时未用到.
+1. 设置judgeServer配置文件 __oj.ini__, 默认配置文件如下, 其中java_policy与debug暂时未用到.
 ```
 #judge server系统配置文件
 #请严格按照格式配置, 否则系统会无法读取配置文件
@@ -46,14 +46,14 @@ oj_home: /judgeServer/you/want/to/place
 ```
 2. 使用gcc编译, 并运行judgeServer.
 3. 导入数据库定义.
-4. 安装tomcat, 然后在tomcat的配置文件__/conf/server.xml__中将端口改为80, 再把tomcat POST数据的大小限制取消, 否则在网页在提交测试数据时遇到大的文本无法提交.
+4. 安装tomcat, 然后在tomcat的配置文件 __/conf/server.xml__ 中将端口改为80, 再把tomcat POST数据的大小限制取消, 否则在网页在提交测试数据时遇到大的文本无法提交.
 ```
 <Connector port="80" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" 
                maxPostSize="-1"/>
 ```
-4. 部署项目, 删除tomcat webapps中ROOT文件夹中的全部内容, 将war包解压到ROOT目录, 然后修改__apache-tomcat-9.0.4/webapps/ROOT/WEB-INF/classes/org/oj/database/mybatis-config.xml__, 将数据库账户, 密码填入, 再修改web服务器的配置文件__apache-tomcat-9.0.4/webapps/ROOT/WEB-INF/classes/config.json__, testPointBaseDir与 runningBaseDir请事先创建好, 其内容如下:
+4. 部署项目, 删除tomcat webapps中ROOT文件夹中的全部内容, 将war包解压到ROOT目录, 然后修改 __apache-tomcat-9.0.4/webapps/ROOT/WEB-INF/classes/org/oj/database/mybatis-config.xml__, 将数据库账户, 密码填入, 再修改web服务器的配置文件 __apache-tomcat-9.0.4/webapps/ROOT/WEB-INF/classes/config.json__, testPointBaseDir与 runningBaseDir请事先创建好, 其内容如下:
 ```
 {
   "serverAddress":"127.0.0.1",
